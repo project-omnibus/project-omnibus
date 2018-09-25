@@ -3,12 +3,14 @@
 ## Sublime Text
 URL: https://www.sublimetext.com/
 
-##C mder
+## Cmder
 URL: http://cmder.net/
+
 Under the 'Download' header, click on Download Full
 
 ## Python
 URL: https://www.python.org/downloads/
+
 Download and install the latest version
 
 ## pip
