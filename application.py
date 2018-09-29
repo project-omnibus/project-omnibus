@@ -16,7 +16,8 @@ Session(app)
 
 @app.route("/")
 def index():
-	return render_template("index.html")
+	pythontext = "Hello World"
+	return render_template("index.html", text=pythontext)
 
 if __name__ == '__main__':
     app.run(debug=True)
