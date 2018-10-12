@@ -143,7 +143,7 @@ function addToUserRecProfile (meaningMap){
 	//for now, this will just append keywords to an array of keywords in the UserRecProfile
 
 	//update the user recommendation profile
-	for (var i = meaningMap.length - 1; i >= 0; i--) {
+	for (var i = 0; i < meaningMap.length; i++) {
 		userRecProfile.keyWordList.push(meaningMap[i])
 	}
 
