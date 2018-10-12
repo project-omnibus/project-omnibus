@@ -16,6 +16,8 @@ function presentQuestionAnswerFields (QuestionObject){
 	Relevancy 		[variable type: double {1-100}, the current relevancy rating of the question]
 	Intent			[variable type: string, {options}]
 	*/
+
+	//display bot's question
 	const botLabel = document.createElement('dt')
     botLabel.innerHTML=BOTNAME;
 
@@ -24,6 +26,8 @@ function presentQuestionAnswerFields (QuestionObject){
 
     document.getElementById("messages-view").append(botLabel);
     document.getElementById("messages-view").append(messageChunk);
+
+    //show possible responses if the Question object has a few
     if(!(QuestionObject.possibleReponses==NULL)){
     	//hide user message input
     	document.getElementById("message-form").hidden = true;
