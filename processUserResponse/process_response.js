@@ -2,6 +2,8 @@
 const message = userResponse.message; //assume userResponse is a JSON object with a 'message' key
 let userRecProfile = {keyWordList: []};
 
+const BOTNAME = 'Bot';
+
 function presentQuestionAnswerFields (QuestionObject){
 	/*Question Class
 
@@ -14,7 +16,30 @@ function presentQuestionAnswerFields (QuestionObject){
 	Relevancy 		[variable type: double {1-100}, the current relevancy rating of the question]
 	Intent			[variable type: string, {options}]
 	*/
+	const botLabel = document.createElement('dt')
+    botLabel.innerHTML=BOTNAME;
 
+    const messageChunk = document.createElement('dd')
+    messageChunk.innerHTML=`${QuestionObject.text}`;
+
+    document.getElementById("messages-view").append(botLabel);
+    document.getElementById("messages-view").append(messageChunk);
+    if(!(QuestionObject.possibleReponses==NULL)){
+    	//hide user message input
+    	document.getElementById("message-form").hidden = true;
+
+    	//for each possible response, display a button
+    	for response in possibleReponses{
+    		const responseButton = document.createElement('button')
+    		responseButton.innerHTML = response;
+    		document.getElementById("button-menu").append(responseButton);
+    	}
+    	
+    }
+    else{
+    	//make sure user message input is shown 
+    	document.getElementById("message-form").hidden = false;
+    }
 }
 function parseUserMessage (message){
 	//parse UserResponse object's message.
