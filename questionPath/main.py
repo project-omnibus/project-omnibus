@@ -24,4 +24,4 @@ q1 = question()
 makeQuestion(q1,qdict)
 #q1.runtest(1)
 
-#print(q1.text)
+print(q1.followUpBy)

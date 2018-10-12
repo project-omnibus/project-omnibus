@@ -1,4 +1,4 @@
-﻿index,Question,Intentions,needUserinput,questionType,followUpBy,similarTo,specificity,Leads to a Recommendation,Possible Anser
+index,Question,Intentions,needUserinput,questionType,followUpBy,similarTo,specificity,Leads to a Recommendation,Possible Answer
 1,So I take it you are looking for ____ with ____?,Reiterate the user's interests to confirm that the chatbot knows what to recommend,Y,Confirm,[17],[],10,Y,"[Yes, No]"
 2,How often do you read books?,Find out if user is an avid reader. could have indication on the importance of a good recommendation,N,Factual,[3],[],2,,"[1-2 a week, 1-2 a month, 1-4 a year]"
 3,Do you like long books or short books?,Understand user's general preferences,N,Factual,[],[],5,,"[Long, short, doesn't matter]"
