@@ -47,24 +47,66 @@ function presentQuestionAnswerFields (QuestionObject){
 }
 function parseUserMessage (message){
 	//parse UserResponse object's message.
+
+	//convert all characters in message to lowercase
+
 	//for now, this will just remove words like 'the' and 'a' as well as punctuation to generate a list of keywords
+	const definiteArticles = ['the']
+	const indefiniteArticles = ['a', 'an']
+	const infinitives = ['is','be','am','are','do']
+	const auxVerbs = ['be', 'have', 'will', 'shall', 'would', 'should', 'can', 'could', 'may', 'might', 'must', 'ought'];
+	const pronouns = ['i','you','me','my','he','she','they','myself','yourself','himself','herself','itself','it','him','her','we','us','them','ourselves','yourselves','themselves']
+	const prepositions = ['on', 'at', 'in', 'of', 'to', 'for', 'with', 'over', 'by']
+	const conjunctions = ['and', 'but', 'or', 'so', 'for', 'yet', 'either', 'neither', 'nor', 'although', 'after', 'before', 'because', 'how', 'if', 'once', 'since', 'that', 'until', 'unless', 'when', 'while', 'where', 'whether', 'however', 'therefore', 'moreover', 'then', 'otherwise', 'nevertheless', 'instead', 'meanwhile', 'likewise']
 
-	const nonkeywords = [];
-	const punctuation = []; //except apostrophe
+	const nonkeywords =
+		definiteArticles.concat(
+			indefiniteArticles,
+			infinitives,
+			auxVerbs,
+			pronouns,
+			prepositions,
+			conjunctions
+		);
 
-	const keyWords = [];
+	const punctuation = ['.','"',',','/','?',':',';','!','(',')']; //except apostrophe
 
-	//for char in message
-	//if the char is not a space or in the punctuation array
-	//store letter into a word variable
-	//if the char is a space or in the punctuation array
-	//and if the word is not in the nonkeywords array
-	//store word into keywords list
+	const separators = punctuation.concat([' ','/']);
+
+	let keywords = [];
+	let word = '';
+
+	for (var i = 0; i < message.length; i++) {
+		
+		//for char in message
+		const char = message.charAt(i)
+		
+		if (separators.includes(char)){
+			//if the char is a separator or in the punctuation array
+			if((word != '') && !(nonkeywords.includes(word))){
+				//and if the word is not blank and in the nonkeywords array
+				//store word into keywords list
+				keywords = keywords.push(word);
+				//clear words variable
+				word = '';
+			}
+			
+			//otherwise continue to the next char
+		}
+		else{
+			//if the char is not a separator or in the punctuation array
+			//store letter into a word variable
+			word = word + char;
+		}
+	}
+	
+	const parsedMessage = keywords;
 
 	//return keywords list when done
-	return false;
+	return parsedMessage;
 
 	//future versions will probably just identify each of the sentences in the user's message.
+	//maybe even identify subjects, objects, and verbs/actions
 }
 
 
