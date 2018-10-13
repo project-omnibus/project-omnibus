@@ -110,7 +110,7 @@ function parseUserMessage (message){
 }
 
 
-function interpretUserMessage (parsedMessage){
+function interpretUserMessage (parsedMessage, QuestionObject){
 	//Interpret User's Response
 	//take a parsed message (user's message after some processing from parseUserMessage function)
 	//for now, this will just pass the keyword list (a simply "parsed" message) to the addToUserRecProfile function
@@ -125,6 +125,7 @@ function interpretUserMessage (parsedMessage){
 	//words/sentences are "pointers." they aren't "inherently meaningful," they reference the actual things.
 	//how do the sentences relate to one another? what details/specific ideas do they indicate? what's the overall "thesis" of the message?
 	//is there a tone to the response?
+	//how does this relate to the question? (QuestionObject)
 	//how does this fit in the larger chat history (chatbot questions and user responses)
 	//how does this fit with the user recommendation profile constructed so far?
 	//what's the user REALLY getting at?
