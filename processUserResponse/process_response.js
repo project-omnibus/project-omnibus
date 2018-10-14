@@ -45,12 +45,7 @@ function presentQuestionAnswerFields (QuestionObject){
     	document.getElementById("message-form").hidden = false;
     }
 }
-function parseUserMessage (message){
-	//parse UserResponse object's message.
-
-	//convert all characters in message to lowercase
-
-	//for now, this will just remove words like 'the' and 'a' as well as punctuation to generate a list of keywords
+function removeNonKeywords(message){
 	const definiteArticles = ['the']
 	const indefiniteArticles = ['a', 'an']
 	const infinitives = ['is','be','am','are','do']
@@ -100,26 +95,31 @@ function parseUserMessage (message){
 		}
 	}
 	
-	const parsedMessage = keywords;
+	return keywords;
+}
+function parseUserMessage (message){
+	//parse UserResponse object's message.
 
-	//return keywords list when done
+	//convert all characters in message to lowercase
+
+	//for now, this will just mass the user's reponse message straight through.
+	
+	const parsedMessage = message;
 	return parsedMessage;
 
-	//future versions will probably just identify each of the sentences in the user's message.
-	//maybe even identify subjects, objects, and verbs/actions
+	//future versions will try to reduce noise by detecting spelling errors and removing jarbled text (e.g. "adjfiasj123")
 }
-
 
 function interpretUserMessage (parsedMessage, QuestionObject){
 	//Interpret User's Response
 	//take a parsed message (user's message after some processing from parseUserMessage function)
-	//for now, this will just pass the keyword list (a simply "parsed" message) to the addToUserRecProfile function
-	const meaningMap = parsedMessage;
+	//for now, this will just create a simple Question and Response pair in a JSON object called UserResponseObject
+	const UserResponseObject = {'question': QuestionObject.question, 'response': parsedMessage};
 
-	//it COULD also note duplicate keywords and keep a count of keywords that keep occurring in the user's response
+	
 
 	//return 
-	return meaningMap;
+	return UserResponseObject;
 
 	//future versions will attempt to "traverse" the web of meaning of the user's message
 	//words/sentences are "pointers." they aren't "inherently meaningful," they reference the actual things.
@@ -139,15 +139,24 @@ function interpretUserMessage (parsedMessage, QuestionObject){
 
 
 
-function addToUserRecProfile (meaningMap){
+function addToUserRecProfile (UserResponseObject){
 	//Add to UserRecommendationProfile Object
-	//for now, this will just append keywords to an array of keywords in the UserRecProfile
+	//for now, this will take the response from the UserResponseObject and take out all the "nonkeywords": 'the', 'for', etc.
+	//And then add those keywords to the UserRecProfile
+
+	const keywords = removeNonKeywords(UserResponseObject.response);
+
 
 	//update the user recommendation profile
 	for (var i = 0; i < meaningMap.length; i++) {
-		userRecProfile.keyWordList.push(meaningMap[i])
+		//locally add to a JSON object
+		userRecProfile.keyWordList.push(keywords[i])
+		//emit to server with the JSON object
 	}
 
+	//it COULD also note duplicate keywords and keep a count of keywords that keep occurring in the user's response
+
+	return false;
 	//future versions will make specific updates to specific attributes of a UserRecProfile, as the UserRecProfile becomes more nuanced
 	//how the recommendation profile is assembled may qualify as part of the interpretation.
 	//the exact additions to a profile will depend on how the message is interpreted
