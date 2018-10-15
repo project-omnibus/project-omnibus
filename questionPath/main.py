@@ -2,6 +2,7 @@ import pandas as pd
 from question import *
 import csv
 import os
+import random
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -31,12 +32,12 @@ def makeQuestion(qObject,qDict,qfollowup,qsimilarto,qanswer): #the input to this
 #make the question objects for the session
 numQuestions = db.execute("SELECT * FROM question_table").rowcount
 questionlist =[]
-print(numQuestions)
-followuparray = []
-similartoarray = []
-possibleanswerarray = []
+#print(numQuestions)
 
 for numRow in range(numQuestions):
+	followuparray=[]
+	similartoarray=[]
+	possibleanswerarray=[]
 	questionRow = db.execute("SELECT * FROM question_table WHERE question_id = :row",{"row":numRow+1}).fetchone()
 	for followRow in db.execute("SELECT * FROM question_followup_table WHERE question_id = :row",{"row":numRow+1}).fetchall():
 		followuparray.append(followRow.follow_up_by_id)
@@ -49,7 +50,62 @@ for numRow in range(numQuestions):
 	makeQuestion(q1,questionRow,followuparray,similartoarray,possibleanswerarray)
 	questionlist.append(q1)
 
-print(questionlist[1].text)
+#print(questionlist[1].followUpBy)
+
+#The following block chooses the next question to ask
+
+def findmaxrelevancy(qObjectList):
+	relevancylist=[]
+	maxrelevancyindex=[]
+	j=0
+	for ques in qObjectList:
+		relevancylist.append(ques.relevancy)
+	m=max(relevancylist)
+	print(m)
+	for rel in relevancylist:
+		if rel==m:
+			maxrelevancyindex.append(j)
+		j+=1
+	print(maxrelevancyindex)
+	return maxrelevancyindex
+
+def assignrelevancy(qObject, qObjectList):
+	qObjectList[qObject.index-1].relevancy = 0
+	if len(qObject.followUpBy) != 0:
+		for qfollow in qObject.followUpBy:
+			qObjectList[qfollow-1].relevancy=100
+
+def findquestion(qObjectList,relList):
+	if len(relList) ==1:
+		return qObjectList[relList[0]]
+	elif len(relList) > 1:
+		return qObjectList[relList[0]]
+	else:
+		x=random.randint(0,23)
+		while qObjectList[x].relevancy == 0:
+			x=random.randint(0,23)
+		return qObjectList[x]
+
+
+x=random.randint(0,23)
+questionO=questionlist[x]
+
+for i in range(5):
+	print(questionO.text)
+	print(questionO.followUpBy)
+	print(questionO.relevancy)
+	assignrelevancy(questionO,questionlist)
+	print(questionlist[questionO.index-1].relevancy)
+	questionrelevancylist = findmaxrelevancy(questionlist)
+	questionO=findquestion(questionlist,questionrelevancylist)
+
+
+
+
+
+
+
+
 
 #q1 = question()
 #makeQuestion(q1,qdict)
