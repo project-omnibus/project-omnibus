@@ -61,7 +61,7 @@ def findmaxrelevancy(qObjectList):
 	for ques in qObjectList:
 		relevancylist.append(ques.relevancy)
 	m=max(relevancylist)
-	print(m)
+	#print(m)
 	for rel in relevancylist:
 		if rel==m:
 			maxrelevancyindex.append(j)
@@ -76,10 +76,10 @@ def assignrelevancy(qObject, qObjectList):
 			qObjectList[qfollow-1].relevancy=100
 
 def findquestion(qObjectList,relList):
-	if len(relList) ==1:
+	if len(relList) == 1:
 		return qObjectList[relList[0]]
 	elif len(relList) > 1:
-		return qObjectList[relList[0]]
+		return qObjectList[relList[random.randint(0,len(relList)-1)]]
 	else:
 		x=random.randint(0,23)
 		while qObjectList[x].relevancy == 0:
@@ -87,17 +87,16 @@ def findquestion(qObjectList,relList):
 		return qObjectList[x]
 
 
-x=random.randint(0,23)
-questionO=questionlist[x]
-
-for i in range(5):
-	print(questionO.text)
-	print(questionO.followUpBy)
-	print(questionO.relevancy)
-	assignrelevancy(questionO,questionlist)
-	print(questionlist[questionO.index-1].relevancy)
+userinput = ""
+while userinput != "no":
+	#print(questionO.relevancy)
+	#print(questionlist[questionO.index-1].relevancy)
 	questionrelevancylist = findmaxrelevancy(questionlist)
 	questionO=findquestion(questionlist,questionrelevancylist)
+	print(questionO.text)
+	print(questionO.followUpBy)
+	userinput = input("Next Question?")
+	assignrelevancy(questionO,questionlist)
 
 
 
