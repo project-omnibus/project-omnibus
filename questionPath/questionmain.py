@@ -99,14 +99,14 @@ while userinput != "no":
 	#print(questionO.relevancy)
 	#print(questionlist[questionO.index-1].relevancy)
 	questionrelevancylist = findmaxrelevancy(questionlist)
-	print(questionrelevancylist['array'])
+	#print(questionrelevancylist['array'])
 	if questionrelevancylist['value']<=0:
 		print("There are no more relevant questions. Goodbye")
 		break	
 	questionO=findquestion(questionlist,questionrelevancylist['index'])
 	print(questionO.text)
-	print(questionO.followUpBy)
-	userinput = input("Next Question?")
+	#print(questionO.followUpBy)
+	userinput = input("Answer: ")
 	assignrelevancy(questionO,questionlist)
 
 
