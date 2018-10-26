@@ -1,4 +1,5 @@
 const BOTNAME = 'OmniBot';
+let userRecProfile = {keyWordList: []};
 
 function presentQuestionAnswerFields (questionPackage){
 	/*Question Class
