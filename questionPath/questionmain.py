@@ -28,6 +28,7 @@ numQuestions = db.execute("SELECT * FROM question_table").rowcount
 questionlist =[]
 
 for numRow in range(numQuestions):
+	# this loads the database tables into a giant array of objects that resembles how we organized it in a spreadsheet
 	followuparray=[]
 	similartoarray=[]
 	possibleanswerarray=[]
