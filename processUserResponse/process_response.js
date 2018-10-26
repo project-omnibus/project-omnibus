@@ -1,5 +1,5 @@
 
-const message = userResponse.message; //assume userResponse is a JSON object with a 'message' key
+const message = userResponse.response; //assume userResponse is a JSON object with a 'response' key
 let userRecProfile = {keyWordList: []};
 
 const BOTNAME = 'Bot';

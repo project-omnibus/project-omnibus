@@ -12,6 +12,16 @@
         </script>
         <script src="{{ url_for('static', filename='process_response.js') }}"></script>
         <script type="text/javascript">
+            function addResponseToDisplay(response){
+                const user = document.createElement('dt');
+                const message = document.createElement('dd');
+                user.innerHTML = "User";
+                message.innerHTML = `${response}`;
+
+                document.querySelector("#messages-view").append(user);
+                document.querySelector("#messages-view").append(message);
+                return false;
+            }
             document.addEventListener('DOMContentLoaded', () => {
                 // Connect to websocket
                 var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
@@ -34,6 +44,8 @@
                 
                 document.querySelector('#message-form').onsubmit = () => { 
                     const message = document.querySelector('#message-input').value;
+
+                    addResponseToDisplay(message);
 
                     //parse message
                     //and interpret the message to get a UserResponse object
@@ -61,7 +73,7 @@
         </div>
         <form id="message-form">
             <span id="pre-text"></span>
-            <input type="text" id="message-input" placeholder="Respond to chatbot">
+            <input type="text" id="message-input" placeholder="Respond to chatbot" autocomplete="off">
         </form>
 
     </body>

@@ -1,7 +1,6 @@
 import os
 import requests
 
-from questionPath.question import *
 from questionPath.questionmain import *
 
 from flask import Flask, session, render_template
@@ -10,13 +9,16 @@ from flask_session import Session
 
 
 #start up code
+
+engine = create_engine(os.getenv("OMNIBUS_DATABASE_URL"))
+db = scoped_session(sessionmaker(bind=engine))
+
 app = Flask(__name__)
 
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app, manage_session=False)
 
-engine = create_engine(os.getenv("OMNIBUS_DATABASE_URL"))
-db = scoped_session(sessionmaker(bind=engine))
+
 
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -62,10 +64,10 @@ def index():
 @socketio.on("chatbot think")
 def chatBotQuestion(userResponse):
 	#the question the user just responded to
-	prevQuestion = userResponse.question;
+	prevQuestion = userResponse['question'];
 
 	#user's response
-	response = userResponse.response;
+	response = userResponse['response'];
 
 	questionPackage = {'text': "", 'possibleAnswers': []};
 
@@ -78,8 +80,8 @@ def chatBotQuestion(userResponse):
 	questionObject = findQuestion(questionList,questionRelevancyList['index']);
 
 	#assemble package to be sent to client browser
-	questionPackage.text = questionObject.text;	
-	questionPackage.possibleAnswers = questionObject.possibleAnswer;
+	questionPackage['text'] = questionObject.text;	
+	questionPackage['possibleAnswers'] = questionObject.possibleAnswer;
 
 	#update relevancy based on the question just asked and the overall question list
 	assignRelevancy(questionObject,questionList);

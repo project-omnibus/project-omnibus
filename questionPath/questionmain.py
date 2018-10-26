@@ -1,5 +1,4 @@
-import pandas as pd
-from question import *
+from questionPath.question import *
 import csv
 import os
 import random

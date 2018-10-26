@@ -1,8 +1,4 @@
-
-const message = userResponse.response; //assume userResponse is a JSON object with a 'response' key
-let userRecProfile = {keyWordList: []};
-
-const BOTNAME = 'Bot';
+const BOTNAME = 'OmniBot';
 
 function presentQuestionAnswerFields (questionPackage){
 	/*Question Class
@@ -28,14 +24,14 @@ function presentQuestionAnswerFields (questionPackage){
     document.getElementById("messages-view").append(messageChunk);
 
     //show possible responses if the Question object has a few
-    if(!(questionPackage.possibleAnswers==[])){
+    if(questionPackage.possibleAnswers.length!=0){
     	//hide user message input
     	document.getElementById("message-form").hidden = true;
 
     	//for each possible response, display a button
-    	for response in questionPackage.possibleAnswers{
+    	for (var i = 0; i < questionPackage.possibleAnswers.length; i++) {
     		const responseButton = document.createElement('button')
-    		responseButton.innerHTML = response;
+    		responseButton.innerHTML = questionPackage.possibleAnswers[i];
     		//assign the buttons some on click behavior
 
 
@@ -117,7 +113,7 @@ function interpretUserMessage (parsedMessage, questionPackage){
 	//Interpret User's Response
 	//take a parsed message (user's message after some processing from parseUserMessage function)
 	//for now, this will just create a simple Question and Response pair in a JSON object called UserResponseObject
-	const userResponseObject = {'question': questionPackage.questionText, 'response': parsedMessage};
+	const userResponseObject = {'question': questionPackage.text, 'response': parsedMessage};
 
 	
 
