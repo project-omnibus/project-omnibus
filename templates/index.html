@@ -8,9 +8,48 @@
         <style type="text/css">
         </style>
         <script type="text/javascript">
-            // server variables passed in here:
+            // server context variables passed in here:
         </script>
         <script src="../processUserResponse/process_response.js"></script>
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', () => {
+                // Connect to websocket
+                var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+
+                let questionPackage = {};
+
+                //additional startup code
+                socket.on('connect', () => {
+                });
+
+                //display chatbot intro messages
+
+                //display chatbot question emitted from server
+                socket.on('chatbot question', (package) => {
+
+                    questionPackage = package;
+                    presentQuestionAnswerFields(questionPackage);
+                });
+                
+                document.querySelector('#message-form').onsubmit = () => { 
+                    const message = document.querySelector('#message-input').value;
+
+                    //parse message
+                    //and interpret the message to get a UserResponse object
+                    const userResponseObject = interpretUserMessage(parseUserMessage(message),questionPackage);
+
+                    //wait a few seconds to appear to think
+
+                    //emit signal to server to have the chatbot think
+                    socket.emit('chatbot think', userResponseObject);
+
+                    //clear inputs
+                    document.querySelector('#message-input').value='';
+                    return false;
+                }
+
+            });
+        </script>
     </head>
     <body>
         <dl id="messages-view">

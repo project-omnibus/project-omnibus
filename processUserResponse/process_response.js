@@ -4,7 +4,7 @@ let userRecProfile = {keyWordList: []};
 
 const BOTNAME = 'Bot';
 
-function presentQuestionAnswerFields (QuestionObject){
+function presentQuestionAnswerFields (questionPackage){
 	/*Question Class
 
 	Attribute:
@@ -22,20 +22,23 @@ function presentQuestionAnswerFields (QuestionObject){
     botLabel.innerHTML=BOTNAME;
 
     const messageChunk = document.createElement('dd')
-    messageChunk.innerHTML=`${QuestionObject.text}`;
+    messageChunk.innerHTML=`${questionPackage.text}`;
 
     document.getElementById("messages-view").append(botLabel);
     document.getElementById("messages-view").append(messageChunk);
 
     //show possible responses if the Question object has a few
-    if(!(QuestionObject.possibleReponses==NULL)){
+    if(!(questionPackage.possibleAnswers==[])){
     	//hide user message input
     	document.getElementById("message-form").hidden = true;
 
     	//for each possible response, display a button
-    	for response in possibleReponses{
+    	for response in questionPackage.possibleAnswers{
     		const responseButton = document.createElement('button')
     		responseButton.innerHTML = response;
+    		//assign the buttons some on click behavior
+
+
     		document.getElementById("button-menu").append(responseButton);
     	}
     	
@@ -110,16 +113,16 @@ function parseUserMessage (message){
 	//future versions will try to reduce noise by detecting spelling errors and removing jarbled text (e.g. "adjfiasj123")
 }
 
-function interpretUserMessage (parsedMessage, QuestionObject){
+function interpretUserMessage (parsedMessage, questionPackage){
 	//Interpret User's Response
 	//take a parsed message (user's message after some processing from parseUserMessage function)
 	//for now, this will just create a simple Question and Response pair in a JSON object called UserResponseObject
-	const UserResponseObject = {'question': QuestionObject.question, 'response': parsedMessage};
+	const userResponseObject = {'question': questionPackage.questionText, 'response': parsedMessage};
 
 	
 
 	//return 
-	return UserResponseObject;
+	return userResponseObject;
 
 	//future versions will attempt to "traverse" the web of meaning of the user's message
 	//words/sentences are "pointers." they aren't "inherently meaningful," they reference the actual things.
@@ -139,12 +142,12 @@ function interpretUserMessage (parsedMessage, QuestionObject){
 
 
 
-function addToUserRecProfile (UserResponseObject){
+function addToUserRecProfile (userResponseObject){
 	//Add to UserRecommendationProfile Object
 	//for now, this will take the response from the UserResponseObject and take out all the "nonkeywords": 'the', 'for', etc.
 	//And then add those keywords to the UserRecProfile
 
-	const keywords = removeNonKeywords(UserResponseObject.response);
+	const keywords = removeNonKeywords(userResponseObject.response);
 
 
 	//update the user recommendation profile
