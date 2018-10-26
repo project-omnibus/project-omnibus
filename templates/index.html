@@ -6,6 +6,12 @@
     	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
         <style type="text/css">
+            #message-input{
+                width: 100%;
+            }
+            #messages-view{
+                overflow: auto;
+            }
         </style>
         <script type="text/javascript">
             // server context variables passed in here:
@@ -39,7 +45,12 @@
                 socket.on('chatbot question', (package) => {
 
                     questionPackage = package;
-                    presentQuestionAnswerFields(questionPackage);
+
+                    //wait a few seconds to appear to think
+                    setTimeout(function(){
+                        presentQuestionAnswerFields(questionPackage);
+                    }, 2500);
+                    
                 });
                 
                 document.querySelector('#message-form').onsubmit = () => { 
@@ -50,9 +61,6 @@
                     //parse message
                     //and interpret the message to get a UserResponse object
                     const userResponseObject = interpretUserMessage(parseUserMessage(message),questionPackage);
-
-                    //wait a few seconds to appear to think
-
                     //emit signal to server to have the chatbot think
                     socket.emit('chatbot think', userResponseObject);
 
