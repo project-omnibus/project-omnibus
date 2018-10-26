@@ -1,0 +1,26 @@
+index,Question,Intentions,needUserinput,questionType,followUpBy,similarTo,specificity,Leads to a Recommendation,Possible Answer
+1,So I take it you are looking for ____ with ____?,Reiterate the user's interests to confirm that the chatbot knows what to recommend,Y,Confirm,[17],[],10,Y,"[Yes, No]"
+2,How often do you read books?,Find out if user is an avid reader. could have indication on the importance of a good recommendation,N,Factual,[3],[],2,,"[1-2 a week, 1-2 a month, 1-4 a year]"
+3,Do you like long books or short books?,Understand user's general preferences,N,Factual,[],[],5,,"[Long, short, doesn't matter]"
+4,Do you want to read to escape reality?,Understand why a user reads,N,Factual,[],[],4,,"[Yes, No]"
+5,What did you think of the author's point of view?,Gauge user's preference for author,N,Evaluative,[],[],,,[]
+6,Which authors do you like?,Understand user's general preferences,N,Factual,[],[],6,,[]
+7,What kind of books do you like to read?,Understand user's general preferences,N,Factual,"[3,12]","[22,15,3,4]",3,,[]
+8,Can you read books in other languages?,Understand user's ability,N,Factual,[],[],2,,"[Yes, No]"
+9,Were you reading it expecting to gain specific knowledge or were you just curious?,Gauge their overall intentions for reading books. Some people want immediate applicability,N,Factual,[],[],,,"[Gain knowledge, just curious]"
+10,What did you think of the writing style?,User can have specific preferences.,N,Evaluative,[],[],,,[]
+11,What did/didn't you like about the book?,User can have specific preferences.,N,Evaluative,[],[],,,[]
+12,What kind of book are you looking to read?,User can have specific preferences.,N,Factual,[17],"[14,16]",4,,[]
+13,Do you also like (book/genre/author)?,Gauge user's other interests,N,Confirm,[],[],6,Y,"[Yes, No]"
+14,Do you want to read more of ____ or looking to branch out to other ______,,Y,Factual,[],"[12,16]",5,,"[Read more of ____, Branch out]"
+15,Do you like comic books?,Gage user's interest in specific forms of books/genre,N,Factual,[],[],2,,"[Yes, No]"
+16,What genre of books are you looking to read now?,,N,Factual,[17],"[12,14]",6,,[]
+17,What's the last book you read in ___(genre)/by ____(author)?,Find out what is the last book read in this category/author,N,Factual,"[10,11]",[],1,,[]
+18,What was the last good book you read?,"Gauge user's most recent book/topic (what's fresh on their mind), can infer user's book genre/author preferences",N,Factual,"[5,9,10,11]",[19],2,,[]
+19,What is the last book you read?,"The last book read is a decent indicator of preference and easier for the user to identify, rather than having to identify a favorite",N,Factual,"[5,9,10,11,18]",[18],1,,[]
+20,Have you read _____ ?,This is almost a recommendation..?,Y,Confirm,"[5,10,11]",[],1,Y,"[Yes, No, Don't Remember]"
+21,Do you like book series?,Whether user reads multi-book series,N,Factual,[],[],5,,"[Yes, No, Don't Know]"
+22,What is your favorite book?,Understand user's general preferences,N,Factual,[18],[],4,,[]
+23,Do you prefer fiction or non-fiction?,"Understand user's general preferences. Also could suggest if they are ""practically minded""?",N,Factual,[],[],5,,"[Fiction, Non-Fiction]"
+24,Do you listen to any podcasts?,Identify other user's other interests to recommend similar subjects/genre,N,Factual,[25],[],1,,"[Yes, No]"
+25,What podcasts do you like?,Identify other user's other interests to recommend similar subjects/genre,N,Factual,[],[],2,,[]
