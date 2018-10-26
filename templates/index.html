@@ -10,7 +10,7 @@
         <script type="text/javascript">
             // server context variables passed in here:
         </script>
-        <script src="../processUserResponse/process_response.js"></script>
+        <script src="{{ url_for('static', filename='process_response.js') }}"></script>
         <script type="text/javascript">
             document.addEventListener('DOMContentLoaded', () => {
                 // Connect to websocket
@@ -20,6 +20,7 @@
 
                 //additional startup code
                 socket.on('connect', () => {
+                    socket.emit('chatbot think', {'question': "", 'response': ""});
                 });
 
                 //display chatbot intro messages
