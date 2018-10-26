@@ -22,7 +22,7 @@ def makeQuestion(qObject,qDict,qfollowup,qsimilarto,qanswer):
 
 #The following block chooses the next question to ask
 
-def findmaxrelevancy(qObjectList):
+def findMaxRelevancy(qObjectList):
 	relevancylist=[]
 	maxrelevancyindex=[]
 	j=0
@@ -39,7 +39,7 @@ def findmaxrelevancy(qObjectList):
 	maxrelList['array'] = relevancylist
 	return maxrelList
 
-def assignrelevancy(qObject, qObjectList):
+def assignRelevancy(qObject, qObjectList):
 	qObjectList[qObject.index-1].relevancy = 0
 	if len(qObject.followUpBy) != 0:
 		for qfollow in qObject.followUpBy:
@@ -48,7 +48,7 @@ def assignrelevancy(qObject, qObjectList):
 		qObj.relevancy = qObj.relevancy - qObj.specificity/20
 
 
-def findquestion(qObjectList,relList):
+def findQuestion(qObjectList,relList):
 	if len(relList) == 1:
 		return qObjectList[relList[0]]
 	elif len(relList) > 1:
