@@ -23,16 +23,26 @@ def makeQuestion(qObject,qDict,qfollowup,qsimilarto,qanswer):
 #The following block chooses the next question to ask
 
 def findMaxRelevancy(qObjectList):
+	#array of relevancy values for each question in qObjectList
 	relevancylist=[]
+
+	#array of question indices that have the maximum relevancy value
 	maxrelevancyindex=[]
+
 	j=0
 	for ques in qObjectList:
 		relevancylist.append(ques.relevancy)
+
+	#the maximum relevancy value in the list
 	m=max(relevancylist)
+
+	#assemble array of question indices that have the maximum relevancy value
 	for rel in relevancylist:
 		if rel==m:
 			maxrelevancyindex.append(j)
 		j+=1
+
+	#return a dictionary with an array of indices of question with the max relevancy value, the maximum relevancy value, and the array of relevancy values in all questions of qObjectList
 	maxrelList = dict()
 	maxrelList['index'] = maxrelevancyindex
 	maxrelList['value'] = m
@@ -40,20 +50,31 @@ def findMaxRelevancy(qObjectList):
 	return maxrelList
 
 def assignRelevancy(qObject, qObjectList):
+	#set the question's relevancy to 0 (usually the question that has just been asked, so it can't be repeated again)
 	qObjectList[qObject.index-1].relevancy = 0
+
+	#assign relevancy to follow up questions
 	if len(qObject.followUpBy) != 0:
 		for qfollow in qObject.followUpBy:
 			qObjectList[qfollow-1].relevancy=100*(qObjectList[qfollow-1].relevancy-9)
+
+	#decrease relevancy for all questions based on their specificity
 	for qObj in qObjectList:
 		qObj.relevancy = qObj.relevancy - qObj.specificity/20
 
 
 def findQuestion(qObjectList,relList):
+	#given a list of questions and an array of indices of relevant question
+	#return a question object
 	if len(relList) == 1:
 		return qObjectList[relList[0]]
 	elif len(relList) > 1:
+		#if there are more than one relevant question with the highest relevancy value
+		#pick a random question of that relevancy
 		return qObjectList[relList[random.randint(0,len(relList)-1)]]
 	else:
+		#if there are no relevant questions
+		#pick a random question with relevancy greater than 0 from the original question list
 		x=random.randint(0,23)
 		while qObjectList[x].relevancy == 0:
 			x=random.randint(0,23)
@@ -85,11 +106,11 @@ if __name__ == '__main__':
 
 	userinput = ""
 	while userinput != "no":
-		questionrelevancylist = findmaxrelevancy(questionlist)
+		questionrelevancylist = findMaxRelevancy(questionlist)
 		if questionrelevancylist['value']<=0:
 			print("There are no more relevant questions. Goodbye")
 			break	
-		questionO=findquestion(questionlist,questionrelevancylist['index'])
+		questionO=findQuestion(questionlist,questionrelevancylist['index'])
 		print(questionO.text)
 		userinput = input("Answer: ")
-		assignrelevancy(questionO,questionlist)
+		assignRelevancy(questionO,questionlist)
