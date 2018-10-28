@@ -1,0 +1,25 @@
+So I take it you are looking for %s with %s?,1,10,Confirm,10/14/2018,1,1
+How often do you read books?,0,10,Factual,10/14/2018,2,1
+Do you like long books or short books?,0,10,Factual,10/14/2018,3,1
+Do you want to read to escape reality?,0,10,Factual,10/14/2018,4,1
+What did you think of the author's point of view?,0,10,Evaluative,10/14/2018,5,1
+Which authors do you like?,0,10,Factual,10/14/2018,6,1
+What kind of books do you like to read?,0,10,Factual,10/14/2018,7,1
+Can you read books in other languages?,0,10,Factual,10/14/2018,8,1
+Were you reading it expecting to gain specific knowledge or were you just curious?,0,10,Factual,10/14/2018,9,1
+What did you think of the writing style?,0,10,Evaluative,10/14/2018,10,1
+What did/didn't you like about the book?,0,10,Evaluative,10/14/2018,11,1
+What kind of book are you looking to read?,0,10,Factual,10/14/2018,12,1
+Do you also like (book/genre/author)?,0,10,Confirm,10/14/2018,13,1
+Do you want to read more of %s or looking to branch out to other %s,1,10,Factual,10/14/2018,14,1
+Do you like comic books?,0,10,Factual,10/14/2018,15,1
+What genre of books are you looking to read now?,0,10,Factual,10/14/2018,16,1
+What's the last book you read in %s/by %s?,0,10,Factual,10/14/2018,17,1
+What was the last good book you read?,0,10,Factual,10/14/2018,18,1
+What is the last book you read?,0,10,Factual,10/14/2018,19,1
+Have you read %s ?,1,10,Confirm,10/14/2018,20,1
+Do you like book series?,0,10,Factual,10/14/2018,21,1
+What is your favorite book?,0,10,Factual,10/14/2018,22,1
+Do you prefer fiction or non-fiction?,0,10,Factual,10/14/2018,23,1
+Do you listen to any podcasts?,0,10,Factual,10/14/2018,24,1
+What podcasts do you like?,0,10,Factual,10/14/2018,25,1
