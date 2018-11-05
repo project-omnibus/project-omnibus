@@ -5,29 +5,22 @@ let userRecProfile = {keyWordList: []};
 const BOTNAME = 'Bot';
 
 function presentQuestionAnswerFields (questionPackage){
-	/*Question Class
+	//given a question package JSON object
+	//display bot's question and possible answers, if applicable, as buttons
 
-	Attribute:
-	index 			[variable type: double, {enum} this is the index of the question in the database]
-	Text 			[variable type: string, max 100 char]
-	Response-type 		[variable type: string, {options}]
-	Possible-reponses 	[variable type: string, if "NULL"-->open text box response]
-	FollowUpBy 		[variable type: array-double {enum}, the index of questions that this question is a followed up by]
-	Relevancy 		[variable type: double {1-100}, the current relevancy rating of the question]
-	Intent			[variable type: string, {options}]
-	*/
 
-	//display bot's question
+	//create HTML element for bot's name
 	const botLabel = document.createElement('dt')
     botLabel.innerHTML=BOTNAME;
 
+    //create HTML element for bot's message
     const messageChunk = document.createElement('dd')
     messageChunk.innerHTML=`${questionPackage.text}`;
 
     document.getElementById("messages-view").append(botLabel);
     document.getElementById("messages-view").append(messageChunk);
 
-    //show possible responses if the Question object has a few
+    //show possible responses if the question JSON object has a few
     if(!(questionPackage.possibleAnswers==[])){
     	//hide user message input
     	document.getElementById("message-form").hidden = true;
@@ -49,6 +42,8 @@ function presentQuestionAnswerFields (questionPackage){
     }
 }
 function removeNonKeywords(message){
+	//removes words like "the"/"and" from the user's message to identify keywords for searching through book recommendations
+
 	const definiteArticles = ['the']
 	const indefiniteArticles = ['a', 'an']
 	const infinitives = ['is','be','am','are','do']
@@ -105,8 +100,7 @@ function parseUserMessage (message){
 
 	//convert all characters in message to lowercase
 
-	//for now, this will just mass the user's reponse message straight through.
-	
+	//for now, this will just pass the user's reponse message straight through.
 	const parsedMessage = message;
 	return parsedMessage;
 
@@ -114,14 +108,10 @@ function parseUserMessage (message){
 }
 
 function interpretUserMessage (parsedMessage, questionPackage){
-	//Interpret User's Response
 	//take a parsed message (user's message after some processing from parseUserMessage function)
+
 	//for now, this will just create a simple Question and Response pair in a JSON object called UserResponseObject
 	const userResponseObject = {'question': questionPackage.questionText, 'response': parsedMessage};
-
-	
-
-	//return 
 	return userResponseObject;
 
 	//future versions will attempt to "traverse" the web of meaning of the user's message
@@ -143,12 +133,10 @@ function interpretUserMessage (parsedMessage, questionPackage){
 
 
 function addToUserRecProfile (userResponseObject){
-	//Add to UserRecommendationProfile Object
 	//for now, this will take the response from the UserResponseObject and take out all the "nonkeywords": 'the', 'for', etc.
 	//And then add those keywords to the UserRecProfile
 
 	const keywords = removeNonKeywords(userResponseObject.response);
-
 
 	//update the user recommendation profile
 	for (var i = 0; i < meaningMap.length; i++) {

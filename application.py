@@ -9,17 +9,16 @@ from flask_session import Session
 
 
 #start up code
-
 engine = create_engine(os.getenv("OMNIBUS_DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 app = Flask(__name__)
 
+#Flask-SocketIO
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app, manage_session=False)
 
-
-
+#Flask-Session
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
@@ -28,8 +27,9 @@ Session(app)
 numQuestions = db.execute("SELECT * FROM question_table").rowcount
 questionList =[]
 
+
+# this loads the database tables into a giant array of objects that resembles how we organized it in a spreadsheet
 for numRow in range(numQuestions):
-	# this loads the database tables into a giant array of objects that resembles how we organized it in a spreadsheet
 	followuparray=[]
 	similartoarray=[]
 	possibleanswerarray=[]
@@ -44,23 +44,12 @@ for numRow in range(numQuestions):
 	makeQuestion(q1,questionRow,followuparray,similartoarray,possibleanswerarray)
 	questionList.append(q1)
 
-'''
-userinput = ""
-while userinput != "no":
-	questionrelevancylist = findmaxrelevancy(questionList)
-	if questionrelevancylist['value']<=0:
-		print("There are no more relevant questions. Goodbye")
-		break	
-	questionO=findquestion(questionList,questionrelevancylist['index'])
-	print(questionO.text)
-	userinput = input("Answer: ")
-	assignrelevancy(questionO,questionList)
-'''
+#display homepage
 @app.route("/")
 def index():
-	pythontext = "Hello World"
-	return render_template("index.html", text=pythontext)
+	return render_template("index.html")
 
+#process user response to generate the chatbot's next question
 @socketio.on("chatbot think")
 def chatBotQuestion(userResponse):
 	#the question the user just responded to
@@ -69,6 +58,7 @@ def chatBotQuestion(userResponse):
 	#user's response
 	response = userResponse['response'];
 
+	#the question package that will be sent back to client browser
 	questionPackage = {'text': "", 'possibleAnswers': []};
 
 	#get the indices for the most relevant questions
