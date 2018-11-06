@@ -1,0 +1,49 @@
+function presentQuestionAnswerField(Question)
+	-Question is an object that contains the question text and possible answer attribute
+	-Finds the correct location/div in the webpage to display the question text
+	-Looks at the possible answer attribute and presents the answer section of the webpage accordingly
+		case 1: possible answer attribute is NULL
+			Presents to user a text box with no presume functions
+		case 2: possible answer attribute is "book" * this case would not be in 1st prototype
+			Presents to user a text box with search function that would look for books dynamically as user types.
+			User can select the right book when it is presented
+		case 3: possible answer attribute is "yes/no"
+			Presents to user 2 buttons: Yes, No that the user can click
+			Onclick, the selected button is highlighted
+	- Presents "submit" button for all cases. Submit button onclick action should be specified here too
+		case 1: 
+			submit button onclick action sends the text in the text box to "removeNonKeyWords" function
+		case 2:  * this case would not be in 1st prototype
+			submit button onclick action sends the text to "interprestUserMessage" function
+		case 3:
+			submit button onclick action sends the answer to "addToUserProfile" function
+
+
+function removeNonKeyWords(message)
+	- The input message here is an array of strings from the user text-box input
+	- Returns an array of words with non essential words such as "the, a, is,..." removed
+	- Can use readily availabe Natural Language Processing package if available
+	- Define all "non-keywords"
+	- Separate the message to individual words separated by space and punctuations
+	- Lower case all words
+	- Check each word against the elements of "non-keywords"
+	- Add only words that is not contained in the "non-keywords" array is added to "key-word" array
+	- Return key-word array with each index as a word.
+
+function parseUserMessage (message)
+	- The input message here is an array of KEYWORDS
+	- Returns an array of words that can be used for book recommendation search and/or add to user profile
+	- First is to correct all spelling errors by checking words against standard English dictionary
+	- Delete all gibberish 
+
+function interpretUserMessage (message, question)
+	- The input message here is an array of words, the input question is the question object that was asked of the user correlating to the input message 
+	- Returns an UserReponse object that specifies the user attribute and its value as answered by the user
+	- Obtains information from the "question" object which user attribute this question is meant to contribute to
+	- Obtains information from the "message" the values to assign to the user attribute
+	-
+
+function addToUserRecProfile (UserResponseObject)
+	- Input is an user response object that has attributes of which user recommendation profile to update and its values
+	- For each attribute in the user response object, this function finds the corresponding attribute in the user recommendation profile and updates it
+
