@@ -1,2 +1,7 @@
+# All compiled files
+flask_session/
+__pycache__/
+*.py[cod]
+**/.DS_Store
 
 questionPath/questions.csv
