@@ -64,13 +64,13 @@ def chatBotQuestion(userResponse):
 	#get the indices for the most relevant questions
 	questionRelevancyList = findMaxRelevancy(questionList)
 	if questionRelevancyList['value']<=0:
-		questionPackage['text'] = "There are no more relevant questions. Goodbye";	
+		questionPackage['text'] = "There are no more relevant questions. Goodbye";
 
 	#get a question object that has the highest relevancy
 	questionObject = findQuestion(questionList,questionRelevancyList['index']);
 
 	#assemble package to be sent to client browser
-	questionPackage['text'] = questionObject.text;	
+	questionPackage['text'] = questionObject.text;
 	questionPackage['possibleAnswers'] = questionObject.possibleAnswer;
 
 	#update relevancy based on the question just asked and the overall question list
