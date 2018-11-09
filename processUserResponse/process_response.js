@@ -1,6 +1,6 @@
 
 const message = userResponse.message; //assume userResponse is a JSON object with a 'message' key
-let userRecProfile = {keyWordList: []};
+let userRecProfile = {userID:[], likeBooks:[], dislikeBooks: [], readBooks: [], wantGenre: [], wantAuthor: [], wantBooks: [], keyWordList: []};
 
 const BOTNAME = 'Bot';
 
@@ -114,7 +114,9 @@ function interpretUserMessage (parsedMessage, QuestionObject){
 	//Interpret User's Response
 	//take a parsed message (user's message after some processing from parseUserMessage function)
 	//for now, this will just create a simple Question and Response pair in a JSON object called UserResponseObject
-	const UserResponseObject = {'question': QuestionObject.question, 'response': parsedMessage};
+	var UserAttribute = QuestionObject.userAttribute;
+	const UserReponseObject = {'userAttribute': UserAttribute, 'question': QuestionObject.question, 'response': parsedMessage};
+
 
 	
 
@@ -148,11 +150,22 @@ function addToUserRecProfile (UserResponseObject){
 
 
 	//update the user recommendation profile
-	for (var i = 0; i < meaningMap.length; i++) {
-		//locally add to a JSON object
-		userRecProfile.keyWordList.push(keywords[i])
-		//emit to server with the JSON object
+	if (UserResponseObject.userAttribute == null){
+		for (var i = 0; i < keywords.length; i++) {
+			//locally add to a JSON object
+			userRecProfile.keyWordList.push(keywords[i]);
+			//emit to server with the JSON object
+		}
 	}
+	else{
+		var userAttribute = UserResponseObject.userAttribute;
+		for (var i = 0; i < keywords.length; i++) {
+			//locally add to a JSON object
+			userRecProfile.userAttribute.push(keywords[i]);
+			//emit to server with the JSON object
+		}
+	}
+
 
 	//it COULD also note duplicate keywords and keep a count of keywords that keep occurring in the user's response
 
@@ -160,8 +173,6 @@ function addToUserRecProfile (UserResponseObject){
 	//future versions will make specific updates to specific attributes of a UserRecProfile, as the UserRecProfile becomes more nuanced
 	//how the recommendation profile is assembled may qualify as part of the interpretation.
 	//the exact additions to a profile will depend on how the message is interpreted
-
-	
 }
 
 
