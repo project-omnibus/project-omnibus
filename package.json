@@ -25,7 +25,8 @@
   },
   "scripts": {
     "start": "node src/index.js",
-    "style": "npm run style:js",
-    "style:js": "eslint src test"
+    "style": "npm run style:js && npm run style:python",
+    "style:js": "eslint src test",
+    "style:python": "pycodestyle application.py"
   }
 }
