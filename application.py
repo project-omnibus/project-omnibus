@@ -33,12 +33,13 @@ for numRow in range(numQuestions):
 	followuparray=[]
 	similartoarray=[]
 	possibleanswerarray=[]
-	questionRow = db.execute("SELECT * FROM question_table WHERE question_id = :row",{"row":numRow+1}).fetchone()
-	for followRow in db.execute("SELECT * FROM question_followup_table WHERE question_id = :row",{"row":numRow+1}).fetchall():
+	questionRow = db.execute("SELECT * FROM question_table WHERE question_id = :row",{"row":numRow}).fetchone()
+	# print(questionRow)
+	for followRow in db.execute("SELECT * FROM question_followup_table WHERE question_id = :row",{"row":numRow}).fetchall():
 		followuparray.append(followRow.follow_up_by_id)
-	for similartoRow in db.execute("SELECT * FROM question_similarto_table WHERE question_id = :row",{"row":numRow+1}).fetchall():
+	for similartoRow in db.execute("SELECT * FROM question_similarto_table WHERE question_id = :row",{"row":numRow}).fetchall():
 		similartoarray.append(similartoRow.similer_to_id)
-	for possibleanswerRow in db.execute("SELECT * FROM question_possibleanswer_table WHERE question_id = :row",{"row":numRow+1}).fetchall():
+	for possibleanswerRow in db.execute("SELECT * FROM question_possibleanswer_table WHERE question_id = :row",{"row":numRow}).fetchall():
 		possibleanswerarray.append(possibleanswerRow.possible_answer)
 	q1 = question()
 	makeQuestion(q1,questionRow,followuparray,similartoarray,possibleanswerarray)
@@ -48,6 +49,10 @@ for numRow in range(numQuestions):
 @app.route("/")
 def index():
 	return render_template("index.html")
+
+@app.route("/chatbot/")
+def chatbot():
+	return render_template("chatbot.html")
 
 #process user response to generate the chatbot's next question
 @socketio.on("chatbot think")

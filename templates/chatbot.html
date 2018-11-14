@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<title>Chatbot</title>
+        <meta charset="UTF-8"> 
+    	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+        <style type="text/css">
+            #message-input{
+                width: 100%;
+            }
+            #messages-view{
+                overflow: auto;
+            }
+        </style>
+        <script type="text/javascript">
+            // server context variables passed in here:
+        </script>
+        <script src="{{ url_for('static', filename='process_response.js') }}"></script>
+        <script type="text/javascript">
+            function addResponseToDisplay(response){
+                const user = document.createElement('dt');
+                const message = document.createElement('dd');
+                user.innerHTML = "User";
+                message.innerHTML = `${response}`;
+
+                document.querySelector("#messages-view").append(user);
+                document.querySelector("#messages-view").append(message);
+                return false;
+            }
+            document.addEventListener('DOMContentLoaded', () => {
+                // Connect to websocket
+                var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+
+                let questionPackage = {};
+
+                //additional startup code
+                socket.on('connect', () => {
+                    socket.emit('chatbot think', {'question': "", 'response': ""});
+                });
+
+                //display chatbot intro messages
+
+                //display chatbot question emitted from server
+                socket.on('chatbot question', (package) => {
+
+                    questionPackage = package;
+
+                    //wait a few seconds to appear to think
+                    setTimeout(function(){
+                        presentQuestionAnswerFields(questionPackage);
+                    }, 2500);
+                    
+                });
+                
+                document.querySelector('#message-form').onsubmit = () => { 
+                    const message = document.querySelector('#message-input').value;
+
+                    addResponseToDisplay(message);
+
+                    //parse message
+                    //and interpret the message to get a UserResponse object
+                    const userResponseObject = interpretUserMessage(parseUserMessage(message),questionPackage);
+                    //emit signal to server to have the chatbot think
+                    socket.emit('chatbot think', userResponseObject);
+
+                    //clear inputs
+                    document.querySelector('#message-input').value='';
+                    return false;
+                }
+
+            });
+        </script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg bg-light">
+            <a href="{{ url_for('chatbot') }}" class="navbar-brand">
+                <img src="{{ url_for('static', filename='graphics/icon.png') }}" height="50" alt="">
+            </a>
+            <button class="navbar-toggler">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+        </nav>
+        <div class="container">
+	        <dl id="messages-view">
+	            
+	        </dl>
+	        <div id="button-menu">
+	            
+	        </div>
+	        <form id="message-form">
+	            <span id="pre-text"></span>
+	            <input type="text" id="message-input" placeholder="Respond to chatbot" autocomplete="off">
+	        </form>        	
+        </div>
+
+
+    </body>
+</html>
