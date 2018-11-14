@@ -9,20 +9,21 @@ of current question to 0 and finding the question with highest relevancy
 */
 
 
-function assignrelevancy (qObject, qObjectlist){
+exports.assignrelevancy = function(qObject, qObjectList){
 	// Function assigns the relevancy of all questions in the question
 	//qObject is the question object of the current question that was just asked
 	//qObjectList is the complete array of all question objects, including the current one
-	qObjectList[(qObject.index-1)].relevancy = 0; //set the relevancy of the current question in question array to 0
+	//the index of qObjectList and qObject should be the same, starting at 0
+	qObjectList[(qObject.index)].relevancy = 0; //set the relevancy of the current question in question array to 0
 	var followUpLen = qObject.followUpBy.length; //get the length of the number of folloUpBy question to the current question
 	if (followUpLen != 0) { //if length isn't 0, then there is some questions that can follow up to current question, set relevancy of those questions to 100.
 		for (i = 0; i<followUpLen; i++) {
-			qObjectList[qObject.followUpBy[i]-1].relevancy=100*(qObject.followUpBy[i]-1].relevancy-9); //"-9" here beacuse the minimum default relevancy is 10 for now
+			qObjectList[qObject.followUpBy[i]].relevancy=100*(qObject.followUpBy[i].relevancy-9); //"-9" here beacuse the minimum default relevancy is 10 for now
 		}
 	}
 }
 
-function findmaxrelevancy (qObjectList){
+exports.findmaxrelevancy = function(qObjectList){
 	//Function finds the maximum relevancy, indices of the questions with max relevancy and the entire relevancy list
 	//returns a maxrel object
 	//qObjectList is the complete array of all question objects
@@ -39,24 +40,20 @@ function findmaxrelevancy (qObjectList){
 		}
 	}
 	var maxrelList = {index:maxrelevancyindex, value:m, array:relevancylist};
-	return maxrelList
+	return maxrelList //this is 
 }
 
-function findquestion(qObjectList,maxrelList){
+exports.findquestion = function(qObjectList,maxrelList){
 	//function finds and returns 1 question object to present to user. 
 	//qObjectList is the complete array of all question objects
 	//maxrelList is an array of the indices of questions with max relevancy. 
-	if (maxrelList.length) == 1 {
+	if (maxrelList.length == 1) { //if the maxrelList is just 1 element, there is only 1 question to return
 		return qObjectList[maxrelList[0]];
 	}
-	else if (maxrelL)
+	else { //if the maxrelList is more than 1 element, choose at random which question to present
+		listlength = maxrelList.length;
+		x = Math.floor(Math.random()*listlength); // returns a number at random between 0 and number of elements in maxrelList-1
+		return qObjectList[maxreList[x]];
+	}
 }
-	if len(relList) == 1:
-		return qObjectList[relList[0]]
-	elif len(relList) > 1:
-		return qObjectList[relList[random.randint(0,len(relList)-1)]]
-	else:
-		x=random.randint(0,23)
-		while qObjectList[x].relevancy == 0:
-			x=random.randint(0,23)
-		return qObjectList[x]
+
