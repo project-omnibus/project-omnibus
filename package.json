@@ -13,6 +13,7 @@
     "url": "https://github.com/holistudio/project-omnibus.git"
   },
   "dependencies": {
+    "pg": "^7.6.1",
     "underscore": "1.8.3"
   },
   "devDependencies": {

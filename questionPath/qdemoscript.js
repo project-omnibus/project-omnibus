@@ -15,8 +15,18 @@ var client = new pg.Client({
 
 var questionList = [];
 function setquestionList(result){
-	questionList = result;
-	console.log(questionList.rows[0].question);
+	//questionList = result;
+	for (i=0; i<result.rows.length; i++){
+		questionList[i]={question:result.rows[i].question, userInput:result.rows[i].need_user_input, bbrelevancy:result.rows[i].default_relevancy,	specificity:result.rows[i].specificity, userAttribute:result.rows[i].userAttribute, followUpBy:[]};
+	}
+	//console.log(questionList);
+}
+
+function setquestionFollowup(result){
+	for (i=0; i<result.rows.length; i++){
+		questionList[result.rows[i].question_id].followUpBy.push(result.rows[i].follow_up_by_id);
+	}
+	//console.log(questionList)
 }
 
 client.connect();
@@ -25,6 +35,13 @@ client.query("SELECT * FROM question_table", function (err, result, fields){
 		throw err;
 	} else {
 		setquestionList(result);
+	}
+});
+client.query("SELECT * FROM question_followup_table",function(err,result,fields){
+	if (err) {
+		throw err;
+	} else {
+		setquestionFollowup(result);
 	}
 });
 
