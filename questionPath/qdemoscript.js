@@ -2,6 +2,9 @@ var qfunctions = require('./qfunction.js');
 var pg = require('pg');
 pg.defaults.ssl = true;
 var http = require('http');
+var express = require('express');
+var app = express();
+
 
 
 var databaseURL = process.env.OMNIBUS_DATABASE_URL;
@@ -12,6 +15,8 @@ var databasePassword = process.env.OMNIBUS_DATABASE_PASSWORD;
 var client = new pg.Client({
 	connectionString: databaseURL,
 });
+
+
 
 var questionList = [];
 function setquestionList(result){
@@ -44,6 +49,7 @@ client.query("SELECT * FROM question_followup_table",function(err,result,fields)
 		setquestionFollowup(result);
 	}
 });
+
 
 
 
