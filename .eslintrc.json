@@ -1,6 +1,9 @@
 {
-    "extends": "standard",
-    "rules": {
-      "semi": [2, "always"]
-    }
+  "extends": "standard",
+  "env": {
+    "mocha": true
+  },
+  "rules": {
+    "semi": [2, "always"]
+  }
 }
