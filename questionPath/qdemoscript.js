@@ -3,14 +3,17 @@ var pg = require('pg');
 pg.defaults.ssl = true;
 var http = require('http');
 var express = require('express');
-var app = express();
+var router = express.Router();
 
 
+router.get('/',function(req,res,next){
+	var databaseURL = process.env.OMNIBUS_DATABASE_URL;
+	var databaseHost = process.env.OMNIBUS_DATABASE_HOST;
+	var databaseUser = process.env.OMNIBUS_DATABASE_USERNAME;
+	var databasePassword = process.env.OMNIBUS_DATABASE_PASSWORD;
 
-var databaseURL = process.env.OMNIBUS_DATABASE_URL;
-var databaseHost = process.env.OMNIBUS_DATABASE_HOST;
-var databaseUser = process.env.OMNIBUS_DATABASE_USERNAME;
-var databasePassword = process.env.OMNIBUS_DATABASE_PASSWORD;
+})
+
 
 var client = new pg.Client({
 	connectionString: databaseURL,
