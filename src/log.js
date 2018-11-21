@@ -7,14 +7,11 @@ module.exports = (() => {
         type: 'file',
         filename: 'logs/omnibus.log',
         maxLogSize: 200000000 // 200 MBs
-      },
-      console: {
-        type: 'console'
       }
     },
     categories: {
       default: {
-        appenders: ['file', 'console'],
+        appenders: ['file'],
         level: 'info'
       }
     }

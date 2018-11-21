@@ -1,4 +1,5 @@
 var bodyParser = require('body-parser');
+var books = require('./routes/books');
 var express = require('express');
 var fs = require('fs');
 var handler = require('./handler');
@@ -24,6 +25,8 @@ function createServer () {
   app.all('*', handler.requestLogging);
 
   app.use('/livecheck', livecheck.router());
+
+  app.use('/v1/books', books.router());
 
   http.createServer(app).listen(PORT);
 
