@@ -6,6 +6,7 @@ var handler = require('./handler');
 var http = require('http');
 var livecheck = require('./routes/livecheck');
 var log = require('./log');
+var conversation = require('./routes/conversation');
 
 const PORT = 5000;
 
@@ -27,6 +28,8 @@ function createServer () {
   app.use('/livecheck', livecheck.router());
 
   app.use('/v1/books', books.router());
+
+  app.use('/conversation', conversation.router()); //
 
   http.createServer(app).listen(PORT);
 
