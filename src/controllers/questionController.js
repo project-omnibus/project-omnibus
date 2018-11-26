@@ -48,24 +48,4 @@ exports.grab_question = function(req,res) {
       		res.status(err.statusCode)
         	.json(err);
 		});
-	//res.send("hello");
-	//res.json(questionList);
-	//res.render(questionList)
-	//res.render(questionList[0].question)
-}
-
-// takes pg sql query and populates the questionlist array with question objects
-function setquestionList(result){
-	for (i=0; i<result.rows.length; i++){
-		//question object has fields: question[text], userInput[boolean], relevancy[integer], specificity[integer], userAttribute[string], followupBy[array of integer]
-		//followupBy field is NULL after this operation because that is in another table
-		questionList[i]={question:result.rows[i].question, userInput:result.rows[i].need_user_input, relevancy:result.rows[i].default_relevancy, specificity:result.rows[i].specificity, userAttribute:result.rows[i].userAttribute, followUpBy:[]};
-	}
-}
-
-// adds the follow-up question array to the question objects in the question list array. The follow-up quesiton is an array of integers
-function setquestionFollowup(result){
-	for (i=0; i<result.rows.length; i++){
-		questionList[result.rows[i].question_id].followUpBy.push(result.rows[i].follow_up_by_id);
-	}
 }
