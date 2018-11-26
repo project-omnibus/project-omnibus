@@ -6,7 +6,9 @@ module.exports = {
 
     router.route('/')
       .get((req, res) => {
-        res.send('Running!');
+        res.json({
+          status: 'Running!'
+        });
       });
 
     return router;

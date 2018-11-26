@@ -29,8 +29,7 @@
   },
   "scripts": {
     "start": "node src/server.js",
-    "style": "npm run style:js",
-    "style:js": "eslint src test",
+    "style": "eslint src test",
     "test": "./node_modules/mocha/bin/mocha --exit"
   }
 }
