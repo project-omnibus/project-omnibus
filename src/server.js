@@ -29,7 +29,7 @@ function createServer () {
 
   app.use('/v1/books', books.router());
 
-  app.use('/conversation', conversation.router()); //routing to the conversation functions
+  app.use('/conversation', conversation.router()); //
 
   http.createServer(app).listen(PORT);
 
