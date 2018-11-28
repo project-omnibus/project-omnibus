@@ -49,6 +49,6 @@
     "test:server": "cd server && npm test",
     "test": "concurrently \"npm run test:client\" \"npm run test:server\"",
     "devstart": "nodemon ./src/server",
-    "start" : "node ./src/server"
+    "start": "node ./src/server"
   }
 }
