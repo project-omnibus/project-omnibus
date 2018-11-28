@@ -18,20 +18,18 @@ exports.generate_response = function(req,res){
 }
 
 exports.handle_user_input = function(req,res,next){
-	res.send('function not made yet 55');
-	next();
+	//need to write the code still!
+	next()
 }
 
 //make and returns the list of questions as a json
 exports.make_init_user = function(req,res,next) {
-	if (req.params.relevancy = []){
-		next();
-	}else {// check if the req is empty, therefore it is a new session and there has been no request yet. Make the initial user request
+	if (!req.params.relevancy) {// check if the req is empty, therefore it is a new session and there has been no request yet. Make the initial user request
 		var client = new pg.Client({
 			connectionString: databaseURL,
 		});
 		client.connect();
-		var userSession = {relevancy:[], qAskedID:[],attribute:[],currentQ:[], answer:[]};
+		var userSession = {relevancy:[], qAskedID:[],attribute:[],currentQ:"", answer:[]};
 		//make the questionList object from the question table on the database. 
 		client.query("SELECT * FROM question_table")
 			.then(result => {
@@ -44,6 +42,8 @@ exports.make_init_user = function(req,res,next) {
 					userSession.relevancy[i]=result.rows[i].default_relevancy;
 					//questionList[i]={question:result.rows[i].question, userInput:result.rows[i].need_user_input, relevancy:result.rows[i].default_relevancy, specificity:result.rows[i].specificity, userAttribute:result.rows[i].userAttribute, followUpBy:[]};
 				}
+				var maxRelevancy = findMaxRelevancy(userSession.relevancy);
+				userSession.currentQ = result.rows[maxRelevancy[0]].question;
 				res.json(userSession);
 			})
 			.catch(err => {
@@ -51,5 +51,25 @@ exports.make_init_user = function(req,res,next) {
       			res.status(err.statusCode)
         		.json(err);
 			});
+	} else {
+		console.log(req.params.relevancy);
+		next();
 	}
+}
+
+
+// finding the maximum of a array of numbers
+findMaxRelevancy=function(arr){
+	if(arr.length == 0){
+		return -1;
+	}
+	var max = arr[0];
+	var maxIndex = 0;
+	for (i=0; i<arr.length; i++){
+		if (arr[i] > max) {
+			maxIndex = i;
+			max = arr[i];
+		}
+	}
+	return [maxIndex, max];
 }
