@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - "10"
+script:
+  - npm test
+  - npm run style
+notifications:
+  slack:
+    rooms:
+      secure: i2DhUsiU3aKuQmwIAroIz4RjX/x8dcYUyurqdUwnDB8DLtJWUB2dQXJ0cAT2ziL7ZYLt3rUV6no/Xn+DRMaGtaUeFke0QywSHU4MZBXSvakpAvneMF4WDdB8PU5xp8B44WyV+eHSVBM4AoshqEl1xkru+Z48eXmehUMd6HuTzxw9zBKhLIHpLOtO4IGY+C7dLiUDZFOEmecQ3hg/Ay4JQ2Y6nrC/wZzzuGPRuxsCin3cbPX6owExi3eaLzt/AAcFHTexAkaQcRnPxeeovl9Ou6yXppNigRpgeqr0qbp5mSL1n+59ewCrGU1/Tzu3qnKfXT8Cg2PpvBvFlU+wCpZsa48QgRhd5wjeLVhXkyClJPzWLBoryPesGKiAB/qqbalJlKIwkadzBP781b86Mr9YPKTpdlO6X0bK9+uZrDGnYG2oKLGTYg6mfnmJ1tE6x8aNnbCGIvW03ifnorMVqTb3l27nRZr6KSp87ak+rrQGtUZD//n8jTvtz+AIdK/Asi/HqMa/YQ5U8I5Pzhay/yLhReX46UoOYoHiKt6Kmlgdr0vFxHLZg+2Z0/1ufA67OrxojlzZVKIUJUzK4a3DIoxOLkJFFnwDIanJHfNFFY7nHaJeml5Ot5ku7s9UhCKBSqw49oq1LNqqLiHvStNuBee26vpPjyaGZ3PFUE4asqqJpfo=
+    on_success: always
+    on_failure: always
