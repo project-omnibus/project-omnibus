@@ -17,6 +17,9 @@
     "concurrently": "4.0.1"
   },
   "scripts": {
+    "install:client": "cd client && npm install",
+    "install:server": "cd server && npm install",
+    "install": "concurrently \"npm run install:client\" \"npm run install:server\"",
     "client": "cd client && yarn start",
     "server": "cd server && nodemon src/server.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
