@@ -24,7 +24,7 @@ $( document ).ready(function() {
 			success : function(result) {
 				$("#qmain").empty();
 				userSession = data;
-				$("#qmain").append(userSession.question + '</br>');
+				$("#qmain").append(userSession.currentQ.question + '</br>');
 				console.log("Success: ", userSession)
 			},
 			error : function(e) {

@@ -8,10 +8,14 @@ var books = require('../routes/books')
 
 module.exports = {
   router: () => {
-    var router = express.Router();
+    var router = express.Router();    
+    router.get('/',function(req,res){
+    	res.sendFile("../../client/public/conversation.html");
+    });
     router.get('/makeInitUser',question.make_init_user);
     router.use('/makeConversation',question.handle_user_input);
-    router.get('/',question.generate_response);
+    router.use('/makeConversation',question.generate_response);
+
 
     return router;
   }
