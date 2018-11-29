@@ -7,6 +7,16 @@ describe('/v1/books', () => {
     nock.cleanAll();
   });
 
+  it('GET without required query parameter should return 400', () => {
+    return request(app)
+      .get('/v1/books')
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .expect({
+        error: 'Missing required query parameter: q'
+      });
+  });
+
   it('GET should return books', () => {
     const bookResponse = {
       items: [
