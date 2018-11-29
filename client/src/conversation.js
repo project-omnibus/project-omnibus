@@ -1,58 +1,67 @@
-import React, { Component } from 'react';
-import './conversation.css';
+$( document ).ready(function() {
+	var userSession = {};
+	
+	// SUBMIT FORM
+    $("#start_button").click(function(event) {
+		// Prevent the form from submitting via the browser.
+		event.preventDefault();
+		$("#start_button").hide();
+		makeInitUser();
+	});
+	$("#answerForm").submit(function(event){
+		event.preventDefault();
+		userPost();
+	});
+    
+    // DO A GET FROM SERVER FOR THE INITIAL USER SESSION OBJECT
+    function makeInitUser(){
+    	$.ajax({
+			type : "GET",
+			contentType : "application/json",
+			url : window.location + "/makeInitUser", //send the values to server with post. THis is sending it to app.js on server side for routing
+			data: {get_param: 'value'},
+			dataType: 'json',
+			success : function(result) {
+				$("#qmain").empty();
+				userSession = data;
+				$("#qmain").append(userSession.question + '</br>');
+				console.log("Success: ", userSession)
+			},
+			error : function(e) {
+				$("#qmain").html("<strong> Error </strong>");
+				console.log("ERROR: ", e);
+			}
+		});
+ 
+    }
+	
+	// DO A POST TO SERVER OF THE USER's ANSWER TO THE CURRENT QUESTION
+	function userPost(){
+		$.ajax({
+			//update the userSession object with the answer the user just input
+			userSession.answer = $("#answer").val();
 
-class conversation extends Component {
-  state = {
-    response: '',
-    post: '',
-    responseToPost: ''
-  };
-  componentDidMount () {
-    this.callApi()
-      .then(res => this.setState({ response: res.status }))
-      .catch(err => console.log(err));
-  }
-  async callApi () {
-    const response = await fetch('/livecheck');
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-    return body;
-  }
-  handleSubmit = async e => {
-    e.preventDefault();
-    const response = await fetch('/v1/books?q=' + this.state.post, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const body = await response.json();
-    this.setState({ responseToPost: body.relatedBooks });
-  };
-
-  render () {
-    return (
-      <div className='App'>
-        <p>Status of Omnibus server on port 5000 is {this.state.response}</p>
-        <form onSubmit={this.handleSubmit}>
-          <p>
-            <strong>Post to Server:</strong>
-          </p>
-          <input
-            type='text'
-            value={this.state.post}
-            onChange={e => this.setState({ post: e.target.value })}
-          />
-          <button type='submit'>Submit</button>
-        </form>
-        <p>{this.state.responseToPost[0]}</p>
-        <p>{this.state.responseToPost[1]}</p>
-        <p>{this.state.responseToPost[2]}</p>
-        <p>{this.state.responseToPost[3]}</p>
-        <p>{this.state.responseToPost[4]}</p>
-      </div>
-    );
-  }
-}
-
-export default App;
+			//DO POST
+			type : "POST",
+			contentType : "application/json",
+			url : window.location + "/makeConversation",
+			data : JSON.stringify(userSession);
+			dataType : "json",
+			success: function(result){
+				$("#qmain").empty();
+				userSession = result;
+				$("#qmain").append(userSession.question + '</br>');
+				console.log("Success: ", userSession);
+			},
+			error : function(e) {
+				$("#qmain").html("<strong> Error </strong>");
+				console.log("ERROR: ", e);
+			}
+		});	
+	}
+    
+    function resetData(){
+    	$("#question").val("");
+    	$("#answer").val("");
+    }
+})

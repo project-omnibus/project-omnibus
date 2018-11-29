@@ -1,7 +1,7 @@
 $( document ).ready(function() {
 	
 	// SUBMIT FORM
-    $("#customerForm").submit(function(event) {
+    $("#answer").submit(function(event) {
 		// Prevent the form from submitting via the browser.
 		event.preventDefault();
 		ajaxPost();

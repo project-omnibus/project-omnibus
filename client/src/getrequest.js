@@ -10,7 +10,7 @@ $( document ).ready(function() {
 	function ajaxGet(){
 		$.ajax({
 			type : "GET",
-			url : window.location + "/conversation",
+			url : window.location + "/getQuestion",
 			success: function(result){
 				$('#getResultDiv ul').empty();
 				var attributeList = "";
