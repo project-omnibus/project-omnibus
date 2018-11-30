@@ -25,17 +25,17 @@ exports.handle_user_input = function(req,res,next){
 		req.attribute.keywords.push(keywords);
 	} else {
 		// if the current question has user attribute assigned, append new property to usre attribute with the keywords from the user as the value for it
-		var Attribute = {[req.body.currentQ.userAttribute]:keywords};
+		var attribute = {[req.body.currentQ.userAttribute]:keywords};
 		req.attribute.push(attribute);
 	}
 
-	//append the current questions to the list of questions asked of in the user req object 
+	//append the current questions to the list of questions asked of in the user req object
 	var currentQ_id = req.currentQ.qid;
-	req.qAskeID.push(currentQ_id);
+	req.qAskedID.push(currentQ_id);
 
 	//print to console if middleware performed all actuions.
-	console.log("input handling first middleware successful")
-	next()
+	console.log("input handling first middleware successful");
+	next();
 }
 
 //generating the next question to send to user to answer
@@ -68,7 +68,7 @@ exports.generate_response = function(req,res){
 			//query for the next question by using th new index of the max relevancy in relevancy list
 			client.query("SELECT * FROM question_table WHERE question_id = $1",[maxRelevancy[0]])
 				.then(result => {
-					next_question = {qid:results.rows[maxRelevancy[0]].question_id, question:result.rows[maxRelevancy[0]].question, userInput:result.rows[maxRelevancy[0]].need_user_input, relevancy:result.rows[maxRelevancy[0]].default_relevancy, specificity:result.rows[maxRelevancy[0]].specificity, userAttribute:{result.rows[maxRelevancy[0]].userAttribute}, folloupBy:[]};
+					next_question = {qid:results.rows[maxRelevancy[0]].question_id, question:result.rows[maxRelevancy[0]].question, userInput:result.rows[maxRelevancy[0]].need_user_input, relevancy:result.rows[maxRelevancy[0]].default_relevancy, specificity:result.rows[maxRelevancy[0]].specificity, userAttribute:[result.rows[maxRelevancy[0]].userAttribute], folloupBy:[]};
 					userSession.currentQ = next_question;
 					res.json(userSession);
 				})
@@ -94,7 +94,7 @@ exports.make_init_user = function(req,res,next) {
 		});
 		client.connect();
 		var userSession = {relevancy:[], qAskedID:[],attribute:{keywords:[]},currentQ:{}, answer:[]};
-		//make the questionList object from the question table on the database. 
+		//make the questionList object from the question table on the database.
 		client.query("SELECT * FROM question_table")
 			.then(result => {
 				if (result.length == 0){
@@ -107,7 +107,7 @@ exports.make_init_user = function(req,res,next) {
 					//questionList[i]={question:result.rows[i].question, userInput:result.rows[i].need_user_input, relevancy:result.rows[i].default_relevancy, specificity:result.rows[i].specificity, userAttribute:result.rows[i].userAttribute, followUpBy:[]};
 				}
 				var maxRelevancy = findMaxRelevancy(userSession.relevancy);
-				var first_question={qid:results.rows[maxRelevancy[0]].question_id, question:result.rows[maxRelevancy[0]].question, userInput:result.rows[maxRelevancy[0]].need_user_input, relevancy:result.rows[maxRelevancy[0]].default_relevancy, specificity:result.rows[maxRelevancy[0]].specificity, userAttribute:{result.rows[maxRelevancy[0]].userAttribute}, folloupBy:[]};
+				var first_question={qid:results.rows[maxRelevancy[0]].question_id, question:result.rows[maxRelevancy[0]].question, userInput:result.rows[maxRelevancy[0]].need_user_input, relevancy:result.rows[maxRelevancy[0]].default_relevancy, specificity:result.rows[maxRelevancy[0]].specificity, userAttribute:[result.rows[maxRelevancy[0]].userAttribute], folloupBy:[]};
 				userSession.currentQ = first_question;
 				res.json(userSession);
 			})
