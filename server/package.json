@@ -30,6 +30,6 @@
   "scripts": {
     "start": "node src/server.js",
     "style": "eslint src test",
-    "test": "./node_modules/mocha/bin/mocha --exit"
+    "test": "mocha --exit"
   }
 }
