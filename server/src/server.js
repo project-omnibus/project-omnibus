@@ -7,8 +7,6 @@ var http = require('http');
 var livecheck = require('./routes/livecheck');
 var log = require('./log');
 
-const PORT = 5000;
-
 module.exports = createServer();
 
 function createServer () {
@@ -28,14 +26,16 @@ function createServer () {
 
   app.use('/v1/books', books.router());
 
-  http.createServer(app).listen(PORT);
+  let port = 5000;
+
+  http.createServer(app).listen(port);
 
   process.on('SIGBREAK', () => shutdown());
   process.on('SIGINT', () => shutdown());
   process.on('SIGTERM', () => shutdown());
 
-  console.log(`Omnibus is listening on port ${PORT}`);
-  log.info(`Omnibus is listening on port ${PORT}`);
+  console.log(`Omnibus is listening on port ${port}`);
+  log.info(`Omnibus is listening on port ${port}`);
 
   return app;
 }
