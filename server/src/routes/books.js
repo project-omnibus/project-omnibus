@@ -14,6 +14,13 @@ module.exports = {
 };
 
 function getTopRelatedBooks (req, res) {
+  if (!req.query.q) {
+    return res.status(400)
+      .json({
+        error: 'Missing required query parameter: q'
+      });
+  }
+
   req.query.key = env.googleApiKey;
   req.query.orderBy = 'relevance';
   req.query.maxResults = '5';
