@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
+import React from'react';
+import ReactDOM from 'react-dom';
+import { Router, Route, Link, browserHistory, IndexRoute} from 'react-router'
 import './App.css';
 
-class App extends Component {
+class App extends React.Component {
   state = {
     response: '',
     post: '',
