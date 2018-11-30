@@ -12,6 +12,7 @@
     "express": "4.16.4",
     "log4js": "3.0.6",
     "node-uuid": "1.4.8",
+    "pg": "^7.7.1",
     "request": "2.88.0",
     "request-promise": "4.2.2",
     "underscore": "1.8.3"

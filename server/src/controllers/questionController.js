@@ -4,7 +4,6 @@ var log = require('../log');
 var request = require('request-promise');
 var pg = require('pg');
 pg.defaults.ssl = true;
-var async = require('async');
 
 
 
