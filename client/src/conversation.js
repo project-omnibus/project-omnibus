@@ -71,24 +71,18 @@ class Conversation extends React.Component{
 
 	render(){
 		return (
-      <div className='Conversation'>
-				<div id='question'>
-					<p className = 'Question'>{this.state.userProfile.currentQ.question}</p>
-				</div>
-				<div className = 'Answer'>
-	        <form onSubmit={this.handleSubmit}>
-	          <p>
-	            <strong>Answer:</strong>
-	          </p>
-	          <input
-	            type='text'
-	            value={this.state.userProfile.answer}
-	            onChange={this.handleChange}
-	          />
-	          <button type='submit'>Submit</button>
-	        </form>
-	        <p>{JSON.stringify(this.state.userProfile)}</p>
-	      </div>
+			<div id="container">
+			<div id="chatbot-message">
+				<p>{this.state.userProfile.currentQ.question}</p>
+			</div>
+
+			<div id="message-box">
+				<form id="message-form" onSubmit={this.handleSubmit}>
+						<input type='text' value={this.state.userProfile.answer}
+						onChange={this.handleChange} id="message-input" autofocus	/>
+				</form>
+			</div>
+			<p>{JSON.stringify(this.state.userProfile)}</p>
 			</div>
 		);
 	}
