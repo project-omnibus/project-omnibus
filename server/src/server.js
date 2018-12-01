@@ -1,14 +1,12 @@
 var bodyParser = require('body-parser');
 var books = require('./routes/books');
+var conversation = require('./routes/conversation');
 var express = require('express');
 var fs = require('fs');
 var handler = require('./handler');
 var http = require('http');
 var livecheck = require('./routes/livecheck');
 var log = require('./log');
-var conversation = require('./routes/conversation');
-
-const PORT = 5000;
 
 module.exports = createServer();
 
@@ -31,14 +29,16 @@ function createServer () {
 
   app.use('/conversation', conversation.router()); //routing to the conversation functions
 
-  http.createServer(app).listen(PORT);
+  let port = 5000;
+
+  http.createServer(app).listen(port);
 
   process.on('SIGBREAK', () => shutdown());
   process.on('SIGINT', () => shutdown());
   process.on('SIGTERM', () => shutdown());
 
-  console.log(`Omnibus is listening on port ${PORT}`);
-  log.info(`Omnibus is listening on port ${PORT}`);
+  console.log(`Omnibus is listening on port ${port}`);
+  log.info(`Omnibus is listening on port ${port}`);
 
   return app;
 }

@@ -5,7 +5,7 @@ class App extends Component {
   state = {
     response: '',
     post: '',
-    responseToPost: ''
+    responseToPost: []
   };
   componentDidMount () {
     this.callApi()
@@ -20,6 +20,11 @@ class App extends Component {
   }
   handleSubmit = async e => {
     e.preventDefault();
+    if (this.state.post.length === 0) {
+      alert('Value should not be empty');
+      return;
+    }
+
     const response = await fetch('/v1/books?q=' + this.state.post, {
       method: 'GET',
       headers: {
@@ -27,6 +32,7 @@ class App extends Component {
       }
     });
     const body = await response.json();
+    if (response.status !== 200) throw Error(body.error);
     this.setState({ responseToPost: body.relatedBooks });
   };
 
@@ -45,11 +51,9 @@ class App extends Component {
           />
           <button type='submit'>Submit</button>
         </form>
-        <p>{this.state.responseToPost[0]}</p>
-        <p>{this.state.responseToPost[1]}</p>
-        <p>{this.state.responseToPost[2]}</p>
-        <p>{this.state.responseToPost[3]}</p>
-        <p>{this.state.responseToPost[4]}</p>
+        {this.state.responseToPost.map((item, index) => (
+          <p>{item}</p>
+        ))}
       </div>
     );
   }
