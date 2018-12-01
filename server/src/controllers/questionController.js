@@ -40,6 +40,7 @@ exports.handle_user_input = function(req,res,next){
 
 //generating the next question to send to user to answer
 exports.generate_response = function(req,res){
+	log.info('generat_response is called');
 	//make the current user session from the req
 	var userSession = {relevancy:req.relevancy, qAskedID:req.qAskedID,attribute:req.attribute,currentQ:{}, answer:[]};
 	//get the follow up questions of the current question from database
@@ -88,7 +89,9 @@ exports.generate_response = function(req,res){
 
 //make and returns the list of questions as a json
 exports.make_init_user = function(req,res,next) {
+	log.info('make_init_user is called');
 	if (!req.params.relevancy) {// check if the req is empty, therefore it is a new session and there has been no request yet. Make the initial user request
+		log.info('make_init_user: Checked that there is no param in HTTP, making new user');
 		var client = new pg.Client({
 			connectionString: databaseURL,
 		});
@@ -107,14 +110,28 @@ exports.make_init_user = function(req,res,next) {
 					//questionList[i]={question:result.rows[i].question, userInput:result.rows[i].need_user_input, relevancy:result.rows[i].default_relevancy, specificity:result.rows[i].specificity, userAttribute:result.rows[i].userAttribute, followUpBy:[]};
 				}
 				var maxRelevancy = findMaxRelevancy(userSession.relevancy);
-				var first_question={qid:results.rows[maxRelevancy[0]].question_id, question:result.rows[maxRelevancy[0]].question, userInput:result.rows[maxRelevancy[0]].need_user_input, relevancy:result.rows[maxRelevancy[0]].default_relevancy, specificity:result.rows[maxRelevancy[0]].specificity, userAttribute:[result.rows[maxRelevancy[0]].userAttribute], folloupBy:[]};
+				var first_question={
+					qid:result.rows[maxRelevancy[0]].question_id,
+					question:result.rows[maxRelevancy[0]].question,
+					userInput:result.rows[maxRelevancy[0]].need_user_input,
+					relevancy:result.rows[maxRelevancy[0]].default_relevancy,
+					specificity:result.rows[maxRelevancy[0]].specificity,
+					userAttribute:[result.rows[maxRelevancy[0]].userAttribute],
+					folloupBy:[]};
+				//console.log('query made' + JSON.stringify(first_question))
 				userSession.currentQ = first_question;
+				log.info('make_init_user: new user made' + JSON.stringify(userSession) + 'sending back to client now');
 				res.json(userSession);
 			})
 			.catch(err => {
 				log.info(err);
-      			res.status(err.statusCode)
+      	if(err.statusCode >= 100 && statusCode < 600) {
+					res.status(err.statusCode)
         		.json(err);
+				} else {
+					res.status(500)
+        		.json(err);
+				}
 			});
 	} else {
 		console.log(req.params.relevancy);

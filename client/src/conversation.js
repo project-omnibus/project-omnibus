@@ -11,10 +11,20 @@ class Conversation extends React.Component{
 			relevancy:[],
 			qAskedID:[],
 			attribute:{},
-			currentQ:"Hey there! Looking for something to read but not entirely sure where to look?",
+			currentQ:{
+					qid:-1,
+					question:"Hey there! Looking for something to read but not entirely sure where to look?",
+					userInput:false,
+					relevancy:-1,
+					specificity:-1,
+					userAttribute:[],
+					folloupBy:[]
+			},
 			answer:""},
 			isDone:false,
 			response:""};
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 	}
 
 	componentDidMount () {
@@ -22,32 +32,48 @@ class Conversation extends React.Component{
       .then(res => this.setState({ response: res.status }))
       .catch(err => console.log(err));
   }
-  async callApi () {
+
+	async callApi () {
     const response = await fetch('/livecheck');
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
   }
-  handleSubmit = async e => {
-    e.preventDefault();
-		var userProfileString = JSON.stringify(this.userProfile);
-    const response = await fetch('/conversation' + userProfileString, {
-      method: 'GET',
+
+	handleSubmit(event) {
+		event.preventDefault();
+		var userProfileString = JSON.stringify(this.state.userProfile);
+    fetch('/conversation', {
+			method: 'GET',
       headers: {
         'Content-Type': 'application/json'
-      }
-    });
-    const body = await response.json();
-    this.setState({ userProfile: body });
+      },
+			//body: ""
+    })
+		.then(res => res.json())
+		.then(data =>{
+			console.log(JSON.stringify(data));
+			var userProfile1 = this.state.userProfile;
+			userProfile1.currentQ = data.currentQ;
+
+			this.setState({ userProfile: data });
+		})
+		console.log('in HandleSumbitFunction now')
   };
+
+	handleChange(event){
+		//sdfsdf
+		var userProfile1 = this.state.userProfile;
+		userProfile1.answer = event.target.value;
+		this.setState({userProfile:userProfile1})
+	}
 
 
 	render(){
 		return (
-      <div className='Convesation'>
-        <p>Status of Omnibus server on port 5000 is {this.state.response}</p>
+      <div className='Conversation'>
 				<div id='question'>
-					<p className = 'Question'>{this.state.userProfile.currentQ}</p>
+					<p className = 'Question'>{this.state.userProfile.currentQ.question}</p>
 				</div>
 				<div className = 'Answer'>
 	        <form onSubmit={this.handleSubmit}>
@@ -56,12 +82,8 @@ class Conversation extends React.Component{
 	          </p>
 	          <input
 	            type='text'
-	            value=""
-	            onChange={e => {
-								var userProfile = this.state.userProfile;
-								userProfile.answer = e.target.value;
-								this.setState({userProfile})}
-							}
+	            value={this.state.userProfile.answer}
+	            onChange={this.handleChange}
 	          />
 	          <button type='submit'>Submit</button>
 	        </form>
