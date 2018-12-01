@@ -21,14 +21,30 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <style type="text/css">
-    .navbar-toggler-icon{
-      background-image: url('images/icons/menu-icon.png');
-    }
-
+      .navbar-toggler-icon{
+        background-image: url('images/icons/menu-icon.png');
+      }
+      .container {
+        height:100vh;
+      }
+      #message-form{
+        position: relative;
+        height: 20%;
+      }
+      #message-input{
+          width: 100%;
+          border: 0px;
+      }
+      #chatbot-message{
+        padding: 30px 0 0 0;
+        font-size: 2.5em;
+        text-align: center;
+        height: 80%;
+      }
     </style>
     <title>Omnibus</title>
   </head>
-  <body>
+  <body class="full-height">
     <nav class="navbar navbar-expand-lg bg-light">
         <a href="" class="navbar-brand">
             <img src="images/icons/icon-placeholder.png" height="50" alt="">
@@ -39,20 +55,13 @@
 
     </nav>
     <div class="container">
+      <div id="chatbot-message">
+        Hello world
+      </div>
+      <form id="message-form">
+          <span id="pre-text"></span>
+          <input id="message-input" type="text" placeholder="Reply" autocomplete="off">
+      </form>
     </div>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>
