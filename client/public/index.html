@@ -25,26 +25,28 @@
         background-image: url('images/icons/menu-icon.png');
       }
       .container {
-        height:100vh;
+        height: calc(100vh - 76px);
+        align-items: stretch;
       }
-      #message-form{
-        position: relative;
-        height: 20%;
+      #message-box{
+        border: 1px solid grey;
+        border-radius: 15px;
+        padding: 7px 12px;
       }
       #message-input{
           width: 100%;
           border: 0px;
       }
       #chatbot-message{
-        padding: 30px 0 0 0;
+        padding: 50px 50px;
         font-size: 2.5em;
         text-align: center;
-        height: 80%;
+        height: 94%;
       }
     </style>
     <title>Omnibus</title>
   </head>
-  <body class="full-height">
+  <body>
     <nav class="navbar navbar-expand-lg bg-light">
         <a href="" class="navbar-brand">
             <img src="images/icons/icon-placeholder.png" height="50" alt="">
@@ -56,12 +58,14 @@
     </nav>
     <div class="container">
       <div id="chatbot-message">
-        Hello world
+        Were you reading it expecting to gain specific knowledge or were you just curious?
       </div>
-      <form id="message-form">
-          <span id="pre-text"></span>
-          <input id="message-input" type="text" placeholder="Reply" autocomplete="off">
-      </form>
+      <div id="message-box">
+        <form id="message-form">
+            <span id="pre-text"></span>
+            <input id="message-input" placeholder="Reply" autocomplete="off" autofocus>
+        </form>
+      </div>
     </div>
   </body>
 </html>
