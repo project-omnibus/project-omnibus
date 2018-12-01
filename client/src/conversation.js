@@ -1,67 +1,74 @@
-$( document ).ready(function() {
-	var userSession = {};
+import React from 'react';
 
-	// SUBMIT FORM
-	$("#start_button").click(function(event) {
-		// Prevent the form from submitting via the browser.
-		event.preventDefault();
-		$("#start_button").hide();
-		makeInitUser();
-	});
-	$("#answerForm").submit(function(event){
-		event.preventDefault();
-		userPost();
-	});
+class Conversation extends React.Component{
+	//Conversation component is used to route all user conversation
+	//Its state should include the user profile and if conversation is done
+	//User profile contains relevancy list, qAskedID, attribute, currentQ, answer
 
-    // DO A GET FROM SERVER FOR THE INITIAL USER SESSION OBJECT
-    function makeInitUser(){
-    	$.ajax({
-			type : "GET",
-			contentType : "application/json",
-			url : window.location + "/makeInitUser", //send the values to server with post. THis is sending it to app.js on server side for routing
-			data: {get_param: 'value'},
-			dataType: 'json',
-			success : function(result) {
-				$("#qmain").empty();
-				$.each(result,function(i,user){
-					userSession = user;
-				});
-				$("#qmain").append(userSession.currentQ.question + '</br>');
-				console.log("Success: ", userSession)
-			},
-			error : function(e) {
-				$("#qmain").html("<strong> Error </strong>");
-				console.log("ERROR: ", e);
-			}
-		});
-
-    }
-
-	// DO A POST TO SERVER OF THE USER's ANSWER TO THE CURRENT QUESTION
-	function userPost(){
-		//update the userSession object with the answer the user just input
-		userSession.answer = $("#answer").val();
-		$.ajax({//DO POST
-			type : "POST",
-			contentType : "application/json",
-			url : window.location + "/makeConversation",
-			data : JSON.stringify(userSession),
-			dataType : "json",
-			success: function(result){
-				$("#qmain").empty();
-				userSession = result;
-				$("#qmain").append(userSession.question + '</br>');
-				console.log("Success: ", userSession);
-			},
-			error : function(e) {
-				$("#qmain").html("<strong> Error </strong>");
-				console.log("ERROR: ", e);
-			}
-		});
-		resetData();
+	constructor(props){
+		super(props);
+		this.state = {userProfile:{
+			relevancy:[],
+			qAskedID:[],
+			attribute:{},
+			currentQ:"Hey there! Looking for something to read but not entirely sure where to look?",
+			answer:""},
+			isDone:false,
+			response:""};
 	}
 
-  function resetData(){
-    $("#answer").val("");
+	componentDidMount () {
+    this.callApi()
+      .then(res => this.setState({ response: res.status }))
+      .catch(err => console.log(err));
   }
-});
+  async callApi () {
+    const response = await fetch('/livecheck');
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  }
+  handleSubmit = async e => {
+    e.preventDefault();
+		var userProfileString = JSON.stringify(this.userProfile);
+    const response = await fetch('/conversation' + userProfileString, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const body = await response.json();
+    this.setState({ userProfile: body });
+  };
+
+
+	render(){
+		return (
+      <div className='Convesation'>
+        <p>Status of Omnibus server on port 5000 is {this.state.response}</p>
+				<div id='question'>
+					<p className = 'Question'>{this.state.userProfile.currentQ}</p>
+				</div>
+				<div className = 'Answer'>
+	        <form onSubmit={this.handleSubmit}>
+	          <p>
+	            <strong>Answer:</strong>
+	          </p>
+	          <input
+	            type='text'
+	            value=""
+	            onChange={e => {
+								var userProfile = this.state.userProfile;
+								userProfile.answer = e.target.value;
+								this.setState({userProfile})}
+							}
+	          />
+	          <button type='submit'>Submit</button>
+	        </form>
+	        <p>{JSON.stringify(this.state.userProfile)}</p>
+	      </div>
+			</div>
+		);
+	}
+}
+export default Conversation;

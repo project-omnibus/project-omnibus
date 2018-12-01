@@ -12,10 +12,9 @@ module.exports = {
     router.get('/',function(req,res){
     	res.sendFile("../../client/public/conversation.html");
     });
-    router.get('/makeInitUser',question.make_init_user);
-    router.use('/makeConversation',question.handle_user_input);
-    router.use('/makeConversation',question.generate_response);
-
+    router.get('/',question.make_init_user);
+    router.use('/',question.handle_user_input);
+    router.get('/',question.generate_response);
 
     return router;
   }
