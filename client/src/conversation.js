@@ -71,9 +71,9 @@ class Conversation extends React.Component{
 
 	render(){
 		return (
-      <div className='Conversation'>
+      <div id='Conversation'>
 				<div id='question'>
-					<p className = 'Question'>{this.state.userProfile.currentQ.question}</p>
+					{this.state.userProfile.currentQ.question}
 				</div>
 				<div className = 'Answer'>
 	        <form onSubmit={this.handleSubmit}>
@@ -85,7 +85,6 @@ class Conversation extends React.Component{
 	            value={this.state.userProfile.answer}
 	            onChange={this.handleChange}
 	          />
-	          <button type='submit'>Submit</button>
 	        </form>
 	        <p>{JSON.stringify(this.state.userProfile)}</p>
 	      </div>
