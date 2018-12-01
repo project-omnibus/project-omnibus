@@ -53,4 +53,26 @@ describe('/v1/books', () => {
       .expect(200)
       .expect(expectedBookResponse);
   });
+
+  it('GET when error should return error', () => {
+    const bookResponse = {
+      statusCode: 400,
+      error: 'Something is wrong'
+    };
+    nock('https://www.googleapis.com')
+      .get('/books/v1/volumes')
+      .query((qs) => {
+        return qs.q === 'harry potter' &&
+          qs.orderBy === 'relevance' &&
+          qs.maxResults === '5' &&
+          qs.key.length !== 0;
+      })
+      .reply(400, bookResponse);
+
+    return request(app)
+      .get('/v1/books?q=harry+potter')
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .expect(bookResponse);
+  });
 });
