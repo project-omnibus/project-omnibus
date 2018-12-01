@@ -5,7 +5,8 @@
   "description": "Project Omnibus Server",
   "license": "UNLICENSED",
   "engines": {
-    "npm": "6.4.0"
+    "npm": "6.4.0",
+    "node": "10.x"
   },
   "dependencies": {
     "body-parser": "1.18.3",
