@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import Conversation from './conversation';
+import Conversation from './Conversation';
 //import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(<Conversation />, document.getElementById('root'));
