@@ -1,67 +1,95 @@
-$( document ).ready(function() {
-	var userSession = {};
-	
-	// SUBMIT FORM
-    $("#start_button").click(function(event) {
-		// Prevent the form from submitting via the browser.
-		event.preventDefault();
-		$("#start_button").hide();
-		makeInitUser();
-	});
-	$("#answerForm").submit(function(event){
-		event.preventDefault();
-		userPost();
-	});
-    
-    // DO A GET FROM SERVER FOR THE INITIAL USER SESSION OBJECT
-    function makeInitUser(){
-    	$.ajax({
-			type : "GET",
-			contentType : "application/json",
-			url : window.location + "/makeInitUser", //send the values to server with post. THis is sending it to app.js on server side for routing
-			data: {get_param: 'value'},
-			dataType: 'json',
-			success : function(result) {
-				$("#qmain").empty();
-				userSession = data;
-				$("#qmain").append(userSession.question + '</br>');
-				console.log("Success: ", userSession)
-			},
-			error : function(e) {
-				$("#qmain").html("<strong> Error </strong>");
-				console.log("ERROR: ", e);
-			}
-		});
- 
-    }
-	
-	// DO A POST TO SERVER OF THE USER's ANSWER TO THE CURRENT QUESTION
-	function userPost(){
-		$.ajax({
-			//update the userSession object with the answer the user just input
-			userSession.answer = $("#answer").val();
+import React from 'react';
 
-			//DO POST
-			type : "POST",
-			contentType : "application/json",
-			url : window.location + "/makeConversation",
-			data : JSON.stringify(userSession);
-			dataType : "json",
-			success: function(result){
-				$("#qmain").empty();
-				userSession = result;
-				$("#qmain").append(userSession.question + '</br>');
-				console.log("Success: ", userSession);
+class Conversation extends React.Component{
+	//Conversation component is used to route all user conversation
+	//Its state should include the user profile and if conversation is done
+	//User profile contains relevancy list, qAskedID, attribute, currentQ, answer
+
+	constructor(props){
+		super(props);
+		this.state = {userProfile:{
+			relevancy:[],
+			qAskedID:[],
+			attribute:{},
+			currentQ:{
+					qid:-1,
+					question:"Hey there! Looking for something to read but not entirely sure where to look?",
+					userInput:false,
+					relevancy:-1,
+					specificity:-1,
+					userAttribute:[],
+					folloupBy:[]
 			},
-			error : function(e) {
-				$("#qmain").html("<strong> Error </strong>");
-				console.log("ERROR: ", e);
-			}
-		});	
+			answer:""},
+			isDone:false,
+			response:""};
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 	}
-    
-    function resetData(){
-    	$("#question").val("");
-    	$("#answer").val("");
-    }
-})
+
+	componentDidMount () {
+    this.callApi()
+      .then(res => this.setState({ response: res.status }))
+      .catch(err => console.log(err));
+  }
+
+	async callApi () {
+    const response = await fetch('/livecheck');
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  }
+
+	handleSubmit(event) {
+		event.preventDefault();
+		var userProfileString = JSON.stringify(this.state.userProfile);
+    fetch('/conversation', {
+			method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+			//body: ""
+    })
+		.then(res => res.json())
+		.then(data =>{
+			console.log(JSON.stringify(data));
+			var userProfile1 = this.state.userProfile;
+			userProfile1.currentQ = data.currentQ;
+
+			this.setState({ userProfile: data });
+		})
+		console.log('in HandleSumbitFunction now')
+  };
+
+	handleChange(event){
+		//sdfsdf
+		var userProfile1 = this.state.userProfile;
+		userProfile1.answer = event.target.value;
+		this.setState({userProfile:userProfile1})
+	}
+
+
+	render(){
+		return (
+      <div id='Conversation'>
+				<div id='question'>
+					{this.state.userProfile.currentQ.question}
+				</div>
+				<div className = 'Answer'>
+	        <form onSubmit={this.handleSubmit}>
+	          <p>
+	            <strong>Answer:</strong>
+	          </p>
+	          <input
+	            type='text'
+	            value={this.state.userProfile.answer}
+	            onChange={this.handleChange}
+	          />
+	        </form>
+	        <p>{JSON.stringify(this.state.userProfile)}</p>
+	      </div>
+			</div>
+		);
+	}
+}
+export default Conversation;
