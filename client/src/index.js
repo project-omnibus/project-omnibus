@@ -9,7 +9,14 @@ import * as serviceWorker from './serviceWorker';
 class App extends React.Component{
   constructor(props){
     super(props)
+    this.state ={
+      userProfile:{}
+    }
+    this.handleConversation = this.handleConversation.bind(this);
+  }
 
+  handleConversation(data){
+    this.setState({userProfile:data});
   }
   render(){
     return(
@@ -24,8 +31,11 @@ class App extends React.Component{
             </li>
           </ul>
           <hr />
-          <Route path ='/conversation' component = {Conversation}/>
+          <Route path ='/conversation' render ={props => <Conversation{...props} triggerParentHandler={this.handleConversation}/>}/>
           <Route path ='/booksearch' component = {BookSearch}/>
+          <div>
+            <p>{JSON.stringify(this.state.userProfile)}</p>
+          </div>
         </div>
       </Router>
     )
@@ -33,8 +43,8 @@ class App extends React.Component{
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
-ReactDOM.render(<Conversation />, document.getElementById('conversation'));
-ReactDOM.render(<BookSearch />, document.getElementById('bookSearch'));
+//ReactDOM.render(<Conversation />, document.getElementById('conversation'));
+//ReactDOM.render(<BookSearch />, document.getElementById('bookSearch'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

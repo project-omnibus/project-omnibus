@@ -52,13 +52,12 @@ class Conversation extends React.Component{
     })
 		.then(res => res.json())
 		.then(data =>{
-			console.log(JSON.stringify(data));
-			var userProfile1 = this.state.userProfile;
-			userProfile1.currentQ = data.currentQ;
+			var userProfile1 = data;
+			userProfile1.answer="";
+			this.props.triggerParentHandler(userProfile1);
 
-			this.setState({ userProfile: data });
+			this.setState({ userProfile: userProfile1 });
 		})
-		console.log('in HandleSumbitFunction now')
   };
 
 	handleChange(event){
