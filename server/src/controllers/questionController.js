@@ -98,7 +98,7 @@ exports.generate_response = function(req,res){
 //make and returns the list of questions as a json
 exports.make_init_user = function(req,res,next) {
 	log.info('make_init_user is called');
-	if (req.body.relevancy.length == 0) {// check if the req is empty, therefore it is a new session and there has been no request yet. Make the initial user request
+	if (!req.body.relevancy || req.body.relevancy.length == 0) {// check if the req is empty, therefore it is a new session and there has been no request yet. Make the initial user request
 		log.info('make_init_user: Checked that there is no param in HTTP, making new user');
 		var client = new pg.Client({
 			connectionString: databaseURL,
