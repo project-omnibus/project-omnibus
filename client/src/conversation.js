@@ -42,13 +42,13 @@ class Conversation extends React.Component{
 
 	handleSubmit(event) {
 		event.preventDefault();
-		var userProfileString = JSON.stringify(this.state.userProfile);
+		//var userProfileString = JSON.stringify(this.state.userProfile);
     fetch('/conversation', {
-			method: 'GET',
+			method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-			//body: ""
+			body:JSON.stringify(this.state.userProfile)
     })
 		.then(res => res.json())
 		.then(data =>{
