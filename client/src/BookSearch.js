@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 
-class App extends Component {
+class BookSearch extends Component {
   state = {
     response: '',
     post: '',
@@ -59,4 +59,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default BookSearch;
