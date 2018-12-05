@@ -17,24 +17,27 @@ var databasePassword = process.env.OMNIBUS_DATABASE_PASSWORD;
 
 //Remove all non-keywords from user answer and assign the keywords to the appropriate user attribute property in the req.
 exports.handle_user_input = function(req,res,next){
+	log.info('handle_user_input is called');
 	//removing keywords from user input
 	var keywords = removeNonKeywords(req.body.answer);
 
 	//if the current question doesn't have user attribute assigned, append keyword to user attribute "keyword" property
-	if(!req.body.currentQ.userAttribute){
-		req.attribute.keywords.push(keywords);
+	if(JSON.stringify(req.body.currentQ.userAttribute) == "null"){
+		log.info('quesiton has no user attribute pushing keywords to keywords prop of user attribute');
+		req.body.attribute.keywords.push(keywords);
 	} else {
 		// if the current question has user attribute assigned, append new property to usre attribute with the keywords from the user as the value for it
-		var attribute = {[req.body.currentQ.userAttribute]:keywords};
-		req.attribute.push(attribute);
+		log.info('quesiton has user attribute: ' + req.body.currentQ.userAttribute + ', pushing keywords into user attribute');
+		var attribute = req.body.currentQ.userAttribute;
+		req.body.attribute[attribute]=keywords;
 	}
 
 	//append the current questions to the list of questions asked of in the user req object
-	var currentQ_id = req.currentQ.qid;
-	req.qAskedID.push(currentQ_id);
+	var currentQ_id = req.body.currentQ.qid;
+	req.body.qAskedID.push(currentQ_id);
 
 	//print to console if middleware performed all actuions.
-	console.log("input handling first middleware successful");
+	log.info("input handling first middleware successful");
 	next();
 }
 
@@ -42,7 +45,7 @@ exports.handle_user_input = function(req,res,next){
 exports.generate_response = function(req,res){
 	log.info('generat_response is called');
 	//make the current user session from the req
-	var userSession = {relevancy:req.relevancy, qAskedID:req.qAskedID,attribute:req.attribute,currentQ:{}, answer:[]};
+	var userSession = req.body;
 	//get the follow up questions of the current question from database
 	var client = new pg.Client({
 		connectionString: databaseURL,
@@ -57,11 +60,11 @@ exports.generate_response = function(req,res){
 		.then(result =>{
 			//append the follow up question id to current question's followUpBy property
 			for (i=0; i<result.rows.length; i++){
-				req.currentQ.followUpBy.push(result.rows[i].follow_up_by_id);
+				req.body.currentQ.followUpBy.push(result.rows[i].follow_up_by_id);
 			}
 
 			//use the values in followUpBy and current relevancy list to update to a new relevancy list
-			var newRelevancy = assignRelevancy(req.currentQ, req.relevancy);
+			var newRelevancy = assignRelevancy(req.body.currentQ, req.body.relevancy);
 			userSession.relevancy = newRelevancy;
 			var maxRelevancy = findMaxRelevancy(newRelevancy);
 			var next_question ={}
@@ -69,9 +72,18 @@ exports.generate_response = function(req,res){
 			//query for the next question by using th new index of the max relevancy in relevancy list
 			client.query("SELECT * FROM question_table WHERE question_id = $1",[maxRelevancy[0]])
 				.then(result => {
-					next_question = {qid:results.rows[maxRelevancy[0]].question_id, question:result.rows[maxRelevancy[0]].question, userInput:result.rows[maxRelevancy[0]].need_user_input, relevancy:result.rows[maxRelevancy[0]].default_relevancy, specificity:result.rows[maxRelevancy[0]].specificity, userAttribute:[result.rows[maxRelevancy[0]].userAttribute], folloupBy:[]};
+					next_question = {
+						qid:result.rows[0].question_id,
+						question:result.rows[0].question,
+						userInput:result.rows[0].need_user_input,
+						relevancy:result.rows[0].default_relevancy,
+						specificity:result.rows[0].specificity,
+						userAttribute:result.rows[0].userAttribute,
+						followUpBy:[]};
 					userSession.currentQ = next_question;
+					log.info('user session updated with '+JSON.stringify(userSession))
 					res.json(userSession);
+
 				})
 				.catch(err => {
 				log.info(err);
@@ -90,7 +102,7 @@ exports.generate_response = function(req,res){
 //make and returns the list of questions as a json
 exports.make_init_user = function(req,res,next) {
 	log.info('make_init_user is called');
-	if (!req.params.relevancy) {// check if the req is empty, therefore it is a new session and there has been no request yet. Make the initial user request
+	if (req.body.relevancy.length == 0) {// check if the req is empty, therefore it is a new session and there has been no request yet. Make the initial user request
 		log.info('make_init_user: Checked that there is no param in HTTP, making new user');
 		var client = new pg.Client({
 			connectionString: databaseURL,
@@ -116,11 +128,11 @@ exports.make_init_user = function(req,res,next) {
 					userInput:result.rows[maxRelevancy[0]].need_user_input,
 					relevancy:result.rows[maxRelevancy[0]].default_relevancy,
 					specificity:result.rows[maxRelevancy[0]].specificity,
-					userAttribute:[result.rows[maxRelevancy[0]].userAttribute],
-					folloupBy:[]};
+					userAttribute:result.rows[maxRelevancy[0]].userAttribute,
+					followUpBy:[]};
 				//console.log('query made' + JSON.stringify(first_question))
 				userSession.currentQ = first_question;
-				log.info('make_init_user: new user made' + JSON.stringify(userSession) + 'sending back to client now');
+				log.info('make_init_user: new user made sending back to client now');
 				res.json(userSession);
 			})
 			.catch(err => {
@@ -134,7 +146,8 @@ exports.make_init_user = function(req,res,next) {
 				}
 			});
 	} else {
-		console.log(req.params.relevancy);
+		console.log(req.body.qAskedID);
+		log.info('user already in session, passing to handle_user_response now')
 		next();
 	}
 }
@@ -193,7 +206,7 @@ function removeNonKeywords(message){
 			if((word != '') && !(nonkeywords.includes(word))){
 				//and if the word is not blank and in the nonkeywords array
 				//store word into keywords list
-				keywords = keywords.push(word);
+				keywords.push(word);
 				//clear words variable
 				word = '';
 			}
@@ -213,11 +226,12 @@ assignRelevancy = function(qObject, relevancyList){
 	//qObject is the question object of the current question that was just asked
 	//qObjectList is the complete array of all question objects, including the current one
 	//the index of qObjectList and qObject should be the same, starting at 0
-	relevancyList[(qObject.index)] = 0; //set the relevancy of the current question in question array to 0
+	relevancyList[(qObject.qid)] = 0; //set the relevancy of the current question in question array to 0
 	var followUpLen = qObject.followUpBy.length; //get the length of the number of folloUpBy question to the current question
 	if (followUpLen != 0) { //if length isn't 0, then there is some questions that can follow up to current question, set relevancy of those questions to 100.
 		for (i = 0; i<followUpLen; i++) {
-			relevancyList[qObject.followUpBy[i]]=100*(qObject.followUpBy[i].relevancy-9); //"-9" here beacuse the minimum default relevancy is 10 for now
+			relevancyList[qObject.followUpBy[i]]=100; //"-9" here beacuse the minimum default relevancy is 10 for now
 		}
 	}
+	return relevancyList
 }
