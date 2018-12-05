@@ -7,6 +7,10 @@ import Conversation from './Conversation';
 import * as serviceWorker from './serviceWorker';
 
 class App extends React.Component{
+  constructor(props){
+    super(props)
+
+  }
   render(){
     return(
       <Router>
@@ -28,7 +32,8 @@ class App extends React.Component{
   }
 }
 
-ReactDOM.render(<Conversation />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Conversation />, document.getElementById('conversation'));
 ReactDOM.render(<BookSearch />, document.getElementById('bookSearch'));
 
 // If you want your app to work offline and load faster, you can change

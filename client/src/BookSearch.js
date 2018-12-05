@@ -1,9 +1,7 @@
 import React from'react';
-import ReactDOM from 'react-dom';
-import { Router, Route, Link, browserHistory, IndexRoute} from 'react-router'
 import './App.css';
 
-class BookSearch extends Component {
+class BookSearch extends React.Component {
   state = {
     response: '',
     post: '',

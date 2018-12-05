@@ -5,10 +5,6 @@ var request = require('request-promise');
 var pg = require('pg');
 pg.defaults.ssl = true;
 
-
-
-
-
 var databaseURL = process.env.OMNIBUS_DATABASE_URL;
 var databaseHost = process.env.OMNIBUS_DATABASE_HOST;
 var databaseUser = process.env.OMNIBUS_DATABASE_USERNAME;
