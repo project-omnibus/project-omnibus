@@ -4,6 +4,8 @@ var log = require('../log');
 var request = require('request-promise');
 var pg = require('pg');
 pg.defaults.ssl = true;
+var natural = require('natural');
+var lowerCase = require('lower-case');
 
 var databaseURL = process.env.OMNIBUS_DATABASE_URL;
 var databaseHost = process.env.OMNIBUS_DATABASE_HOST;
@@ -15,7 +17,11 @@ var databasePassword = process.env.OMNIBUS_DATABASE_PASSWORD;
 exports.handle_user_input = function(req,res,next){
 	log.info('handle_user_input is called');
 	//removing keywords from user input
-	var keywords = removeNonKeywords(req.body.answer);
+	var tokenizer = new natural.WordTokenizer();
+	var answerTokens = tokenizer.tokenize(req.body.answer);
+	log.info(answerTokens);
+
+	var keywords = removeNonKeywords(answerTokens);
 
 	//if the current question doesn't have user attribute assigned, append keyword to user attribute "keyword" property
 	if(JSON.stringify(req.body.currentQ.userAttribute) == "null"){
@@ -167,6 +173,7 @@ findMaxRelevancy=function(arr){
 
 function removeNonKeywords(message){
 	//removes words like "the"/"and" from the user's message to identify keywords for searching through book recommendations
+	//the message should be tokenized to individual words.
 
 	const definiteArticles = ['the']
 	const indefiniteArticles = ['a', 'an']
@@ -192,26 +199,13 @@ function removeNonKeywords(message){
 
 	let keywords = [];
 
-	let word = '';
+
 
 	for (var i = 0; i < message.length; i++) {
-		//for char in message
-		const char = message.charAt(i)
-		if (separators.includes(char)){
-			//if the char is a separator or in the punctuation array
-			if((word != '') && !(nonkeywords.includes(word))){
-				//and if the word is not blank and in the nonkeywords array
-				//store word into keywords list
-				keywords.push(word);
-				//clear words variable
-				word = '';
-			}
-			//otherwise continue to the next char
-		}
-		else{
-			//if the char is not a separator or in the punctuation array
-			//store letter into a word variable
-			word = word + char;
+		//for every token in message
+		if (!separators.includes(message[i]) && !nonkeywords.includes(lowerCase(message[i]))){
+			//check if the message is included in any of the nonkeyword listslists
+				keywords.push(lowerCase(message[i]));
 		}
 	}
 	return keywords;
