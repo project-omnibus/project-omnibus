@@ -1,12 +1,8 @@
-'use strict';
-
 var _ = require('underscore');
 var log = require('./log');
-var uuid = require('node-uuid');
 
 module.exports = {
-  requestLogging,
-  correlationId
+  requestLogging
 };
 
 function requestLogging (req, res, next) {
@@ -24,13 +20,6 @@ function requestLogging (req, res, next) {
 
     log.info(obj, 'API request');
   }
-
-  next();
-}
-
-function correlationId (req, res, next) {
-  req.id = uuid.v4();
-  res.setHeader('X-Request-Id', req.id);
 
   next();
 }

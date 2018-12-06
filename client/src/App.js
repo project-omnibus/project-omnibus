@@ -21,7 +21,7 @@ class App extends Component {
   handleSubmit = async e => {
     e.preventDefault();
     if (this.state.post.length === 0) {
-      alert('Value should not be empty');
+      alert('Value should not be empty!');
       return;
     }
 
@@ -52,7 +52,7 @@ class App extends Component {
           <button type='submit'>Submit</button>
         </form>
         {this.state.responseToPost.map((item, index) => (
-          <p>{item}</p>
+          <p key={index}>{item}</p>
         ))}
       </div>
     );
