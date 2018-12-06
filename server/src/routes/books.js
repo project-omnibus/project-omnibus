@@ -31,10 +31,6 @@ function getTopRelatedBooks (req, res) {
     json: true
   })
     .then(response => {
-      if (response.totalItems === 0) {
-        res.json([]);
-      }
-
       const topRelatedBooks = _.map(response.items, (item) => {
         return item.volumeInfo.title;
       });
@@ -47,6 +43,6 @@ function getTopRelatedBooks (req, res) {
     .catch(err => {
       log.info(err);
       res.status(err.statusCode)
-        .json(err);
+        .json(err.error);
     });
 }

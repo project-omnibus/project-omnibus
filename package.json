@@ -21,13 +21,14 @@
     "client": "cd client && yarn start",
     "server": "cd server && nodemon src/server.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
-    "style:client": "cd client && npm run style",
-    "style:server": "cd server && npm run style",
-    "style": "concurrently \"npm run style:client\" \"npm run style:server\"",
     "test:client": "cd client && npm test",
     "test:server": "cd server && npm test",
     "test": "concurrently \"npm run test:client\" \"npm run test:server\"",
-    "devstart": "nodemon ./src/server",
-    "start": "node ./src/server"
+    "style:client": "cd client && npm run style",
+    "style:server": "cd server && npm run style",
+    "style": "concurrently \"npm run style:client\" \"npm run style:server\"",
+    "coverage:client": "cd client && npm test -- --coverage",
+    "coverage:server": "cd server && npm run coverage",
+    "coverage": "concurrently \"npm run coverage:client\" \"npm run coverage:server\""
   }
 }
