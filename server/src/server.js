@@ -7,6 +7,7 @@ var handler = require('./handler');
 var http = require('http');
 var livecheck = require('./routes/livecheck');
 var log = require('./log');
+var path = require('path');
 
 module.exports = createServer();
 
@@ -38,6 +39,7 @@ function createServer () {
   process.on('SIGTERM', () => shutdown());
 
   console.log(`Omnibus is listening on port ${port}`);
+  console.log(path.join(__dirname,'../'));
   log.info(`Omnibus is listening on port ${port}`);
 
   return app;
