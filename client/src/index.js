@@ -9,8 +9,8 @@ ReactDOM.render(
   <Router>
     <App/>
   </Router>
+)
   document.getElementById('root');
-);
 //ReactDOM.render(<Conversation />, document.getElementById('conversation'));
 //ReactDOM.render(<BookSearch />, document.getElementById('bookSearch'));
 
