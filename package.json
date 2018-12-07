@@ -20,7 +20,7 @@
     "install": "concurrently \"npm run install:client\" \"npm run install:server\"",
     "client": "cd client && yarn start",
     "server": "cd server && nodemon src/server.js",
-    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "dev": "concurrently --kill-others-on-fail \"npm run build:watch:server\" \"npm run build:watch:client\"\"yarn server\" \"yarn client\"",
     "test:client": "cd client && npm test",
     "test:server": "cd server && npm test",
     "test": "concurrently \"npm run test:client\" \"npm run test:server\"",
@@ -29,7 +29,13 @@
     "style": "concurrently \"npm run style:client\" \"npm run style:server\"",
     "coverage:client": "cd client && npm test -- --coverage",
     "coverage:server": "cd server && npm run coverage",
-    "coverage": "concurrently \"npm run coverage:client\" \"npm run coverage:server\""
+    "coverage": "concurrently \"npm run coverage:client\" \"npm run coverage:server\"",
+    "build:server": "babel ./server/src/server -d build/server/src",
+    "build:watch:server": "babel ./server/src/server -d build/server/src --watch",
+    "build:client": "webpack --config ./webpack.config.js/",
+    "build:watch:client": "webpack --config ./webpack.config.js/ --watch",
+    "build:prod": "npm run build:server && npm run build:client",
+    "start:dev:client": "webpack-dev-server"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -41,6 +47,7 @@
     "babel-preset-react-app": "^6.1.0",
     "babel-preset-stage-2": "^6.24.1",
     "babel-register": "^6.26.0",
+    "html-webpack-plugin": "^3.2.0",
     "touch": "^3.1.0",
     "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2"

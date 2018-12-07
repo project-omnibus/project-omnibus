@@ -17,12 +17,18 @@ function createServer () {
     return errorFile;
   });
 
+  const indexPath = path.join(__dirname,'../../client/public/index.html')
+
   const app = express();
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
   app.all('*', handler.requestLogging);
+
+  app.get('/', (req, res) =>{
+    res.snedFile(indexPath);
+  })
 
   app.use('/livecheck', livecheck.router());
 
