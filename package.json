@@ -12,24 +12,29 @@
   "dependencies": {
     "concurrently": "4.0.1",
     "nodemon": "1.18.6",
-    "yarn": "1.12.3"
+    "yarn": "1.12.3",
+    "body-parser": "1.18.3",
+    "express": "4.16.4",
+    "log4js": "3.0.6",
+    "lower-case": "^1.1.4",
+    "natural": "^0.6.2",
+    "node-uuid": "1.4.8",
+    "pg": "^7.7.1",
+    "react": "^16.6.3",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "request": "2.88.0",
+    "request-promise": "4.2.2",
+    "underscore": "1.8.3",
+    "cross-env": "5.2.0",
+    "http-proxy-middleware": "0.19.1",
   },
   "scripts": {
-    "install:client": "cd client && npm install",
-    "install:server": "cd server && npm install",
-    "install": "concurrently \"npm run install:client\" \"npm run install:server\"",
-    "client": "cd client && yarn start",
     "server": "cd server && nodemon src/server.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run build:watch:server\" \"npm run build:watch:client\"\"yarn server\" \"yarn client\"",
-    "test:client": "cd client && npm test",
-    "test:server": "cd server && npm test",
-    "test": "concurrently \"npm run test:client\" \"npm run test:server\"",
-    "style:client": "cd client && npm run style",
-    "style:server": "cd server && npm run style",
-    "style": "concurrently \"npm run style:client\" \"npm run style:server\"",
-    "coverage:client": "cd client && npm test -- --coverage",
-    "coverage:server": "cd server && npm run coverage",
-    "coverage": "concurrently \"npm run coverage:client\" \"npm run coverage:server\"",
+    "dev": "concurrently --kill-others-on-fail \"npm run build:watch:server\" \"npm run build:watch:client\" \"yarn server\" \"webpack-dev-server --hot --inline\"",
+    "test": "cd server && npm test",
+    "style:": "cd server && npm run style",
+    "coverage:": "cd server && npm run coverage",
     "build:server": "babel ./server/src/server -d build/server/src",
     "build:watch:server": "babel ./server/src/server -d build/server/src --watch",
     "build:client": "webpack --config ./webpack.config.js/",
@@ -38,11 +43,20 @@
     "start:dev:client": "webpack-dev-server"
   },
   "devDependencies": {
+    "enzyme": "3.7.0",
+    "enzyme-adapter-react-16": "1.7.0",
+    "eslint-config-standard": "12.0.0",
+    "eslint-config-standard-react": "7.0.2",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-node": "8.0.0",
+    "eslint-plugin-promise": "4.0.1",
+    "eslint-plugin-react": "7.11.1",
+    "eslint-plugin-standard": "4.0.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
-    "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.4",
     "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-react-app": "^6.1.0",
     "babel-preset-stage-2": "^6.24.1",
@@ -50,6 +64,32 @@
     "html-webpack-plugin": "^3.2.0",
     "touch": "^3.1.0",
     "webpack": "^4.27.1",
-    "webpack-cli": "^3.1.2"
-  }
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10",
+    "eslint": "5.9.0",
+    "istanbul": "0.4.5",
+    "mocha": "5.2.0",
+    "nock": "10.0.2",
+    "nyc": "13.1.0",
+    "supertest": "3.3.0"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "branches": 10,
+        "functions": 20,
+        "lines": 20,
+        "statements": 20
+      }
+    }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
