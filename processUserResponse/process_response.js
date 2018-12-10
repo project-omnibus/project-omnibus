@@ -26,7 +26,7 @@ function presentQuestionAnswerFields (questionPackage){
     	document.getElementById("message-form").hidden = true;
 
     	//for each possible response, display a button
-    	for response in questionPackage.possibleAnswers{
+    	for (response in questionPackage.possibleAnswers){
     		const responseButton = document.createElement('button')
     		responseButton.innerHTML = response;
     		//assign the buttons some on click behavior

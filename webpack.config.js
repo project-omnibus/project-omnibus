@@ -6,31 +6,42 @@ module.exports = {
   devtool: 'inline-source-map',
   entry: ['./client/src/index.js'],
   output: {
-    pah:path.join(_dirname, 'build'),
+    path:path.join(__dirname, 'build'),
     filename: 'bundle.js'
   },
   module:{
-    loaders: [
+    rules: [
       {
-        test: /.js$/,
+        test: /\.(js|jsx)$/,
         loader: 'babel-loader',
         include: path.join(__dirname),
         exclude: [
           path.join(__dirname,'node_modules'),
-          path.join(__dirname,'server/node_modules'),
-          path.join(__dirname,'client/node_modules')
+          path.join(__dirname,'processUserResponse'),
+          path.join(__dirname,'static'),
+          path.join(__dirname,'templates'),
         ],
-        query:{
-          presets: ['es2015', 'react']
-        }
-      }
+      },
+      {
+        test: /\.css$/,
+        loader: ['css-loader'],
+        exclude: [
+          path.join(__dirname,'node_modules'),
+          path.join(__dirname,'processUserResponse'),
+          path.join(__dirname,'static'),
+          path.join(__dirname,'templates'),
+        ],
+      },
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './client/public/index.html',
+      template: path.join(__dirname, 'client/public/index.html'),
       filename: 'index.html',
       inject: 'body',
     }),
   ],
+  resolve: {
+    extensions: ['.js', '.jsx', '.css', '.es6'],
+  }
 };

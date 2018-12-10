@@ -3,18 +3,20 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import './index.css';
 import App from '../../shared/App';
-import * as serviceWorker from './serviceWorker';
 
+console.log('trying to render App');
 ReactDOM.render(
   <Router>
     <App/>
-  </Router>
-)
-  document.getElementById('root');
+  </Router>,
+  document.getElementById('root')
+);
+
+ReactDOM.render(
+  <div>
+    Hello there!
+  </div>,
+  document.getElementById('conversation')
+);
 //ReactDOM.render(<Conversation />, document.getElementById('conversation'));
 //ReactDOM.render(<BookSearch />, document.getElementById('bookSearch'));
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
