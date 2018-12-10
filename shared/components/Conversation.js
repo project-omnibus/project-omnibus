@@ -27,7 +27,7 @@ class Conversation extends React.Component{
 		this.handleChange = this.handleChange.bind(this);
 	}
 
-	componentDidMount () {
+	/*componentDidMount () {
     this.callApi()
       .then(res => this.setState({ response: res.status }))
       .catch(err => console.log(err));
@@ -38,7 +38,7 @@ class Conversation extends React.Component{
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
-  }
+  }*/
 
 	handleSubmit(event) {
 		event.preventDefault();

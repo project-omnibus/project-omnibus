@@ -6,7 +6,7 @@ class BookSearch extends React.Component {
     post: '',
     responseToPost: []
   };
-  componentDidMount () {
+  /*componentDidMount () {
     this.callApi()
       .then(res => this.setState({ response: res.status }))
       .catch(err => console.log(err));
@@ -16,7 +16,7 @@ class BookSearch extends React.Component {
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
-  }
+  }*/
   handleSubmit = async e => {
     e.preventDefault();
     if (this.state.post.length === 0) {
