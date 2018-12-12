@@ -8,6 +8,7 @@ var http = require('http');
 var livecheck = require('./routes/livecheck');
 var log = require('./log');
 var path = require('path');
+var renderRouteMiddleware = require('../isomorph-middleware/renderRoute');
 
 module.exports = createServer();
 
@@ -17,24 +18,24 @@ function createServer () {
     return errorFile;
   });
 
-  const indexPath = path.join(__dirname,'../../client/public/index.html')
+  const buildPath = path.join(__dirname, '../', 'build');
 
   const app = express();
+
+  app.use('/', express.static(buildPath));
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
   app.all('*', handler.requestLogging);
 
-  app.get('/', (req, res) =>{
-    res.snedFile(indexPath);
-  })
-
   app.use('/livecheck', livecheck.router());
 
   app.use('/v1/books', books.router());
 
   app.use('/conversation', conversation.router()); //routing to the conversation functions
+
+  app.get('*',renderRouteMiddleware);
 
   let port = 5000;
 

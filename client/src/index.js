@@ -5,7 +5,7 @@ import './index.css';
 import App from '../../shared/App';
 
 console.log('trying to render App');
-ReactDOM.render(
+ReactDOM.hydrate(
   <Router>
     <App/>
   </Router>,
