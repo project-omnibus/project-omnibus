@@ -1,4 +1,5 @@
 import React from 'react';
+import Nav from './Navigation'
 
 class Conversation extends React.Component{
 	//Conversation component is used to route all user conversation
@@ -7,11 +8,12 @@ class Conversation extends React.Component{
 
 	constructor(props){
 		super(props);
-		this.state = {userProfile:{
-			relevancy:[],
-			qAskedID:[],
-			attribute:{},
-			currentQ:{
+		this.state = {
+			userProfile:{
+				relevancy:[],
+				qAskedID:[],
+				attribute:{},
+				currentQ:{
 					qid:-1,
 					question:"Hey there! Looking for something to read but not entirely sure where to look?",
 					userInput:false,
@@ -19,13 +21,14 @@ class Conversation extends React.Component{
 					specificity:-1,
 					userAttribute:[],
 					folloupBy:[]
+				},
+				answer:""
 			},
-			answer:""},
 			isDone:false,
 			response:""};
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleChange = this.handleChange.bind(this);
-	}
+	};
 
 	/*componentDidMount () {
     this.callApi()
@@ -70,7 +73,8 @@ class Conversation extends React.Component{
 
 	render(){
 		return (
-      <div id='Conversation'>
+      <div>
+				<Nav route ={this.props.route}/>
 				<div id='question'>
 					{this.state.userProfile.currentQ.question}
 				</div>
