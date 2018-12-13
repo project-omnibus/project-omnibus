@@ -61,7 +61,7 @@ exports.generate_response = function(req,res){
 	client.query("SELECT * FROM question_followup_table WHERE question_id = $1",[qid])
 		.then(result =>{
 			//append the follow up question id to current question's followUpBy property
-			for (i=0; i<result.rows.length; i++){
+			for (var i=0; i<result.rows.length; i++){
 				req.body.currentQ.followUpBy.push(result.rows[i].follow_up_by_id);
 			}
 

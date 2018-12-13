@@ -20,6 +20,7 @@ const routes = [
       },
       {
         path: '/conversation',
+        exact: true,
         component: Conversation
       },
       {
