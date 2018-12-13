@@ -58,7 +58,7 @@ class Conversation extends React.Component{
 		.then(data =>{
 			var userProfile1 = data;
 			userProfile1.answer="";
-			//this.props.triggerParentHandler(userProfile1);
+			//this.props.triggerParentHandler(userProfile1);  //commented because don't knwo how to pass props to parent through router-config yet
 
 			this.setState({ userProfile: userProfile1 });
 		})
