@@ -1,5 +1,4 @@
 import React from 'react';
-// import chalk from 'chalk';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import { matchRoutes } from 'react-router-config';
@@ -10,7 +9,7 @@ import App from '../shared/App';
 export default function renderRoute(req, res) {
   const branch = matchRoutes(routes, req.url);
   const promises = [];
-
+  console.log(branch);
   branch.forEach(({ route, match }) => {
     if (route.loadData) {
       promises.push(route.loadData(match));
@@ -19,9 +18,11 @@ export default function renderRoute(req, res) {
 
   Promise.all(promises).then(data => {
     // data will be an array[] of datas returned by each promises.
-    // // console.log(data)
+    console.log(data)
 
     const context = data.reduce((context, data) => Object.assign(context, data), {});
+
+    console.log('Rendering App - isomorphMiddleware');
 
     const router = <StaticRouter location={req.url} context={context}><App /></StaticRouter>;
 
@@ -29,7 +30,6 @@ export default function renderRoute(req, res) {
 
     const html = renderToString(<HTML html={app} />);
 
-    // console.log(chalk.green(`<!DOCTYPE html>${html}`));
 
     return res.send(`<!DOCTYPE html>${html}`);
   });

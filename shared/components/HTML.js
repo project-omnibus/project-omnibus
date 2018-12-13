@@ -3,7 +3,7 @@ import React from 'react';
 const HTML = (props) => (
   <html lang="en">
     <head>
-      <meta charset="utf-8"/>
+      <meta charSet="utf-8"/>
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
       <meta name="theme-color" content="#000000"/>
       <title>Project Omnibus</title>
@@ -19,7 +19,7 @@ const HTML = (props) => (
               JSON.stringify(${props.serverState})`
         }}
       />
-    <script type="application/javascript" src="/bundle.js" />
+    <script type="application/javascript" src="/main.bundle.js" />
     </body>
   </html>
 );

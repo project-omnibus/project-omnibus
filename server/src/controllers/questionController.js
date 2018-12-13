@@ -117,7 +117,7 @@ exports.make_init_user = function(req,res,next) {
 				if (result.length == 0){
 					res.sent("No Questions Found");
 				}
-				for (i=0; i<result.rows.length; i++){
+				for (var i=0; i<result.rows.length; i++){
 					//question object has fields: question[text], userInput[boolean], relevancy[integer], specificity[integer], userAttribute[string], followupBy[array of integer]
 					//followupBy field is NULL after this operation because that is in another table
 					userSession.relevancy[i]=result.rows[i].default_relevancy;
@@ -156,13 +156,13 @@ exports.make_init_user = function(req,res,next) {
 
 
 // returns the index of the maximum and the maximum of a array of numbers
-findMaxRelevancy=function(arr){
+function findMaxRelevancy(arr){
 	if(arr.length == 0){
 		return -1;
 	}
 	var max = arr[0];
 	var maxIndex = 0;
-	for (i=0; i<arr.length; i++){
+	for (var i=0; i<arr.length; i++){
 		if (arr[i] > max) {
 			maxIndex = i;
 			max = arr[i];
@@ -211,7 +211,7 @@ function removeNonKeywords(message){
 	return keywords;
 }
 
-assignRelevancy = function(qObject, relevancyList){
+function assignRelevancy(qObject, relevancyList){
 	// Function assigns the relevancy of all questions in the question
 	//qObject is the question object of the current question that was just asked
 	//qObjectList is the complete array of all question objects, including the current one
@@ -219,9 +219,9 @@ assignRelevancy = function(qObject, relevancyList){
 	relevancyList[(qObject.qid)] = 0; //set the relevancy of the current question in question array to 0
 	var followUpLen = qObject.followUpBy.length; //get the length of the number of folloUpBy question to the current question
 	if (followUpLen != 0) { //if length isn't 0, then there is some questions that can follow up to current question, set relevancy of those questions to 100.
-		for (i = 0; i<followUpLen; i++) {
+		for (var i = 0; i<followUpLen; i++) {
 			relevancyList[qObject.followUpBy[i]]=100; //"-9" here beacuse the minimum default relevancy is 10 for now
 		}
 	}
-	return relevancyList
+	return relevancyList;
 }

@@ -5,18 +5,14 @@ import './index.css';
 import App from '../../shared/App';
 
 console.log('trying to render App');
-ReactDOM.hydrate(
-  <Router>
-    <App/>
-  </Router>,
-  document.getElementById('root')
-);
+const renderRouter = Component => {
+  ReactDOM.hydrate(
+    <Router>
+      <Component />
+    </Router>, document.getElementById('root')
+  );
+};
 
-ReactDOM.render(
-  <div>
-    Hello there!
-  </div>,
-  document.getElementById('conversation')
-);
+renderRouter(App);
 //ReactDOM.render(<Conversation />, document.getElementById('conversation'));
 //ReactDOM.render(<BookSearch />, document.getElementById('bookSearch'));

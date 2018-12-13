@@ -7,7 +7,7 @@ const style = {
 
 export default ({ route }) => (
   <div>
-    <Navi route={route} />
+    <Nav route={route} />
     <div className="ui main text container">
       <div style={style}>
         <h1>Sorry!</h1>

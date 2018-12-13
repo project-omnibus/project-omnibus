@@ -4,10 +4,12 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   devtool: 'inline-source-map',
-  entry: ['./client/src/index.js'],
+  entry: {
+    main: ['@babel/polyfill', './client/src/index.js']
+  },
   output: {
-    path:path.join(__dirname, 'build'),
-    filename: 'bundle.js'
+    path:path.resolve(__dirname, 'build'),
+    filename: '[name].bundle.js',
   },
   module:{
     rules: [

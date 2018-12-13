@@ -30,7 +30,7 @@ class Conversation extends React.Component{
 		this.handleChange = this.handleChange.bind(this);
 	};
 
-	/*componentDidMount () {
+/*componentDidMount () {
     this.callApi()
       .then(res => this.setState({ response: res.status }))
       .catch(err => console.log(err));
@@ -44,9 +44,10 @@ class Conversation extends React.Component{
   }*/
 
 	handleSubmit(event) {
+		console.log('in conversation handlesubmit')
 		event.preventDefault();
 		//var userProfileString = JSON.stringify(this.state.userProfile);
-    fetch('/conversation', {
+    fetch('/conversation/api', {
 			method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -64,7 +65,6 @@ class Conversation extends React.Component{
   };
 
 	handleChange(event){
-		//sdfsdf
 		var userProfile1 = this.state.userProfile;
 		userProfile1.answer = event.target.value;
 		this.setState({userProfile:userProfile1})

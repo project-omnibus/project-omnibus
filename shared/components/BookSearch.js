@@ -1,5 +1,6 @@
-import React from'react';
+import React from 'react';
 import Nav from './Navigation'
+import fetch from 'isomorphic-fetch'
 
 class BookSearch extends React.Component {
   constructor(props){
@@ -11,7 +12,7 @@ class BookSearch extends React.Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this);
   };
-  /*componentDidMount () {
+/*componentDidMount () {
     this.callApi()
       .then(res => this.setState({ response: res.status }))
       .catch(err => console.log(err));
@@ -35,9 +36,11 @@ class BookSearch extends React.Component {
         'Content-Type': 'application/json'
       }
     })
-    .then(response =>res.json())
-    .then(body => {
+    .then(res => {
       if (response.status !== 200) throw Error(body.error);
+      res.json();
+    })
+    .then(body => {
       this.setState({ responseToPost: body.relatedBooks });
     })
   };
