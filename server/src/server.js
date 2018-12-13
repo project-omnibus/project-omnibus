@@ -37,7 +37,7 @@ function createServer () {
 
   app.use('/v1/books', books.router());
 
-  app.get('/conversation/api', conversation.router()); //routing to the conversation functions
+  app.use('/conversation/api', conversation.router()); //routing to the conversation functions
 
   app.get('*',renderRouteMiddleware);
 
