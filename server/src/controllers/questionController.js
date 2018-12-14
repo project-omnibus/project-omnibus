@@ -85,19 +85,19 @@ exports.generate_response = function(req,res){
 					userSession.currentQ = next_question;
 					log.info('user session updated with '+JSON.stringify(userSession))
 					res.json(userSession);
-
 				})
 				.catch(err => {
-				log.info(err);
-      			res.status(err.statusCode)
-        		.json(err);
-			});
+					log.info(err);
+      		res.status(err.statusCode)
+        	.json(err);
+				})
+				.then(() =>client.end());
 		})
 		.catch(err => {
-				log.info(err);
-      			res.status(err.statusCode)
-        		.json(err);
-		});
+			log.info(err);
+      res.status(err.statusCode)
+      .json(err);
+		})
 };
 
 
@@ -146,7 +146,8 @@ exports.make_init_user = function(req,res,next) {
 					res.status(500)
         		.json(err);
 				}
-			});
+			})
+			.then(() =>client.end());
 	} else {
 		console.log(req.body.qAskedID);
 		log.info('user already in session, passing to handle_user_response now')

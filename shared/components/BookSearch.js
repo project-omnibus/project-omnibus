@@ -22,7 +22,7 @@ class BookSearch extends React.Component {
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
-  }*/
+  }*/ // commented out because async isn't working with babel runtime right now
   handleSubmit(e) {
     e.preventDefault();
     if (this.state.post.length === 0) {
@@ -63,7 +63,7 @@ class BookSearch extends React.Component {
           <button type='submit'>Submit</button>
         </form>
         {this.state.responseToPost.map((item, index) => (
-          <p>{item}</p>
+          <p id={index}>{item}</p>
         ))}
       </div>
     );
