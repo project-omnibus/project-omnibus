@@ -9,7 +9,7 @@ import App from '../shared/App';
 export default function renderRoute(req, res) {
   const branch = matchRoutes(routes, req.url);
   const promises = [];
-  console.log(branch);
+  //console.log(branch);
   branch.forEach(({ route, match }) => {
     if (route.loadData) {
       promises.push(route.loadData(match));
@@ -18,7 +18,7 @@ export default function renderRoute(req, res) {
 
   Promise.all(promises).then(data => {
     // data will be an array[] of datas returned by each promises.
-    console.log(data)
+    //console.log(data)
 
     const context = data.reduce((context, data) => Object.assign(context, data), {});
 
