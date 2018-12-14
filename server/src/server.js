@@ -7,6 +7,8 @@ var handler = require('./handler');
 var http = require('http');
 var livecheck = require('./routes/livecheck');
 var log = require('./log');
+var path = require('path');
+import renderRouteMiddleware from '../../isomorph-middleware/renderRoute';
 
 module.exports = createServer();
 
@@ -16,29 +18,38 @@ function createServer () {
     return errorFile;
   });
 
+  const buildPath = path.join(__dirname, '../../', 'build');
+
   const app = express();
+
+  app.set('port', 5000 || 8080);
+
+  app.use('/', express.static(buildPath));
+
+  console.log(buildPath);
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
-  app.all('*', handler.requestLogging);
+  app.use('*', handler.requestLogging);
 
   app.use('/livecheck', livecheck.router());
 
   app.use('/v1/books', books.router());
 
-  app.use('/conversation', conversation.router()); //routing to the conversation functions
+  app.use('/conversation/api', conversation.router()); //routing to the conversation functions
 
-  let port = 5000;
+  app.get('*',renderRouteMiddleware);
 
-  http.createServer(app).listen(port);
+  http.createServer(app).listen(app.get('port'));
 
   process.on('SIGBREAK', () => shutdown());
   process.on('SIGINT', () => shutdown());
   process.on('SIGTERM', () => shutdown());
 
-  console.log(`Omnibus is listening on port ${port}`);
-  log.info(`Omnibus is listening on port ${port}`);
+  console.log(`Omnibus is listening on port ${app.get('port')}`);
+  console.log(path.join(__dirname,'../'));
+  log.info(`Omnibus is listening on port ${app.get('port')}`);
 
   return app;
 }

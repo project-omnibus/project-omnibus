@@ -10,7 +10,6 @@
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -47,13 +46,15 @@
     <title>Omnibus</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg bg-light">
-        <a href="" class="navbar-brand">
-            <img src="images/icons/icon-placeholder.png" height="50" alt="">
-        </a>
-        <button class="navbar-toggler" type="button">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <div id="root"></div>
+    <div id="conversation"></div>
+    <div id="bookSearch"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
 
     </nav>
     <div id="root">

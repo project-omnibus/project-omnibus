@@ -26,7 +26,7 @@ function presentQuestionAnswerFields (questionPackage){
     	document.getElementById("message-form").hidden = true;
 
     	//for each possible response, display a button
-    	for response in questionPackage.possibleAnswers{
+    	for (response in questionPackage.possibleAnswers){
     		const responseButton = document.createElement('button')
     		responseButton.innerHTML = response;
     		//assign the buttons some on click behavior
@@ -34,10 +34,10 @@ function presentQuestionAnswerFields (questionPackage){
 
     		document.getElementById("button-menu").append(responseButton);
     	}
-    	
+
     }
     else{
-    	//make sure user message input is shown 
+    	//make sure user message input is shown
     	document.getElementById("message-form").hidden = false;
     }
 }
@@ -70,10 +70,10 @@ function removeNonKeywords(message){
 	let word = '';
 
 	for (var i = 0; i < message.length; i++) {
-		
+
 		//for char in message
 		const char = message.charAt(i)
-		
+
 		if (separators.includes(char)){
 			//if the char is a separator or in the punctuation array
 			if((word != '') && !(nonkeywords.includes(word))){
@@ -83,7 +83,7 @@ function removeNonKeywords(message){
 				//clear words variable
 				word = '';
 			}
-			
+
 			//otherwise continue to the next char
 		}
 		else{
@@ -92,7 +92,7 @@ function removeNonKeywords(message){
 			word = word + char;
 		}
 	}
-	
+
 	return keywords;
 }
 function parseUserMessage (message){
@@ -152,7 +152,7 @@ function addToUserRecProfile (userResponseObject){
 	//how the recommendation profile is assembled may qualify as part of the interpretation.
 	//the exact additions to a profile will depend on how the message is interpreted
 
-	
+
 }
 
 
