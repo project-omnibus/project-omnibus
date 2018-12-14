@@ -71,7 +71,7 @@ class Conversation extends React.Component{
 
 	render(){
 		return (
-			<div id="container">
+			<div class="container">
 			<div id="chatbot-message">
 				<p>{this.state.userProfile.currentQ.question}</p>
 			</div>
@@ -82,7 +82,6 @@ class Conversation extends React.Component{
 						onChange={this.handleChange} id="message-input" autofocus	/>
 				</form>
 			</div>
-			<p>{JSON.stringify(this.state.userProfile)}</p>
 			</div>
 		);
 	}
