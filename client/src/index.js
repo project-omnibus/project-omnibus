@@ -8,7 +8,9 @@ console.log('trying to render App');
 const renderRouter = Component => {
   ReactDOM.hydrate(
     <Router>
-      <Component />
+      <div className = 'App'>
+        <Component />
+      </div>
     </Router>, document.getElementById('root')
   );
 };

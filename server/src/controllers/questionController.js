@@ -13,7 +13,8 @@ var databaseUser = process.env.OMNIBUS_DATABASE_USERNAME;
 var databasePassword = process.env.OMNIBUS_DATABASE_PASSWORD;
 
 
-//Remove all non-keywords from user answer and assign the keywords to the appropriate user attribute property in the req.
+//Remove all non-keywords from user answer
+//assign the keywords to the appropriate user attribute property in the req.
 exports.handle_user_input = function(req,res,next){
 	log.info('handle_user_input is called');
 	//removing keywords from user input
@@ -30,8 +31,14 @@ exports.handle_user_input = function(req,res,next){
 	} else {
 		// if the current question has user attribute assigned, append new property to usre attribute with the keywords from the user as the value for it
 		log.info('quesiton has user attribute: ' + req.body.currentQ.userAttribute + ', pushing keywords into user attribute');
-		var attribute = req.body.currentQ.userAttribute;
-		req.body.attribute[attribute]=keywords;
+		var attribute_key = req.body.currentQ.userAttribute;
+		//if the attribute is already in the user session profile, append instead of assign
+		if(req.body.attribute.hasOwnProperty(attribute_key)){
+			log.info(req.body.attribute[attribute_key])
+			req.body.attribute[attribute_key].push(keywords);
+		} else{
+			req.body.attribute[attribute_key]=keywords;
+		}
 	}
 
 	//append the current questions to the list of questions asked of in the user req object
@@ -85,19 +92,20 @@ exports.generate_response = function(req,res){
 					userSession.currentQ = next_question;
 					log.info('user session updated with '+JSON.stringify(userSession))
 					res.json(userSession);
+
 				})
 				.catch(err => {
-					log.info(err);
-      		res.status(err.statusCode)
-        	.json(err);
-				})
-				.then(() =>client.end());
+				log.info(err);
+      			res.status(err.statusCode)
+        		.json(err);
+			})
+			.then(()=>client.end());
 		})
 		.catch(err => {
-			log.info(err);
-      res.status(err.statusCode)
-      .json(err);
-		})
+				log.info(err);
+      			res.status(err.statusCode)
+        		.json(err);
+		});
 };
 
 
@@ -147,7 +155,7 @@ exports.make_init_user = function(req,res,next) {
         		.json(err);
 				}
 			})
-			.then(() =>client.end());
+			.then(()=>client.end());
 	} else {
 		console.log(req.body.qAskedID);
 		log.info('user already in session, passing to handle_user_response now')

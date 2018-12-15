@@ -36,13 +36,13 @@ module.exports = {
       },
     ]
   },
-  plugins: [
+  /*plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'client/public/index.html'),
       filename: 'index.html',
       inject: 'body',
     }),
-  ],
+  ],*/
   resolve: {
     extensions: ['.js', '.jsx', '.css', '.es6'],
   }
