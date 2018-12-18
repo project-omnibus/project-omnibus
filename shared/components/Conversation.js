@@ -115,7 +115,7 @@ componentDidMount () {
 	          />
 	        </form>
 	        <p>{JSON.stringify(this.state.userProfile)}</p>
-					<p>{JSON.stringify(this.state.isDone)}</p>
+					<p>Suggested Books:</p>
 					{this.state.bookResult.map((item, index) => (
 	          <p id={index}>{item}</p>
 	        ))}
