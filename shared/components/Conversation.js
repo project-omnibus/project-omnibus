@@ -24,7 +24,7 @@ class Conversation extends React.Component{
 				},
 				answer:""
 			},
-			bookResult:{},
+			bookResult:[],
 			isDone:false,
 			response:""};
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -69,9 +69,23 @@ componentDidMount () {
 
 			this.setState({ userProfile: userProfile1 });
 
-			if (this.state.userProfile.relevancy.reduce(getSum) <= 0){
-				this.setState({isDone:true});
-			}
+			fetch('/v1/books?q=' + this.state.userProfile.attribute.keywords, {
+	      method: 'GET',
+	      headers: {
+	        'Content-Type': 'application/json'
+	      }
+	    })
+	    .then(res => {
+	      if (res.status !== 200) throw Error(body.error);
+	      return res.json();
+	    })
+	    .then(data => {
+	      console.log(data);
+	      this.setState({ bookResult: data.relatedBooks });
+				if (this.state.userProfile.relevancy.reduce(getSum) <= 0){
+					this.setState({isDone:true});
+				};
+	    })
 		})
   };
 
@@ -102,6 +116,9 @@ componentDidMount () {
 	        </form>
 	        <p>{JSON.stringify(this.state.userProfile)}</p>
 					<p>{JSON.stringify(this.state.isDone)}</p>
+					{this.state.bookResult.map((item, index) => (
+	          <p id={index}>{item}</p>
+	        ))}
 	      </div>
 			</div>
 		);

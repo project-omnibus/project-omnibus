@@ -28,6 +28,12 @@ exports.handle_user_input = function(req,res,next){
 	var lexicon = new natural.Lexicon(lexiconFilename, defaultCategory);
 	var rules = new natural.RuleSet(rulesFilename);
 	var tagger = new natural.BrillPOSTagger(lexicon,rules);
+
+	//console.log(typeof(req.body.answer));
+	//console.log(typeof(req.body.currentQ.question));
+	console.log(tagger.tag(answerTokens));
+	console.log(tagger.tag(tokenizer.tokenize(req.body.currentQ.question)));
+
 	var keywords = removeNonKeywords(answerTokens);
 
 	//if the current question doesn't have user attribute assigned, append keyword to user attribute "keyword" property
