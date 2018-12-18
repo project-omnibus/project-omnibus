@@ -24,13 +24,14 @@ class Conversation extends React.Component{
 				},
 				answer:""
 			},
+			bookResult:{},
 			isDone:false,
 			response:""};
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 	};
 
-/*componentDidMount () {
+componentDidMount () {
     this.callApi()
       .then(res => this.setState({ response: res.status }))
       .catch(err => console.log(err));
@@ -41,7 +42,7 @@ class Conversation extends React.Component{
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
-  }*/																												//commented out because async isn't working with babel runtime right now 13-Dec-2018
+  }																												//commented out because async isn't working with babel runtime right now 13-Dec-2018
 
 	componentDidMount(){
 		if (Object.keys(this.props.userMainProfile).length != 0){
@@ -67,6 +68,10 @@ class Conversation extends React.Component{
 			this.props.triggerParentHandler(userProfile1);  //commented because don't knwo how to pass props to parent through router-config yet
 
 			this.setState({ userProfile: userProfile1 });
+
+			if (this.state.userProfile.relevancy.reduce(getSum) <= 0){
+				this.setState({isDone:true});
+			}
 		})
   };
 
@@ -96,9 +101,14 @@ class Conversation extends React.Component{
 	          />
 	        </form>
 	        <p>{JSON.stringify(this.state.userProfile)}</p>
+					<p>{JSON.stringify(this.state.isDone)}</p>
 	      </div>
 			</div>
 		);
 	}
+}
+
+function getSum(total, num){
+	return total+num;
 }
 export default Conversation;

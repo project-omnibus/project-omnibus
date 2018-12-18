@@ -18,7 +18,7 @@ class App extends React.Component{
     this.setState({userProfile:data});
   }
   render(){
-    console.log('Rendering App');
+    console.log('Rendering App - App.js');
     return(
         <div>
           {renderRoutes(routes)}

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 class Nav extends React.Component {
   render(){
-    console.log('props.route.path = '+ this.props.route.path)
+    console.log('props.route.path = '+ this.props.route.path + '- Navigation.js')
     let selected = '';
     if(typeof this.props.route.path === 'string') {
       selected = this.props.route.path.split('/').pop();

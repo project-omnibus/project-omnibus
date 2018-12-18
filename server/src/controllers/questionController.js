@@ -6,11 +6,15 @@ var pg = require('pg');
 pg.defaults.ssl = true;
 var natural = require('natural');
 var lowerCase = require('lower-case');
+var path = require('path');
 
+//sql database url
 var databaseURL = process.env.OMNIBUS_DATABASE_URL;
-var databaseHost = process.env.OMNIBUS_DATABASE_HOST;
-var databaseUser = process.env.OMNIBUS_DATABASE_USERNAME;
-var databasePassword = process.env.OMNIBUS_DATABASE_PASSWORD;
+
+var natural_base_folder = path.join(path.dirname(require.resolve("natural")), "brill_pos_tagger");
+var rulesFilename = natural_base_folder + "/data/English/tr_from_posjs.txt";
+var lexiconFilename = natural_base_folder + "/data/English/lexicon_from_posjs.json";
+var defaultCategory = 'N';
 
 
 //Remove all non-keywords from user answer
@@ -20,8 +24,10 @@ exports.handle_user_input = function(req,res,next){
 	//removing keywords from user input
 	var tokenizer = new natural.WordTokenizer();
 	var answerTokens = tokenizer.tokenize(req.body.answer);
-	log.info(answerTokens);
 
+	var lexicon = new natural.Lexicon(lexiconFilename, defaultCategory);
+	var rules = new natural.RuleSet(rulesFilename);
+	var tagger = new natural.BrillPOSTagger(lexicon,rules);
 	var keywords = removeNonKeywords(answerTokens);
 
 	//if the current question doesn't have user attribute assigned, append keyword to user attribute "keyword" property
@@ -34,7 +40,6 @@ exports.handle_user_input = function(req,res,next){
 		var attribute_key = req.body.currentQ.userAttribute;
 		//if the attribute is already in the user session profile, append instead of assign
 		if(req.body.attribute.hasOwnProperty(attribute_key)){
-			log.info(req.body.attribute[attribute_key])
 			req.body.attribute[attribute_key].push(keywords);
 		} else{
 			req.body.attribute[attribute_key]=keywords;
