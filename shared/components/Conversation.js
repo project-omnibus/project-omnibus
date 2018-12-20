@@ -79,7 +79,7 @@ class Conversation extends React.Component{
 
 	render(){
 		return (
-      <div class="container">
+      <div className="container">
 				<Nav route ={this.props.route}/>
 				<div id="chatbot-message">
 					<p>{this.state.userProfile.currentQ.question}</p>
@@ -88,7 +88,7 @@ class Conversation extends React.Component{
 				<div id="message-box">
 					<form id="message-form" onSubmit={this.handleSubmit}>
 							<input type='text' value={this.state.userProfile.answer}
-							onChange={this.handleChange} id="message-input" autofocus	/>
+							onChange={this.handleChange} id="message-input" autoFocus	/>
 					</form>
 	        <p>{JSON.stringify(this.state.userProfile)}</p>
 	      </div>
