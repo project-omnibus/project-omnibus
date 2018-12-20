@@ -7,6 +7,17 @@ pg.defaults.ssl = true;
 var natural = require('natural');
 var lowerCase = require('lower-case');
 var path = require('path');
+var nlpCore = require('./nlpCore')
+
+import CoreNLP, { Properties, Pipeline, ConnectorCli } from 'corenlp';
+
+/*const connector = new ConnectorCli({
+  classPath: "../../../corenlp/stanford-corenlp-full-2018-10-05/*"
+});*/
+const props = new Properties({
+  annotators: 'tokenize,ssplit,pos,lemma,ner,parse',
+});
+const pipeline = new Pipeline(props, 'English');
 
 //sql database url
 var databaseURL = process.env.OMNIBUS_DATABASE_URL;
@@ -25,14 +36,26 @@ exports.handle_user_input = function(req,res,next){
 	var tokenizer = new natural.WordTokenizer();
 	var answerTokens = tokenizer.tokenize(req.body.answer);
 
-	var lexicon = new natural.Lexicon(lexiconFilename, defaultCategory);
-	var rules = new natural.RuleSet(rulesFilename);
-	var tagger = new natural.BrillPOSTagger(lexicon,rules);
+	//var lexicon = new natural.Lexicon(lexiconFilename, defaultCategory);
+	//var rules = new natural.RuleSet(rulesFilename);
+	//var tagger = new natural.BrillPOSTagger(lexicon,rules);
 
 	//console.log(typeof(req.body.answer));
 	//console.log(typeof(req.body.currentQ.question));
-	console.log(tagger.tag(answerTokens));
-	console.log(tagger.tag(tokenizer.tokenize(req.body.currentQ.question)));
+	//console.log(tagger.tag(answerTokens));
+	//console.log(tagger.tag(tokenizer.tokenize(req.body.currentQ.question)));
+
+	//var coreToken = nlpCore.simpleTokenize(req.body.answer);
+
+	const sent = new CoreNLP.simple.Sentence(req.body.answer);
+	pipeline.annotate(sent)
+  	.then(sent => {
+    	console.log(sent.words());
+    	console.log(sent.nerTags());
+  })
+  .catch(err => {
+    console.log('err', err);
+  });
 
 	var keywords = removeNonKeywords(answerTokens);
 
