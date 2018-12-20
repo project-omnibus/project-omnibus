@@ -26,7 +26,21 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: ['css-loader'],
+        use: [
+          {
+            loader: "style-loader"
+          },
+          {
+            loader: "css-loader",
+            options: {
+              modules: true,
+              importLoaders: 1,
+              localIdentName: "[name]_[local]_[hash:base64]",
+              sourceMap: true,
+              minimize: true
+            }
+          }
+        ],
         exclude: [
           path.join(__dirname,'node_modules'),
           path.join(__dirname,'processUserResponse'),
