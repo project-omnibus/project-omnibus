@@ -11,13 +11,13 @@ var nlpCore = require('./nlpCore')
 
 import CoreNLP, { Properties, Pipeline, ConnectorCli } from 'corenlp';
 
-/*const connector = new ConnectorCli({
-  classPath: "../../../corenlp/stanford-corenlp-full-2018-10-05/*"
-});*/
+const connector = new ConnectorCli({
+  classPath: "\"../stanford-corenlp/*\""
+});
 const props = new Properties({
   annotators: 'tokenize,ssplit,pos,lemma,ner,parse',
 });
-const pipeline = new Pipeline(props, 'English');
+const pipeline = new Pipeline(props, 'English', connector);
 
 //sql database url
 var databaseURL = process.env.OMNIBUS_DATABASE_URL;
