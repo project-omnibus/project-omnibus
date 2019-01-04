@@ -11,16 +11,23 @@ class Nav extends React.Component {
     }
     return(
       <nav>
-        <div className="navigation">
-          <a href="/" className="brand-logo">Project Omnibus</a>
-          <ul id="nav-mobile" className="right">
-            <li className={selected === '' ? 'active' : ''}><Link to ='/'> HOME </Link></li>
-            <li className={selected === 'conversation' ? 'active' : ''}><Link to ='/conversation'>Conversation</Link></li>
-            <li className={selected === 'book search' ? 'active' : ''}><Link to='/booksearch'>Book Search</Link></li>
-          </ul>
-        </div>
+        <Brand />
+        <MenuButton />
       </nav>
+
     );
+    // return(
+    //   <nav>
+    //     <div className="navigation">
+    //       <a href="/" className="brand-logo">Project Omnibus</a>
+    //       <ul id="nav-mobile" className="right">
+    //         <li className={selected === '' ? 'active' : ''}><Link to ='/'> HOME </Link></li>
+    //         <li className={selected === 'conversation' ? 'active' : ''}><Link to ='/conversation'>Conversation</Link></li>
+    //         <li className={selected === 'book search' ? 'active' : ''}><Link to='/booksearch'>Book Search</Link></li>
+    //       </ul>
+    //     </div>
+    //   </nav>
+    // );
   }
 };
 
