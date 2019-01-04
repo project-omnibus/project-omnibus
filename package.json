@@ -48,7 +48,8 @@
     "build:production": "./node_modules/.bin/webpack --mode production",
     "build:dev": "./node_modules/.bin/webpack --mode development",
     "dev": "cd server && nodemon src/start.js",
-    "start": "nodemon server/src/start.js"
+    "start": "nodemon server/src/start.js",
+    "prestart": "npm run build:dev",
   },
   "devDependencies": {
     "@babel/cli": "^7.2.0",
