@@ -1,8 +1,15 @@
 // shared/components/Navigation.js
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Brand from './Brand.js';
+import MenuButton from './MenuButton.js';
 
 class Nav extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {};
+  }
+
   render(){
     console.log('props.route.path = '+ this.props.route.path)
     let selected = '';
@@ -10,11 +17,10 @@ class Nav extends React.Component {
       selected = this.props.route.path.split('/').pop();
     }
     return(
-      <nav>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
         <Brand />
         <MenuButton />
       </nav>
-
     );
     // return(
     //   <nav>
