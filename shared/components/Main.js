@@ -6,7 +6,7 @@ class Main extends React.Component{
   constructor(props){
     super(props)
     this.state ={
-      userProfile:{}
+      userProfile: "",
     }
     this.handleConversation = this.handleConversation.bind(this);
   }
@@ -19,11 +19,16 @@ class Main extends React.Component{
     return(
       <div>
         {renderRoutes(this.props.routes, {triggerParentHandler:this.handleConversation, userMainProfile:this.state.userProfile})}
-        <div>
-            <p>{JSON.stringify(this.state.userProfile)}</p>
-        </div>
       </div>
     );
+    // return(
+    //   <div>
+    //     {renderRoutes(this.props.routes, {triggerParentHandler:this.handleConversation, userMainProfile:this.state.userProfile})}
+    //     <div>
+    //         <p>{JSON.stringify(this.state.userProfile)}</p>
+    //     </div>
+    //   </div>
+    // );
   }
 }
 
