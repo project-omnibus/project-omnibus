@@ -9,15 +9,15 @@ var lowerCase = require('lower-case');
 var path = require('path');
 var nlpCore = require('./nlpCore')
 
-import CoreNLP, { Properties, Pipeline, ConnectorCli } from 'corenlp';
+/*import CoreNLP, { Properties, Pipeline, ConnectorCli } from 'corenlp';
 
 const connector = new ConnectorCli({
-  classPath: "\"../stanford-corenlp/*\""
+  classPath: "\"corenlp/stanford-corenlp-full-2018-10-05/*\""
 });
 const props = new Properties({
   annotators: 'tokenize,ssplit,pos,lemma,ner,parse',
 });
-const pipeline = new Pipeline(props, 'English', connector);
+const pipeline = new Pipeline(props, 'English', connector); */
 
 //sql database url
 var databaseURL = process.env.OMNIBUS_DATABASE_URL;
@@ -47,7 +47,7 @@ exports.handle_user_input = function(req,res,next){
 
 	//var coreToken = nlpCore.simpleTokenize(req.body.answer);
 
-	const sent = new CoreNLP.simple.Sentence(req.body.answer);
+	/*const sent = new CoreNLP.simple.Sentence(req.body.answer);
 	pipeline.annotate(sent)
   	.then(sent => {
     	console.log(sent.words());
@@ -55,7 +55,7 @@ exports.handle_user_input = function(req,res,next){
   })
   .catch(err => {
     console.log('err', err);
-  });
+  });*/ //commented for now because it returns a JSON file and don't know how to use it yet.
 
 	var keywords = removeNonKeywords(answerTokens);
 
