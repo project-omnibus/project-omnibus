@@ -20,7 +20,7 @@ const props = new Properties({
 const pipeline = new Pipeline(props, 'English', connector); */
 
 //sql database url
-var databaseURL = "postgres://kekufffswuerdd:36d785e198bf52fb5fe8d905bc7b2830b12641c35896e9ddb32a1e4a04d29d37@ec2-50-17-225-140.compute-1.amazonaws.com:5432/d38pm3hds363bv";
+var databaseURL = env.databaseURL;
 
 var natural_base_folder = path.join(path.dirname(require.resolve("natural")), "brill_pos_tagger");
 var rulesFilename = natural_base_folder + "/data/English/tr_from_posjs.txt";
