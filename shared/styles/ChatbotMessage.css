@@ -1,4 +1,6 @@
 .chatbotMessage {
-    font-size: large;
+    padding: 50px 50px;
+    font-size: 2.5em;
     text-align: center;
+    height: 94%;
 }
