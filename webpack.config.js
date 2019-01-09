@@ -1,6 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   devtool: 'inline-source-map',
@@ -26,7 +26,24 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: [
+            {
+              loader: MiniCssExtractPlugin.loader
+            },
+
+            {
+              loader: "css-loader",
+              // options: {
+              //   sourceMap: true,
+              //   modules: true,
+              //   localIdentName: "[local]___[hash:base64:5]"
+              // }
+            },
+            //
+            // {
+            //   loader: 'postcss-loader'
+            // }
+          ],
         exclude: [
           path.join(__dirname,'node_modules'),
           path.join(__dirname,'processUserResponse'),
@@ -36,12 +53,11 @@ module.exports = {
       },
     ]
   },
-  // plugins: [
-  //   new HtmlWebpackPlugin({
-  //     template: path.join(__dirname, 'client/public/index.html'),
-  //     filename: 'index.html',
-  //   }),
-  // ],
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'styles.css',
+    })
+  ],
   resolve: {
     extensions: ['.js', '.jsx', '.css', '.es6'],
   }
