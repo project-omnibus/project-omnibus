@@ -46,7 +46,7 @@ describe('App.js -> <App />', () => {
 
     return app.instance().callApi()
       .then((response) => {
-        expect(global.fetch).toHaveBeenCalledWith('/livecheck');
+        expect(global.fetch).to.have.been.called.with('http://localhost:5000/livecheck');
         expect(response).toEqual({
           status: 'Running!'
         });
