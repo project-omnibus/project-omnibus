@@ -41,7 +41,9 @@ function createServer () {
 
   app.get('*',renderRouteMiddleware);
 
-  http.createServer(app).listen(app.get('port'));
+  if (process.env.NODE_ENV !== 'test') {
+    http.createServer(app).listen(app.get('port'));
+  }
 
   process.on('SIGBREAK', () => shutdown());
   process.on('SIGINT', () => shutdown());

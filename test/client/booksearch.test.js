@@ -12,7 +12,7 @@ describe('BookSearch.js -> <BookSearch />', () => {
     preventDefault: () => {}
   };
 
-  /*beforeEach(() => {
+beforeEach(() => {
     global.fetch = jest.fn().mockImplementation((url, body) => {
       if (url === '/livecheck') {
         return Promise.resolve({
@@ -34,7 +34,7 @@ describe('BookSearch.js -> <BookSearch />', () => {
         });
       }
     });
-  });*/
+  });
 
   it('renders without crashing', () => {
     const wrapper = shallow(<BookSearch />);
