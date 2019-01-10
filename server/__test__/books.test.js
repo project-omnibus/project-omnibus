@@ -1,11 +1,12 @@
-var app = require('../src/server');
+var app = require('../src/app');
 var nock = require('nock');
 var request = require('supertest');
 
 describe('/v1/books', () => {
+
   beforeEach(() => {
     nock.cleanAll();
-  });   
+  });
 
   it('GET without required query parameter should return 400', () => {
     return request(app)

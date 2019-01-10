@@ -39,7 +39,6 @@
     "server": "cd server && nodemon src/server.js",
     "start:dev": "concurrently --kill-others-on-fail  \"npm run build:watch:server\" \"npm run build:watch:client\" \"nodemon ./build/server/start.js\"",
     "style": "eslint test",
-    "coverage": "nyc report --reporter=lcov && nyc check-coverage --lines 80 --functions 75 --branch 80",
     "build:server": "babel ./server/src/start.js -d build/server/",
     "build:watch:server": "babel ./server/src/start.js -d build/server/ --watch",
     "build:client": "webpack --config ./webpack.config.js/",
@@ -50,8 +49,7 @@
     "build:dev": "./node_modules/.bin/webpack --mode development",
     "dev": "cd server && nodemon src/start.js",
     "start": "nodemon server/src/start.js",
-    "test": "nyc mocha --exit",
-    "test-jest": "jest --runInBand --coverage"
+    "test": "SET NODE_ENV=test && jest --runInBand --coverage --detectOpenHandles --forceExit"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.0",

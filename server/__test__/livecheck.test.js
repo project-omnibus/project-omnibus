@@ -1,4 +1,4 @@
-var app = require('../src/server');
+var app = require('../src/app');
 var request = require('supertest');
 
 describe('/livecheck', () => {
