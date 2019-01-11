@@ -1,5 +1,8 @@
 import React from 'react';
 import Nav from './Navigation'
+import ChatbotMessageDialogBubble from './ChatbotMessageDialogBubble'
+import UserMessageBox from './UserMessageBox'
+import '../styles/Conversation.css'
 
 class Conversation extends React.Component{
 	//Conversation component is used to route all user conversation
@@ -64,7 +67,7 @@ class Conversation extends React.Component{
 		.then(data =>{
 			var userProfile1 = data;
 			userProfile1.answer="";
-			this.props.triggerParentHandler(userProfile1);  //commented because don't knwo how to pass props to parent through router-config yet
+			// this.props.triggerParentHandler(userProfile1);  //commented because don't knwo how to pass props to parent through router-config yet
 
 			this.setState({ userProfile: userProfile1 });
 		})
@@ -78,22 +81,32 @@ class Conversation extends React.Component{
 
 
 	render(){
-		return (
-      <div className="container">
-				<Nav route ={this.props.route}/>
-				<div id="chatbot-message">
-					<p>{this.state.userProfile.currentQ.question}</p>
-				</div>
 
-				<div id="message-box">
-					<form id="message-form" onSubmit={this.handleSubmit}>
-							<input type='text' value={this.state.userProfile.answer}
-							onChange={this.handleChange} id="message-input" autoFocus	/>
-					</form>
-	        <p>{JSON.stringify(this.state.userProfile)}</p>
-	      </div>
+		return (
+			<div>
+				<Nav route={this.props.route} />
+				<div className="container">
+					<ChatbotMessageDialogBubble message={this.state.userProfile.currentQ.question} />
+					<UserMessageBox />
+				</div>
 			</div>
 		);
+		// return (
+    //   <div className="container">
+		// 		<Nav route ={this.props.route}/>
+		// 		<div id="chatbot-message">
+		// 			<p>{this.state.userProfile.currentQ.question}</p>
+		// 		</div>
+		//
+		// 		<div id="message-box">
+		// 			<form id="message-form" onSubmit={this.handleSubmit}>
+		// 					<input type='text' value={this.state.userProfile.answer}
+		// 					onChange={this.handleChange} id="message-input" autoFocus	/>
+		// 			</form>
+	  //       <p>{JSON.stringify(this.state.userProfile)}</p>
+	  //     </div>
+		// 	</div>
+		// );
 	}
 }
 export default Conversation;

@@ -1,20 +1,13 @@
-import React from 'react';
+import React, { Component } from "react"; //imports allows for JSX syntax
 import ChatbotMessage from './ChatbotMessage';
 
-class ChatbotMessageDialogBubble extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {};
-  }
-
-  render(){
+const ChatbotMessageDialogBubble = props => {
     return(
       <div>
-        <ChatbotMessage />
+        <ChatbotMessage message={props.message}/>
       </div>
     );
 
-  }
 };
 
 export default ChatbotMessageDialogBubble;

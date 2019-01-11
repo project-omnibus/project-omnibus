@@ -1,25 +1,14 @@
-import React from 'react';
+import React, { Component } from "react"; //imports allows for JSX syntax
 import '../styles/ChatbotMessage.css'
 
-class ChatbotMessage extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {
-      chatbot_message: {
-        message: "",
-        datetime: "0000-00-00 00:00:00",
-      },
-    };
-  }
+const ChatbotMessage = props => {
 
-  render(){
     return(
       <div className="chatbotMessage">
-        What's the last good book you read?
+        {props.message}
       </div>
     );
 
-  }
 };
 
 export default ChatbotMessage;
