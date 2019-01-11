@@ -3,9 +3,7 @@ import { Switch } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 import Nav from './Navigation'
 import Conversation from './Conversation'
-import ChatbotMessageDialogBubble from './ChatbotMessageDialogBubble'
-import UserMessageBox from './UserMessageBox'
-import '../styles/Home.css'
+
 
 class Home extends React.Component{
 
@@ -19,10 +17,6 @@ class Home extends React.Component{
 		return (
 			<div>
 				<Nav route ={this.props.route}/>
-				<div className="container">
-					<ChatbotMessageDialogBubble />
-					<UserMessageBox />
-				</div>
 			</div>
 		);
 		// return (
