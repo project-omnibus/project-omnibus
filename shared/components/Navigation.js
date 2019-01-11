@@ -18,7 +18,7 @@ class Nav extends React.Component {
     }
     return(
       <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
-        <Brand />
+        <Link to="/conversation"><Brand /></Link>
         <MenuButton />
       </nav>
     );

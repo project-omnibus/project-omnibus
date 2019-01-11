@@ -8,7 +8,7 @@ class MenuButton extends React.Component{
 
   render(){
     return (
-      <img height="110" src="/static/Navigation/icons/menu-icon.png"/>
+      <img height="40" src="/static/Navigation/icons/menu-icon.png"/>
     );
   }
 };

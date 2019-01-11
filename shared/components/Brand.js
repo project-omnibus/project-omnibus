@@ -8,7 +8,7 @@ class Brand extends React.Component{
 
   render(){
     return (
-      <a className="navbar-brand" href="#"><img height="110" src="/static/Navigation/icons/icon-placeholder.png"/></a>
+      <a className="navbar-brand" href="#"><img height="80" src="/static/Navigation/icons/icon-placeholder.png"/></a>
 
     );
   }
