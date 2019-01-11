@@ -1,7 +1,5 @@
 import React from 'react';
 import Nav from './Navigation';
-import fetch from 'isomorphic-fetch';
-import "@babel/polyfill"
 
 class BookSearch extends React.Component {
   constructor(props){
@@ -24,14 +22,12 @@ class BookSearch extends React.Component {
     const response = await fetch('/livecheck');
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
-    console.log('livecheck called')
     return body;
   }
-   // commented out because async isn't working with babel runtime right now
   handleSubmit(e) {
     e.preventDefault();
     if (this.state.post.length === 0) {
-      alert('Value should not be empty');
+      alert('Value should not be empty!');
       return;
     }
 
@@ -46,7 +42,6 @@ class BookSearch extends React.Component {
       return res.json();
     })
     .then(data => {
-      console.log(data);
       this.setState({ responseToPost: data.relatedBooks });
     })
   };

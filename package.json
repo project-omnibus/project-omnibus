@@ -81,7 +81,6 @@
     "mocha": "5.2.0",
     "nock": "10.0.2",
     "nyc": "13.1.0",
-    "regenerator-runtime": "^0.13.1",
     "should": "^13.2.3",
     "sinon": "^7.2.2",
     "supertest": "3.3.0",
@@ -91,26 +90,6 @@
   },
   "eslintConfig": {
     "extends": "react-app"
-  },
-  "jest": {
-    "verbose": true,
-    "coverageThreshold": {
-      "global": {
-        "branches": 10,
-        "functions": 20,
-        "lines": 20,
-        "statements": 20
-      }
-    },
-    "testMatch": [
-      "**/?(*.)+(spec|test).js?(x)"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/test/",
-      "/src/"
-    ],
-    "setupFiles": ["<rootDir>/node_modules/regenerator-runtime/runtime"]
   },
   "browserslist": [
     ">0.2%",

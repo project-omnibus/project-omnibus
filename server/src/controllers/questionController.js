@@ -191,7 +191,6 @@ exports.make_init_user = function(req,res,next) {
 			})
 			.then(()=>client.end());
 	} else {
-		console.log(req.body.qAskedID);
 		log.info('user already in session, passing to handle_user_response now')
 		next();
 	}

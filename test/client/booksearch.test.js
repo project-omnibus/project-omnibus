@@ -32,14 +32,6 @@ describe('BookSearch.js -> <BookSearch />', () => {
     preventDefault: () => {}
   };
 
-<<<<<<< HEAD
-  beforeEach(() => {
-    global.fetch = sinon.stub(request, 'get');
-  });
-
-  afterEach(() => {
-    request.get.restore();
-=======
 beforeEach(() => {
     global.fetch = jest.fn().mockImplementation((url, body) => {
       if (url === '/livecheck') {
@@ -62,7 +54,6 @@ beforeEach(() => {
         });
       }
     });
->>>>>>> 4b9d175e4595c76ed02a6f7b01e340b35da8fb0c
   });
 
   it('renders without crashing', () => {
