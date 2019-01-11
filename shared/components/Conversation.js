@@ -35,6 +35,9 @@ componentDidMount () {
     this.callApi()
       .then(res => this.setState({ response: res.status }))
       .catch(err => console.log(err));
+		if (Object.keys(this.props.userMainProfile).length != 0){
+			this.setState({userProfile:this.props.userMainProfile})
+		}
   }
 
 	async callApi () {
@@ -42,18 +45,11 @@ componentDidMount () {
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
-  }																												//commented out because async isn't working with babel runtime right now 13-Dec-2018
-
-	componentDidMount(){
-		if (Object.keys(this.props.userMainProfile).length != 0){
-			this.setState({userProfile:this.props.userMainProfile})
-		}
-	}
+  }
 
 	handleSubmit(event) {
 		console.log('in conversation handlesubmit')
 		event.preventDefault();
-		//var userProfileString = JSON.stringify(this.state.userProfile);
     fetch('/conversation/api', {
 			method: 'POST',
       headers: {
@@ -65,7 +61,7 @@ componentDidMount () {
 		.then(data =>{
 			var userProfile1 = data;
 			userProfile1.answer="";
-			this.props.triggerParentHandler(userProfile1);  //commented because don't knwo how to pass props to parent through router-config yet
+			this.props.triggerParentHandler(userProfile1);
 
 			this.setState({ userProfile: userProfile1 });
 
