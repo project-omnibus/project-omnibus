@@ -13,6 +13,7 @@ module.exports = {
   },
   module:{
     rules: [
+
       {
         test: /\.(js|jsx)$/,
         loader: 'babel-loader',
@@ -50,6 +51,12 @@ module.exports = {
           path.join(__dirname,'static'),
           path.join(__dirname,'templates'),
         ],
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: {
+          loader: "url-loader",
+        },
       },
     ]
   },
