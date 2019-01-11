@@ -30,7 +30,6 @@ class Conversation extends React.Component{
 			isDone:false,
 			response:""};
 		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleChange = this.handleChange.bind(this);
 	};
 
 	componentDidMount () {
@@ -51,8 +50,9 @@ class Conversation extends React.Component{
 
 	handleSubmit(event) {
 		console.log('in conversation handlesubmit')
-		event.preventDefault();
+		event.preventDefault(); // check for errors in event
 		//var userProfileString = JSON.stringify(this.state.userProfile);
+		//make POST request to the api URL
     fetch('/conversation/api', {
 			method: 'POST',
       headers: {
@@ -64,11 +64,18 @@ class Conversation extends React.Component{
 		.then(data =>{
 			var userProfile1 = data;
 			userProfile1.answer="";
-			this.props.triggerParentHandler(userProfile1);  //commented because don't knwo how to pass props to parent through router-config yet
-
+			//updates userProfile in the parent component, so that consistency is
+			//maintained for userProfile across pages
+			this.props.triggerParentHandler(userProfile1);
 			this.setState({ userProfile: userProfile1 });
 		})
   };
+
+	handleChange = e => {
+		let userProfileCopy = this.state.userProfile;
+		userProfileCopy.answer = e.target.value;
+		this.setState({userProfile:userProfileCopy});
+	}
 
 	render(){
 
@@ -77,7 +84,7 @@ class Conversation extends React.Component{
 				<Nav route={this.props.route} />
 				<div className="container">
 					<ChatbotMessageDialogBubble message={this.state.userProfile.currentQ.question} />
-					<UserMessageBox />
+					<UserMessageBox value = {this.state.userProfile.answer} onSubmit={this.handleSubmit} handleChange={this.handleChange}/>
 				</div>
 			</div>
 		);

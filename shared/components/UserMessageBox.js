@@ -2,14 +2,12 @@ import React from 'react';
 import '../styles/UserMessageBox.css'
 import UserMessageInput from './UserMessageInput'
 
-class UserMessageBox extends React.Component{
-  render() {
+const UserMessageBox = props => {
     return (
       <div className="message-box">
-      <UserMessageInput />
+      <UserMessageInput value = {props.value} onSubmit={props.onSubmit} handleChange={props.handleChange}/>
       </div>
-    )
-  }
+    );
 };
 
 export default UserMessageBox;
