@@ -29,9 +29,9 @@ describe('BookSearch.js -> <BookSearch />', () => {
         return Promise.resolve({
           status: 200,
           json: () => {
-            return {
-              relatedBooks: ['Harry Potter']
-            };
+            return  new Promise((resolve,rejct)=>{
+              resolve({relatedBooks: ['Harry Potter']})
+            });
           }
         });
       }
@@ -59,9 +59,11 @@ describe('BookSearch.js -> <BookSearch />', () => {
     const app = shallow(<BookSearch />).instance();
     app.state.post = 'test';
 
-    await app.handleSubmit(event);
-    expect(global.fetch).toHaveBeenCalledWith('/v1/books?q=test', expect.anything());
-    expect(app.state.responseToPost).toEqual(['Harry Potter']);
+    return app.handleSubmit(event)
+      .then((response) => {
+        expect(global.fetch).toHaveBeenCalledWith('/v1/books?q=test', expect.anything());
+        expect(app.state.responseToPost).toEqual(['Harry Potter']);
+      });
   });
 
   it('alerts on handleSubmit with blank input', () => {

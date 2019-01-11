@@ -9,7 +9,7 @@ class BookSearch extends React.Component {
       post: '',
       responseToPost: []
     }
-    this.handleSubmit = this.handleSubmit.bind(this);
+    //this.handleSubmit = this.handleSubmit.bind(this);
   };
 
   componentDidMount () {
@@ -24,27 +24,23 @@ class BookSearch extends React.Component {
     if (response.status !== 200) throw Error(body.message);
     return body;
   }
-  handleSubmit(e) {
+
+  handleSubmit = async e => {
     e.preventDefault();
     if (this.state.post.length === 0) {
       alert('Value should not be empty!');
       return;
     }
 
-    fetch('/v1/books?q=' + this.state.post, {
+    const response = await fetch('/v1/books?q=' + this.state.post, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
-    })
-    .then(res => {
-      if (res.status !== 200) throw Error(body.error);
-      this.setState({responseToPost: res.json().relatedBooks})
-      return res.json();
-    })
-    .then(data => {
-      this.setState({ responseToPost: [data.relatedBooks] });
-    })
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.error);
+    this.setState({ responseToPost: body.relatedBooks });
   };
 
   render () {
@@ -63,9 +59,9 @@ class BookSearch extends React.Component {
           />
           <button type='submit'>Submit</button>
         </form>
-        {this.state.responseToPost.map((item, index) => (
-          <p id={index}>{item}</p>
-        ))}
+        {this.state.responseToPost.map((item, index) =>
+          <p key={index}>{item}</p>
+        )}
       </div>
     );
   }

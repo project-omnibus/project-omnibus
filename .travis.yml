@@ -26,3 +26,5 @@ deploy:
   app:
     development: omnibus-dev
     master: projectomnibus2018
+  on:
+    all_branches: true
