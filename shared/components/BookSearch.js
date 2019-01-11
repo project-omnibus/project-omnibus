@@ -39,10 +39,11 @@ class BookSearch extends React.Component {
     })
     .then(res => {
       if (res.status !== 200) throw Error(body.error);
+      this.setState({responseToPost: res.json().relatedBooks})
       return res.json();
     })
     .then(data => {
-      this.setState({ responseToPost: data.relatedBooks });
+      this.setState({ responseToPost: [data.relatedBooks] });
     })
   };
 

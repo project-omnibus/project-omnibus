@@ -55,11 +55,11 @@ describe('BookSearch.js -> <BookSearch />', () => {
       });
   });
 
-  it('renders and calls books API on handleSubmit with input', () => {
+  it('renders and calls books API on handleSubmit with input', async () => {
     const app = shallow(<BookSearch />).instance();
     app.state.post = 'test';
 
-    app.handleSubmit(event);
+    await app.handleSubmit(event);
     expect(global.fetch).toHaveBeenCalledWith('/v1/books?q=test', expect.anything());
     expect(app.state.responseToPost).toEqual(['Harry Potter']);
   });
