@@ -1,0 +1,6 @@
+.menu-button{
+  width: 40px;
+  height: 40px;
+  background-image: url("../../client/public/static/Navigation/icons/menu-icon.png");
+  background-size: 40px;
+}

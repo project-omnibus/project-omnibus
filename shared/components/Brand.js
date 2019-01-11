@@ -1,5 +1,5 @@
 import React from 'react';
-
+import '../styles/Brand.css'
 class Brand extends React.Component{
   constructor(props){
     super(props);
@@ -8,7 +8,7 @@ class Brand extends React.Component{
 
   render(){
     return (
-      <div className="navbar-brand"><img height="80" src="/static/Navigation/icons/icon-placeholder.png"/></div>
+      <div className="navbar-brand"></div>
 
     );
   }

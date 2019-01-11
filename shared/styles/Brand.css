@@ -1,0 +1,6 @@
+.navbar-brand{
+  width: 80px;
+  height: 80px;
+  background-image: url("../../client/public/static/Navigation/icons/icon-placeholder.png");
+  background-size: 80px;
+}

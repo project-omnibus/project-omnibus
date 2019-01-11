@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/MenuButton.css'
 
 class MenuButton extends React.Component{
   constructor(props){
@@ -8,7 +9,7 @@ class MenuButton extends React.Component{
 
   render(){
     return (
-      <img height="40" src="/static/Navigation/icons/menu-icon.png"/>
+      <div className="menu-button"></div>
     );
   }
 };
