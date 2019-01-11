@@ -33,7 +33,10 @@ class Conversation extends React.Component{
 		this.handleChange = this.handleChange.bind(this);
 	};
 
-/*componentDidMount () {
+	componentDidMount () {
+		if (Object.keys(this.props.userMainProfile).length != 0){
+			this.setState({userProfile:this.props.userMainProfile})
+		}
     this.callApi()
       .then(res => this.setState({ response: res.status }))
       .catch(err => console.log(err));
@@ -44,13 +47,7 @@ class Conversation extends React.Component{
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
-  }*/																												//commented out because async isn't working with babel runtime right now 13-Dec-2018
-
-	componentDidMount(){
-		if (Object.keys(this.props.userMainProfile).length != 0){
-			this.setState({userProfile:this.props.userMainProfile})
-		}
-	}
+  }
 
 	handleSubmit(event) {
 		console.log('in conversation handlesubmit')
@@ -67,18 +64,11 @@ class Conversation extends React.Component{
 		.then(data =>{
 			var userProfile1 = data;
 			userProfile1.answer="";
-			// this.props.triggerParentHandler(userProfile1);  //commented because don't knwo how to pass props to parent through router-config yet
+			this.props.triggerParentHandler(userProfile1);  //commented because don't knwo how to pass props to parent through router-config yet
 
 			this.setState({ userProfile: userProfile1 });
 		})
   };
-
-	handleChange(event){
-		var userProfile1 = this.state.userProfile;
-		userProfile1.answer = event.target.value;
-		this.setState({userProfile:userProfile1})
-	}
-
 
 	render(){
 
