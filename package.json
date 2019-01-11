@@ -49,7 +49,7 @@
     "build:dev": "./node_modules/.bin/webpack --mode development",
     "dev": "cd server && nodemon src/start.js",
     "start": "nodemon server/src/start.js",
-    "test": "SET NODE_ENV=test && jest --runInBand --coverage --detectOpenHandles --forceExit"
+    "test": "jest --runInBand --coverage --detectOpenHandles --forceExit"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.0",
