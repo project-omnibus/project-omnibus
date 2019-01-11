@@ -1,3 +1,4 @@
+import renderRouteMiddleware from '../../isomorph-middleware/renderRoute';
 const bodyParser = require('body-parser');
 const books = require('./routes/books');
 const conversation = require('./routes/conversation');
@@ -7,7 +8,6 @@ const handler = require('./handler');
 const livecheck = require('./routes/livecheck');
 const log = require('./log');
 const path = require('path');
-import renderRouteMiddleware from '../../isomorph-middleware/renderRoute';
 
 module.exports = createApp();
 
@@ -32,9 +32,9 @@ function createApp () {
 
   app.use('/v1/books', books.router());
 
-  app.use('/conversation/api', conversation.router()); //routing to the conversation functions
+  app.use('/conversation/api', conversation.router()); // routing to the conversation functions
 
-  app.get('*',renderRouteMiddleware);
+  app.get('*', renderRouteMiddleware);
 
   return app;
 }

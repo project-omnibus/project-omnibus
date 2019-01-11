@@ -38,7 +38,8 @@
   "scripts": {
     "server": "cd server && nodemon src/server.js",
     "start:dev": "concurrently --kill-others-on-fail  \"npm run build:watch:server\" \"npm run build:watch:client\" \"nodemon ./build/server/start.js\"",
-    "style": "eslint test",
+    "style": "eslint shared server",
+    "style-fix": "eslint --fix shared server",
     "build:server": "babel ./server/src/start.js -d build/server/",
     "build:watch:server": "babel ./server/src/start.js -d build/server/ --watch",
     "build:client": "webpack --config ./webpack.config.js/",
@@ -61,6 +62,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
     "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
     "chai": "^4.2.0",

@@ -2,14 +2,14 @@ import React from 'react';
 import Nav from './Navigation';
 
 class BookSearch extends React.Component {
-  constructor(props){
+  constructor (props) {
     super(props);
     this.state = {
       response: '',
       post: '',
       responseToPost: []
-    }
-    //this.handleSubmit = this.handleSubmit.bind(this);
+    };
+    // this.handleSubmit = this.handleSubmit.bind(this);
   };
 
   componentDidMount () {
@@ -46,7 +46,7 @@ class BookSearch extends React.Component {
   render () {
     return (
       <div className='App'>
-        <Nav route ={this.props.route}/>
+        <Nav route={this.props.route} />
         <p>Status of Omnibus server on port 5000 is {this.state.response}</p>
         <form onSubmit={this.handleSubmit}>
           <p>

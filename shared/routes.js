@@ -9,9 +9,9 @@ const routes = [
     component: Root,
     routes: [
       {
-        path:'/',
-        exact:true,
-        component:Home
+        path: '/',
+        exact: true,
+        component: Home
       },
       {
         path: '/booksearch',

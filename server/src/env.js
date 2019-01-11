@@ -6,7 +6,7 @@ var log = require('./log');
 module.exports = (() => {
   return {
     googleApiKey: getGoogleApiKey(),
-    databaseURL: getDatabaseURL(),
+    databaseURL: getDatabaseURL()
   };
 })();
 
@@ -15,6 +15,6 @@ function getGoogleApiKey () {
   return process.env.GOOGLE_API_KEY || 'dumb-value-for-now';
 }
 
-function getDatabaseURL() {
+function getDatabaseURL () {
   return process.env.OMNIBUS_DATABASE_URL || 'dumb-value-for-now';
 }

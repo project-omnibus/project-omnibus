@@ -2,10 +2,9 @@ import BookSearch from '../components/BookSearch';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {StaticRouter, Redirect} from 'react-router-dom';
+import { StaticRouter, Redirect } from 'react-router-dom';
 import { configure, shallow } from 'enzyme';
 import { renderRoutes } from 'react-router-config';
-
 
 configure({ adapter: new Adapter() });
 
@@ -29,8 +28,8 @@ describe('BookSearch.js -> <BookSearch />', () => {
         return Promise.resolve({
           status: 200,
           json: () => {
-            return  new Promise((resolve,rejct)=>{
-              resolve({relatedBooks: ['Harry Potter']})
+            return new Promise((resolve, rejct) => {
+              resolve({ relatedBooks: ['Harry Potter'] });
             });
           }
         });
@@ -72,7 +71,7 @@ describe('BookSearch.js -> <BookSearch />', () => {
     const app = shallow(<BookSearch />).instance();
     app.state.post = '';
 
-    app.handleSubmit(event)
+    app.handleSubmit(event);
     expect(window.alert).toHaveBeenCalledWith('Value should not be empty!');
   });
 });

@@ -1,8 +1,10 @@
 {
-  "extends": "standard",
+  "extends": ["standard", "standard-react"],
   "env": {
-    "mocha": true
+    "browser": true,
+    "jest": true
   },
+  "parser": "babel-eslint",
   "rules": {
     "semi": [2, "always"]
   }

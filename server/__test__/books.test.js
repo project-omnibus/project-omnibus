@@ -3,7 +3,6 @@ var nock = require('nock');
 var request = require('supertest');
 
 describe('/v1/books', () => {
-
   beforeEach(() => {
     nock.cleanAll();
   });

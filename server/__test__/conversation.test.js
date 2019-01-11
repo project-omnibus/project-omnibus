@@ -3,7 +3,7 @@ var nock = require('nock');
 var request = require('supertest');
 var should = require('should');
 
-describe('/conversation/api', function(){
+describe('/conversation/api', function () {
   beforeEach(() => {
     nock.cleanAll();
   });
@@ -12,33 +12,33 @@ describe('/conversation/api', function(){
       .post('/conversation/api')
       .send({})
       .expect('Content-Type', /json/)
-      .expect(function(res){
+      .expect(function (res) {
         res.body.should.have.property('relevancy');
       });
   });
 
   it('POST to conversation with an already existing profile should return a question', () => {
-    const profileToSend ={
-      "relevancy":[100,10,10,10,10,10,10,10,10,10,10,10],
-      "qAskedID":[],
-      "attribute":{"keywords":[]},
-      "currentQ":{
-        "qid":0,
-        "question":"How often do you read  book?",
-        "userInput":false,
-        "relevancy":100,
-        "specificity":4,
-        "userAttribute":"readerType",
-        "followUpBy":[]
+    const profileToSend = {
+      'relevancy': [100, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+      'qAskedID': [],
+      'attribute': { 'keywords': [] },
+      'currentQ': {
+        'qid': 0,
+        'question': 'How often do you read  book?',
+        'userInput': false,
+        'relevancy': 100,
+        'specificity': 4,
+        'userAttribute': 'readerType',
+        'followUpBy': []
       },
-      "answer":"I don't read books very often at all"
+      'answer': "I don't read books very often at all"
     };
     return request(app)
       .post('/conversation/api')
       .send(profileToSend)
       .expect('Content-Type', /json/)
-      .expect(function(res){
+      .expect(function (res) {
         res.body.should.have.property('relevancy');
       });
   });
-})
+});
