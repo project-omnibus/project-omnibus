@@ -7,7 +7,7 @@ pg.defaults.ssl = true;
 var natural = require('natural');
 var lowerCase = require('lower-case');
 var path = require('path');
-var nlpCore = require('./nlpCore')
+//var nlpCore = require('./nlpCore')
 
 /*import CoreNLP, { Properties, Pipeline, ConnectorCli } from 'corenlp';
 

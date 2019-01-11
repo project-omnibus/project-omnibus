@@ -1,17 +1,19 @@
-import BookSearch from '../../shared/components/BookSearch';
+import BookSearch from '../components/BookSearch';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {StaticRouter, Redirect} from 'react-router-dom';
 import { configure, shallow } from 'enzyme';
+import { renderRoutes } from 'react-router-config';
 
 configure({ adapter: new Adapter() });
 
-describe('Booksearch.js -> <Booksearch />', () => {
+describe('BookSearch.js -> <BookSearch />', () => {
   const event = {
     preventDefault: () => {}
   };
 
-  beforeEach(() => {
+beforeEach(() => {
     global.fetch = jest.fn().mockImplementation((url, body) => {
       if (url === '/livecheck') {
         return Promise.resolve({

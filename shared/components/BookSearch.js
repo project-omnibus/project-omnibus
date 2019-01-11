@@ -1,6 +1,7 @@
 import React from 'react';
-import Nav from './Navigation'
-import fetch from 'isomorphic-fetch'
+import Nav from './Navigation';
+import fetch from 'isomorphic-fetch';
+import "@babel/polyfill"
 
 class BookSearch extends React.Component {
   constructor(props){
