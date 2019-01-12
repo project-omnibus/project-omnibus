@@ -48,8 +48,9 @@
     "start:dev:client": "webpack-dev-server",
     "build:production": "./node_modules/.bin/webpack --mode production",
     "build:dev": "./node_modules/.bin/webpack --mode development",
-    "dev": "cd server && nodemon src/start.js",
+    "dev": "npm start",
     "start": "nodemon server/src/start.js",
+    "prestart": "npm run build:dev",
     "test": "jest --runInBand --coverage --detectOpenHandles --forceExit"
   },
   "devDependencies": {
