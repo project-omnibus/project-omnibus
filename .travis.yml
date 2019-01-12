@@ -23,8 +23,6 @@ deploy:
   provider: heroku
   api_key:
     secure: ATtA2+AXcaVYUkyVAoAp6k6o8uElskYSaMOgDEnnlcc1Y85N3grOecy9nKQme+17E+rd90m4MDAWBQ5WKCP+lbZVuLSQy4Iktb8Wns3LSuH1BbRQnO49VkaviCVNbzvnUvJD7FeXO6Mj3L2RlCgnVczj+Ask+unwrGkVp0Wag810c70BgO0QKlyZTJibExHvSnBCtbvwr5MDoCvHZ7zQ8WvbHXfectB5s5swvaLluPtU5dybLkeQA1LZE0CTOKDfnhd5+beaxLrQDlHMu6QkDYdsDJCn6eyK/VhJ/gVLIJ/BqJp49Sp8RbvFkWoMesJsYW3IpUVOUx05/no8e1VLQzbiyTtnyG7wF139bxP/vTi/4P9v/i/3gakcPo3fBEWI7hX09JhrnXr3v4wMMzTqK7cfk/QyNcYMxnyoBTrSfKoPN8fDls8zcnnzztwEf3lTQUFTMbVgPpFr8BQtxbqD6gbWvoDQzN/VSTI2u+WO9ozq8TyOFE1cWfr8rCGZrc8vnfINk5N06S5zz3vRZqGZBMayYqbiRkJqTOeUNyr7JRr9iM+433Cg6PchR8OKKtbK5xLt5N75f6ZzMzZqQmZulSjPSTjx4o9O7ha49HQHCUEjjjJ+Gbq4kbesmUr4vxyC68OU6GdtiOy944Ip0T/B3+pH1lxccYJbd7cT+s7lR3E=
-  app:
-    development: omnibus-dev
-    master: projectomnibus2018
+
   on:
     all_branches: true
