@@ -11,16 +11,16 @@ function createServer () {
     return errorFile;
   });
 
-  app.set('port', 5000 || 8080);
+  let port = 5000;
 
-  http.createServer(app).listen(app.get('port'));
+  http.createServer(app).listen(process.env.PORT || port);
 
   process.on('SIGBREAK', () => shutdown());
   process.on('SIGINT', () => shutdown());
   process.on('SIGTERM', () => shutdown());
 
-  console.log(`Omnibus is listening on port ${app.get('port')}`);
-  log.info(`Omnibus is listening on port ${app.get('port')}`);
+  console.log(`Omnibus is listening on port ${port}`);
+  log.info(`Omnibus is listening on port ${port}}`);
 
   return app;
 }
