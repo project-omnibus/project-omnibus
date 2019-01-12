@@ -4,55 +4,17 @@ var pg = require('pg');
 pg.defaults.ssl = true;
 var natural = require('natural');
 var lowerCase = require('lower-case');
-var path = require('path');
-// var nlpCore = require('./nlpCore')
 
-/* import CoreNLP, { Properties, Pipeline, ConnectorCli } from 'corenlp';
-
-const connector = new ConnectorCli({
-  classPath: "\"corenlp/stanford-corenlp-full-2018-10-05/*\""
-});
-const props = new Properties({
-  annotators: 'tokenize,ssplit,pos,lemma,ner,parse',
-});
-const pipeline = new Pipeline(props, 'English', connector); */
-
-// sql database url
 var databaseURL = env.databaseURL;
-
-//var naturalBaseFolder = path.join(path.dirname(require.resolve('natural')), 'brill_pos_tagger');
-//var rulesFilename = naturalBaseFolder + '/data/English/tr_from_posjs.txt';
-//var lexiconFilename = naturalBaseFolder + '/data/English/lexicon_from_posjs.json';
-//var defaultCategory = 'N';
 
 // Remove all non-keywords from user answer
 // assign the keywords to the appropriate user attribute property in the req.
 exports.handle_user_input = function (req, res, next) {
   log.info('handle_user_input is called');
+
   // removing keywords from user input
   var tokenizer = new natural.WordTokenizer();
   var answerTokens = tokenizer.tokenize(req.body.answer);
-
-  // var lexicon = new natural.Lexicon(lexiconFilename, defaultCategory);
-  // var rules = new natural.RuleSet(rulesFilename);
-  // var tagger = new natural.BrillPOSTagger(lexicon,rules);
-
-  // console.log(typeof(req.body.answer));
-  // console.log(typeof(req.body.currentQ.question));
-  // console.log(tagger.tag(answerTokens));
-  // console.log(tagger.tag(tokenizer.tokenize(req.body.currentQ.question)));
-
-  // var coreToken = nlpCore.simpleTokenize(req.body.answer);
-
-  /* const sent = new CoreNLP.simple.Sentence(req.body.answer);
-	pipeline.annotate(sent)
-  	.then(sent => {
-    	console.log(sent.words());
-    	console.log(sent.nerTags());
-  })
-  .catch(err => {
-    console.log('err', err);
-  }); */ // commented for now because it returns a JSON file and don't know how to use it yet.
 
   var keywords = removeNonKeywords(answerTokens);
 
@@ -63,18 +25,18 @@ exports.handle_user_input = function (req, res, next) {
   } else {
     // if the current question has user attribute assigned, append new property to usre attribute with the keywords from the user as the value for it
     log.info('quesiton has user attribute: ' + req.body.currentQ.userAttribute + ', pushing keywords into user attribute');
-    var attribute_key = req.body.currentQ.userAttribute;
+    var attributeKey = req.body.currentQ.userAttribute;
     // if the attribute is already in the user session profile, append instead of assign
-    if (req.body.attribute.hasOwnProperty(attribute_key)) {
-      req.body.attribute[attribute_key].push(keywords);
+    if (req.body.attribute.hasOwnProperty(attributeKey)) {
+      req.body.attribute[attributeKey].push(keywords);
     } else {
-      req.body.attribute[attribute_key] = keywords;
+      req.body.attribute[attributeKey] = keywords;
     }
   }
 
   // append the current questions to the list of questions asked of in the user req object
-  var currentQ_id = req.body.currentQ.qid;
-  req.body.qAskedID.push(currentQ_id);
+  var currentQId = req.body.currentQ.qid;
+  req.body.qAskedID.push(currentQId);
 
   // print to console if middleware performed all actuions.
   log.info('input handling first middleware successful');
@@ -107,12 +69,12 @@ exports.generate_response = function (req, res) {
       var newRelevancy = assignRelevancy(req.body.currentQ, req.body.relevancy);
       userSession.relevancy = newRelevancy;
       var maxRelevancy = findMaxRelevancy(newRelevancy);
-      var next_question = {};
+      var nextQuestion = {};
 
       // query for the next question by using th new index of the max relevancy in relevancy list
       client.query('SELECT * FROM question_table WHERE question_id = $1', [maxRelevancy[0]])
         .then(result => {
-          next_question = {
+          nextQuestion = {
             qid: result.rows[0].question_id,
             question: result.rows[0].question,
             userInput: result.rows[0].need_user_input,
@@ -120,28 +82,26 @@ exports.generate_response = function (req, res) {
             specificity: result.rows[0].specificity,
             userAttribute: result.rows[0].userAttribute,
             followUpBy: [] };
-          userSession.currentQ = next_question;
+          userSession.currentQ = nextQuestion;
           log.info('user session updated with ' + JSON.stringify(userSession));
           res.json(userSession);
         })
         .catch(err => {
           log.info(err);
-      			res.status(err.statusCode)
-        		.json(err);
+          res.status(err.statusCode).json(err);
         })
         .then(() => client.end());
     })
     .catch(err => {
       log.info(err);
-      			res.status(err.statusCode)
-        		.json(err);
+      res.status(err.statusCode).json(err);
     });
 };
 
 // make and returns the list of questions as a json
 exports.make_init_user = function (req, res, next) {
   log.info('make_init_user is called');
-  if (!req.body.relevancy || req.body.relevancy.length == 0) { // check if the req is empty, therefore it is a new session and there has been no request yet. Make the initial user request
+  if (!req.body.relevancy || req.body.relevancy.length === 0) { // check if the req is empty, therefore it is a new session and there has been no request yet. Make the initial user request
     log.info('make_init_user: Checked that there is no param in HTTP, making new user');
     var client = new pg.Client({
       connectionString: databaseURL
@@ -151,7 +111,7 @@ exports.make_init_user = function (req, res, next) {
     // make the questionList object from the question table on the database.
     client.query('SELECT * FROM question_table')
       .then(result => {
-        if (result.length == 0) {
+        if (result.length === 0) {
           res.sent('No Questions Found');
         }
         for (var i = 0; i < result.rows.length; i++) {
@@ -161,7 +121,7 @@ exports.make_init_user = function (req, res, next) {
           // questionList[i]={question:result.rows[i].question, userInput:result.rows[i].need_user_input, relevancy:result.rows[i].default_relevancy, specificity:result.rows[i].specificity, userAttribute:result.rows[i].userAttribute, followUpBy:[]};
         }
         var maxRelevancy = findMaxRelevancy(userSession.relevancy);
-        var first_question = {
+        var firstQuestion = {
           qid: result.rows[maxRelevancy[0]].question_id,
           question: result.rows[maxRelevancy[0]].question,
           userInput: result.rows[maxRelevancy[0]].need_user_input,
@@ -169,19 +129,16 @@ exports.make_init_user = function (req, res, next) {
           specificity: result.rows[maxRelevancy[0]].specificity,
           userAttribute: result.rows[maxRelevancy[0]].userAttribute,
           followUpBy: [] };
-        // console.log('query made' + JSON.stringify(first_question))
-        userSession.currentQ = first_question;
+        userSession.currentQ = firstQuestion;
         log.info('make_init_user: new user made sending back to client now');
         res.json(userSession);
       })
       .catch(err => {
         log.info(err);
-      	if (err.statusCode >= 100 && statusCode < 600) {
-          res.status(err.statusCode)
-        		.json(err);
+        if (err.statusCode >= 100 && err.statusCode < 600) {
+          res.status(err.statusCode).json(err);
         } else {
-          res.status(500)
-        		.json(err);
+          res.status(500).json(err);
         }
       })
       .then(() => client.end());
@@ -193,7 +150,7 @@ exports.make_init_user = function (req, res, next) {
 
 // returns the index of the maximum and the maximum of a array of numbers
 function findMaxRelevancy (arr) {
-  if (arr.length == 0) {
+  if (arr.length === 0) {
     return -1;
   }
   var max = arr[0];
@@ -219,15 +176,14 @@ function removeNonKeywords (message) {
   const prepositions = ['on', 'at', 'in', 'of', 'to', 'for', 'with', 'over', 'by'];
   const conjunctions = ['and', 'but', 'or', 'so', 'for', 'yet', 'either', 'neither', 'nor', 'although', 'after', 'before', 'because', 'how', 'if', 'once', 'since', 'that', 'until', 'unless', 'when', 'while', 'where', 'whether', 'however', 'therefore', 'moreover', 'then', 'otherwise', 'nevertheless', 'instead', 'meanwhile', 'likewise'];
 
-  const nonkeywords =
-		definiteArticles.concat(
-		  indefiniteArticles,
-		  infinitives,
-		  auxVerbs,
-		  pronouns,
-		  prepositions,
-		  conjunctions
-		);
+  const nonkeywords = definiteArticles.concat(
+    indefiniteArticles,
+    infinitives,
+    auxVerbs,
+    pronouns,
+    prepositions,
+    conjunctions
+  );
 
   const punctuation = ['.', '"', ',', '/', '?', ':', ';', '!', '(', ')']; // except apostrophe
 
@@ -252,7 +208,7 @@ function assignRelevancy (qObject, relevancyList) {
   // the index of qObjectList and qObject should be the same, starting at 0
   relevancyList[(qObject.qid)] = 0; // set the relevancy of the current question in question array to 0
   var followUpLen = qObject.followUpBy.length; // get the length of the number of folloUpBy question to the current question
-  if (followUpLen != 0) { // if length isn't 0, then there is some questions that can follow up to current question, set relevancy of those questions to 100.
+  if (followUpLen !== 0) { // if length isn't 0, then there is some questions that can follow up to current question, set relevancy of those questions to 100.
     for (var i = 0; i < followUpLen; i++) {
       relevancyList[qObject.followUpBy[i]] = 100; // "-9" here beacuse the minimum default relevancy is 10 for now
     }

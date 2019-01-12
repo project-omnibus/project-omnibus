@@ -1,6 +1,5 @@
 import React from 'react';
 import { renderRoutes } from 'react-router-config';
-import ReactDOM from 'react-dom';
 
 class Main extends React.Component {
   constructor (props) {

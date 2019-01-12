@@ -38,8 +38,8 @@
   "scripts": {
     "server": "cd server && nodemon src/server.js",
     "start:dev": "concurrently --kill-others-on-fail  \"npm run build:watch:server\" \"npm run build:watch:client\" \"nodemon ./build/server/start.js\"",
-    "style": "eslint shared server",
-    "style-fix": "eslint --fix shared server",
+    "style": "eslint shared server client",
+    "style-fix": "eslint --fix shared server client",
     "build:server": "babel ./server/src/start.js -d build/server/",
     "build:watch:server": "babel ./server/src/start.js -d build/server/ --watch",
     "build:client": "webpack --config ./webpack.config.js/",

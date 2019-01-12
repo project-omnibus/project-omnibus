@@ -6,7 +6,6 @@ const express = require('express');
 const fs = require('fs');
 const handler = require('./handler');
 const livecheck = require('./routes/livecheck');
-const log = require('./log');
 const path = require('path');
 
 module.exports = createApp();

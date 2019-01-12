@@ -1,8 +1,5 @@
 'use strict';
 
-var fs = require('fs');
-var log = require('./log');
-
 module.exports = (() => {
   return {
     googleApiKey: getGoogleApiKey(),

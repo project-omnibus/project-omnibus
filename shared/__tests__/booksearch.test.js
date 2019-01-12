@@ -1,10 +1,7 @@
 import BookSearch from '../components/BookSearch';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { StaticRouter, Redirect } from 'react-router-dom';
 import { configure, shallow } from 'enzyme';
-import { renderRoutes } from 'react-router-config';
 
 configure({ adapter: new Adapter() });
 
@@ -28,7 +25,7 @@ describe('BookSearch.js -> <BookSearch />', () => {
         return Promise.resolve({
           status: 200,
           json: () => {
-            return new Promise((resolve, rejct) => {
+            return new Promise((resolve, reject) => {
               resolve({ relatedBooks: ['Harry Potter'] });
             });
           }

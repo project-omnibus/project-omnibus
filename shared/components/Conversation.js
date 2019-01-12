@@ -35,7 +35,7 @@ class Conversation extends React.Component {
     this.callApi()
       .then(res => this.setState({ response: res.status }))
       .catch(err => console.log(err));
-    if (Object.keys(this.props.userMainProfile).length != 0) {
+    if (Object.keys(this.props.userMainProfile).length !== 0) {
       this.setState({ userProfile: this.props.userMainProfile });
     }
   }
@@ -62,26 +62,25 @@ class Conversation extends React.Component {
         var userProfile1 = data;
         userProfile1.answer = '';
         this.props.triggerParentHandler(userProfile1);
-
         this.setState({ userProfile: userProfile1 });
 
         fetch('/v1/books?q=' + this.state.userProfile.attribute.keywords, {
-	      method: 'GET',
-	      headers: {
-	        'Content-Type': 'application/json'
-	      }
-	    })
-	    .then(res => {
-	      if (res.status !== 200) throw Error(body.error);
-	      return res.json();
-	    })
-	    .then(data => {
-	      console.log(data);
-	      this.setState({ bookResult: data.relatedBooks });
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+          .then(res => {
+            if (res.status !== 200) throw Error(res.error);
+            return res.json();
+          })
+          .then(data => {
+            console.log(data);
+            this.setState({ bookResult: data.relatedBooks });
             if (this.state.userProfile.relevancy.reduce(getSum) <= 0) {
               this.setState({ isDone: true });
             };
-	    });
+          });
       });
   };
 
@@ -107,13 +106,13 @@ class Conversation extends React.Component {
               type='text'
               value={this.state.userProfile.answer}
               onChange={this.handleChange}
-	          />
+            />
           </form>
           <p>{JSON.stringify(this.state.userProfile)}</p>
           <p>Suggested Books:</p>
           {this.state.bookResult.map((item, index) => (
             <p id={index}>{item}</p>
-	        ))}
+          ))}
         </div>
       </div>
     );
