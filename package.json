@@ -55,7 +55,7 @@
     "start": "nodemon server/src/start.js",
     "prestart": "npm run build:dev",
     "test": "jest --runInBand --coverage --detectOpenHandles --forceExit",
-    "heroku-postbuild": "webpack -p"
+    "heroku-postbuild": "webpack --mode development"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.0",
