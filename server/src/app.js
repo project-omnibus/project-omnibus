@@ -6,6 +6,7 @@ const express = require('express');
 const fs = require('fs');
 const handler = require('./handler');
 const livecheck = require('./routes/livecheck');
+const chatBot = require('./routes/chatBot');
 const path = require('path');
 
 module.exports = createApp();
@@ -32,6 +33,8 @@ function createApp () {
   app.use('/v1/books', books.router());
 
   app.use('/conversation/api', conversation.router()); // routing to the conversation functions
+
+  app.use('/chatbot/api',chatBot.router());
 
   app.get('*', renderRouteMiddleware);
 

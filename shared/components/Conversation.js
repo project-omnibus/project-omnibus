@@ -60,7 +60,7 @@ class Conversation extends React.Component {
       .then(res => res.json())
       .then(data => {
         var userProfile1 = data;
-        userProfile1.answer = '';
+        userProfile1.answer = "";
         this.props.triggerParentHandler(userProfile1);
         this.setState({ userProfile: userProfile1 });
 
@@ -117,9 +117,5 @@ class Conversation extends React.Component {
       </div>
     );
   }
-}
-
-function getSum (total, num) {
-  return total + num;
 }
 export default Conversation;
