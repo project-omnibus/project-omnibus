@@ -1,4 +1,4 @@
-var app = require('../../src/server');
+var app = require('../src/app');
 var nock = require('nock');
 var request = require('supertest');
 

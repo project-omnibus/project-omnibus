@@ -1,12 +1,11 @@
-import App from '../App';
+import BookSearch from '../components/BookSearch';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { configure, shallow } from 'enzyme';
 
 configure({ adapter: new Adapter() });
 
-describe('App.js -> <App />', () => {
+describe('BookSearch.js -> <BookSearch />', () => {
   const event = {
     preventDefault: () => {}
   };
@@ -26,9 +25,9 @@ describe('App.js -> <App />', () => {
         return Promise.resolve({
           status: 200,
           json: () => {
-            return {
-              relatedBooks: ['Harry Potter']
-            };
+            return new Promise((resolve, reject) => {
+              resolve({ relatedBooks: ['Harry Potter'] });
+            });
           }
         });
       }
@@ -36,13 +35,12 @@ describe('App.js -> <App />', () => {
   });
 
   it('renders without crashing', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(<App />, div);
+    const wrapper = shallow(<BookSearch />);
+    expect(wrapper.state().response).toEqual('');
   });
 
   it('renders and calls livecheck API correctly', () => {
-    const app = shallow(<App />);
-    expect.assertions(2);
+    const app = shallow(<BookSearch />);
 
     return app.instance().callApi()
       .then((response) => {
@@ -53,10 +51,9 @@ describe('App.js -> <App />', () => {
       });
   });
 
-  it('renders and calls books API on handleSubmit with input', () => {
-    const app = shallow(<App />).instance();
+  it('renders and calls books API on handleSubmit with input', async () => {
+    const app = shallow(<BookSearch />).instance();
     app.state.post = 'test';
-    expect.assertions(2);
 
     return app.handleSubmit(event)
       .then((response) => {
@@ -68,13 +65,10 @@ describe('App.js -> <App />', () => {
   it('alerts on handleSubmit with blank input', () => {
     window.alert = jest.fn();
 
-    const app = shallow(<App />).instance();
+    const app = shallow(<BookSearch />).instance();
     app.state.post = '';
-    expect.assertions(1);
 
-    app.handleSubmit(event)
-      .then(() => {
-        expect(window.alert).toHaveBeenCalledWith('Value should not be empty!');
-      });
+    app.handleSubmit(event);
+    expect(window.alert).toHaveBeenCalledWith('Value should not be empty!');
   });
 });

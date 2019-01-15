@@ -32,6 +32,9 @@ coverage
 # nyc test coverage
 .nyc_output
 
+# package-lock json
+pakage-lock.json
+
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 
@@ -47,6 +50,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+corenlp/
 
 # TypeScript v1 declaration files
 typings/
