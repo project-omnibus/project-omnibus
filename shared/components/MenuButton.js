@@ -1,15 +1,15 @@
 import React from 'react';
-import '../styles/MenuButton.css'
+import '../styles/MenuButton.css';
 
-class MenuButton extends React.Component{
-  constructor(props){
+class MenuButton extends React.Component {
+  constructor (props) {
     super(props);
     this.state = {};
   }
 
-  render(){
+  render () {
     return (
-      <div className="menu-button"></div>
+      <div className='menu-button' />
     );
   }
 };

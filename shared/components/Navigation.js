@@ -5,20 +5,20 @@ import Brand from './Brand.js';
 import MenuButton from './MenuButton.js';
 
 class Nav extends React.Component {
-  constructor(props){
+  constructor (props) {
     super(props);
     this.state = {};
   }
 
-  render(){
-    console.log('props.route.path = '+ this.props.route.path)
-    let selected = '';
-    if (typeof this.props.route.path === 'string') {
-      selected = this.props.route.path.split('/').pop();
-    }
-    return(
-      <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
-        <Link to="/conversation"><Brand /></Link>
+  render () {
+    // console.log('props.route.path = ' + this.props.route.path);
+    // let selected = '';
+    // if (typeof this.props.route.path === 'string') {
+    //   selected = this.props.route.path.split('/').pop();
+    // }
+    return (
+      <nav className='navbar navbar-expand-lg navbar-light bg-light justify-content-between'>
+        <Link to='/conversation'><Brand /></Link>
         <MenuButton />
       </nav>
     );

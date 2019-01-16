@@ -17,7 +17,7 @@ class Main extends React.Component {
   render () {
     return (
       <div>
-        {renderRoutes(this.props.routes, {triggerParentHandler:this.handleConversation, userMainProfile:this.state.userProfile})}
+        {renderRoutes(this.props.routes, { triggerParentHandler: this.handleConversation, userMainProfile: this.state.userProfile })}
       </div>
     );
     // return(
