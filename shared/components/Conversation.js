@@ -4,10 +4,10 @@ import ChatbotMessageDialogBubble from './ChatbotMessageDialogBubble'
 import UserMessageBox from './UserMessageBox'
 import '../styles/Conversation.css'
 
-class Conversation extends React.Component{
-	//Conversation component is used to route all user conversation
-	//Its state should include the user profile and if conversation is done
-	//User profile contains relevancy list, qAskedID, attribute, currentQ, answer
+class Conversation extends React.Component {
+  // Conversation component is used to route all user conversation
+  // Its state should include the user profile and if conversation is done
+  // User profile contains relevancy list, qAskedID, attribute, currentQ, answer
 
 	constructor(props){
 		super(props);
@@ -39,9 +39,12 @@ class Conversation extends React.Component{
     this.callApi()
       .then(res => this.setState({ response: res.status }))
       .catch(err => console.log(err));
+    if (Object.keys(this.props.userMainProfile).length !== 0) {
+      this.setState({ userProfile: this.props.userMainProfile });
+    }
   }
 
-	async callApi () {
+  async callApi () {
     const response = await fetch('/livecheck');
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
@@ -54,11 +57,11 @@ class Conversation extends React.Component{
 		//var userProfileString = JSON.stringify(this.state.userProfile);
 		//make POST request to the api URL
     fetch('/conversation/api', {
-			method: 'POST',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-			body:JSON.stringify(this.state.userProfile)
+      body: JSON.stringify(this.state.userProfile)
     })
 		.then(res => res.json())
 		.then(data =>{

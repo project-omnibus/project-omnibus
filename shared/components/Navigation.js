@@ -13,7 +13,7 @@ class Nav extends React.Component {
   render(){
     console.log('props.route.path = '+ this.props.route.path)
     let selected = '';
-    if(typeof this.props.route.path === 'string') {
+    if (typeof this.props.route.path === 'string') {
       selected = this.props.route.path.split('/').pop();
     }
     return(
