@@ -122,7 +122,7 @@ module.exports = {
   // runner: "jest-runner",
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
-   setupFiles: ['<rootDir>/jest.init.js'],
+   // setupFiles: ['<rootDir>/jest.init.js'],
 
   // The path to a module that runs some code to configure or set up the testing framework before each test
   // setupTestFrameworkScriptFile: null,
@@ -151,6 +151,7 @@ module.exports = {
      "/src/"
    ],
 
+
   // The regexp pattern Jest uses to detect test files
   // testRegex: "",
 
@@ -167,7 +168,9 @@ module.exports = {
   // timers: "real",
 
   // A map from regular expressions to paths to transformers
-  // transform: null,
+  transform: {
+  ".+\\.(css|styl|less|sass|scss)$": "<rootDir>/node_modules/jest-css-modules-transform"
+  },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   // transformIgnorePatterns: [
