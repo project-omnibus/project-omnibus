@@ -9,8 +9,6 @@ module.exports = {
     router.use('/', bodyParser.json());
     router.use(bodyParser.urlencoded({ extended: true }));
 
-    console.log('in botkit router');
-
     router.use('/', chatBot.makeConversation);
 
     return router;

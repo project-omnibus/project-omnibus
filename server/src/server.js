@@ -20,7 +20,7 @@ function createServer () {
   process.on('SIGTERM', () => shutdown());
 
   console.log(`Omnibus is listening on port ${port}`);
-  log.info(`Omnibus is listening on port ${port}}`);
+  log.info(`Omnibus is listening on port ${port}`);
 
   return app;
 }

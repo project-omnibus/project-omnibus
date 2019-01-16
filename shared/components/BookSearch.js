@@ -40,6 +40,7 @@ class BookSearch extends React.Component {
     });
     const body = await response.json();
     if (response.status !== 200) throw Error(body.error);
+    console.log(body.relatedBooks);
     this.setState({ responseToPost: body.relatedBooks });
   };
 
@@ -60,7 +61,7 @@ class BookSearch extends React.Component {
           <button type='submit'>Submit</button>
         </form>
         {this.state.responseToPost.map((item, index) =>
-          <p key={index}>{item}</p>
+          <p key={index}>{item.title}</p>
         )}
       </div>
     );
