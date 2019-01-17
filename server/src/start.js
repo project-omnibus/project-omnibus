@@ -3,9 +3,9 @@ require('@babel/register')({
   ignore: [/build/, /node_modules/],
   presets: ['@babel/preset-env', '@babel/preset-react']
 });
-// require.extensions['.css'] = () => {
-//   return;
-// };
+require.extensions['.css'] = () => {
+  return;
+};
 // const hook = require('css-modules-require-hook');
 //
 // hook({
