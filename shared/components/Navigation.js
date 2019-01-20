@@ -18,10 +18,17 @@ class Nav extends React.Component {
     // }
     return (
       <nav className='navbar navbar-expand-lg navbar-light bg-light justify-content-between'>
-        <Link to='/conversation'><Brand /></Link>
+        <button onClick = {this.props.brandClick} ><Brand /></button>
         <MenuButton />
       </nav>
     );
+    // return (
+    //   <nav className='navbar navbar-expand-lg navbar-light bg-light justify-content-between'>
+    //     <Link to='/conversation'><Brand /></Link>
+    //     <MenuButton />
+    //   </nav>
+    // );
+
     // return(
     //   <nav>
     //     <div className="navigation">
