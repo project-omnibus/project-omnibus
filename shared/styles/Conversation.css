@@ -2,7 +2,6 @@
     display: block;
     position: fixed; /* Stay in place */
     z-index: -1;
-    padding-top: 85px; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -16,14 +15,9 @@
 .modal-content {
     margin: auto;
     padding: 20px;
+    padding-top: 20vh;
     max-width: 700px;
-    height: calc(100vh - 85px);
     z-index: 1;
     border: 0px;
     border-radius: 0;
-}
-
-html{
-  background: url("../../client/public/static/blogger.jpg");
-  background-size: 100%;
 }

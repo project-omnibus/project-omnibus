@@ -16,18 +16,13 @@ class Nav extends React.Component {
     // if (typeof this.props.route.path === 'string') {
     //   selected = this.props.route.path.split('/').pop();
     // }
+
     return (
       <nav className='navbar navbar-expand-lg navbar-light bg-light justify-content-between'>
-        <button onClick = {this.props.brandClick} ><Brand /></button>
+        <button className='btn btn-link' onClick={this.props.convBrand}><Brand /></button>
         <MenuButton />
       </nav>
     );
-    // return (
-    //   <nav className='navbar navbar-expand-lg navbar-light bg-light justify-content-between'>
-    //     <Link to='/conversation'><Brand /></Link>
-    //     <MenuButton />
-    //   </nav>
-    // );
 
     // return(
     //   <nav>
