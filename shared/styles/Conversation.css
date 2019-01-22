@@ -20,4 +20,19 @@
     z-index: 1;
     border: 0px;
     border-radius: 0;
+    -webkit-animation-name: modalAnimation; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 2s; /* Safari 4.0 - 8.0 */
+    animation-name: modalAnimation;
+    animation-duration: 2s;
+}
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes modalAnimation {
+  from {height:50px;}
+  to {height:150px;}
+}
+
+/* Standard syntax */
+@keyframes modalAnimation {
+  from {height:5%;}
+  to {height:60%;}
 }
