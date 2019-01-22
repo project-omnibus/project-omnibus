@@ -28,8 +28,13 @@ class Conversation extends React.Component {
         answer: ''
       },
       isDone: false,
-      response: '' };
+      response: '',
+      modalVisible: true,
+    };
+
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleOutsideClick = this.handleOutsideClick.bind(this);
   };
 
   componentDidMount () {
@@ -49,6 +54,27 @@ class Conversation extends React.Component {
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
+  }
+
+  handleClick() {
+    if (!this.state.modalVisible) {
+     // attach/remove event handler
+     document.addEventListener('click', this.handleOutsideClick, false);
+    } else {
+     document.removeEventListener('click', this.handleOutsideClick, false);
+    }
+
+    this.setState({modalVisible: !this.state.modalVisible });
+    console.log(this.state.modalVisible);
+  }
+
+  handleOutsideClick(e) {
+    // ignore clicks on the component itself
+    if (this.node.contains(e.target)) {
+     return;
+    }
+
+    this.handleClick();
   }
 
   handleSubmit (event) {
@@ -84,10 +110,15 @@ class Conversation extends React.Component {
     return (
       <div>
         <Nav route={this.props.route} />
-        <div className='container'>
-          <ChatbotMessageDialogBubble message={this.state.userProfile.currentQ.question} />
-          <UserMessageBox value={this.state.userProfile.answer} onSubmit={this.handleSubmit} handleChange={this.handleChange} />
-        </div>
+        {this.state.modalVisible && (
+          <div className="conversation-overlay" >
+            <div className="modal-content" ref={node => { this.node = node; }}>
+            <ChatbotMessageDialogBubble message={this.state.userProfile.currentQ.question} />
+            <UserMessageBox value={this.state.userProfile.answer} onSubmit={this.handleSubmit} handleChange={this.handleChange} />
+
+            </div>
+          </div>
+        )}
       </div>
     );
   }
