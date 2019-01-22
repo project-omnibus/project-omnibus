@@ -44,7 +44,7 @@ class Home extends React.Component {
       <div>
         <Nav brandClick = {this.handleClick} route={this.props.route} />
         {this.state.modalVisible && (
-          <div className="modal" >
+          <div className="conversation-overlay" >
             <div className="modal-content" ref={node => { this.node = node; }}>
               Stuff!
             </div>

@@ -4,11 +4,11 @@
   align-items: stretch;
 }
 
-.modal {
+.conversation-overlay {
     display: block;
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
+    z-index: -1;
+    padding-top: 105px; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -22,5 +22,8 @@
 .modal-content {
     margin: auto;
     padding: 20px;
-    width: 25%;
+    max-width: 700px;
+    height: calc(100vh - 105px);
+    border: 0px;
+    border-radius: 0;
 }
