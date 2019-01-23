@@ -3,6 +3,7 @@
 var _ = require('underscore');
 var log = require('./log');
 var uuid = require('node-uuid');
+const fs = require('fs');
 
 module.exports = {
   requestLogging,
@@ -21,6 +22,17 @@ function requestLogging (req, res, next) {
       body: req.body,
       correlationId: req.id
     }, _.isEmpty);
+    if(req.method=='POST'){
+      fs.open('conversation.log', 'a', (err, fd) => {
+        if (err) throw err;
+        fs.appendFile(fd, JSON.stringify(req.body), 'utf8', (err) => {
+          fs.close(fd, (err) => {
+            if (err) throw err;
+          });
+          if (err) throw err;
+        });
+      });
+    }
 
     log.info(obj, 'API request');
   }
