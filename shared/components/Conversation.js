@@ -109,16 +109,8 @@ class Conversation extends React.Component {
   render () {
     return (
       <div>
-        <Nav route={this.props.route} />
-        {this.state.modalVisible && (
-          <div className="conversation-overlay" >
-            <div className="modal-content" ref={node => { this.node = node; }}>
-            <ChatbotMessageDialogBubble message={this.state.userProfile.currentQ.question} />
-            <UserMessageBox value={this.state.userProfile.answer} onSubmit={this.handleSubmit} handleChange={this.handleChange} />
-
-            </div>
-          </div>
-        )}
+        <ChatbotMessageDialogBubble message={this.state.userProfile.currentQ.question} />
+        <UserMessageBox value={this.state.userProfile.answer} onSubmit={this.handleSubmit} handleChange={this.handleChange} />
       </div>
     );
   }
