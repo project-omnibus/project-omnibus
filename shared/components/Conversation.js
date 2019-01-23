@@ -97,7 +97,8 @@ class Conversation extends React.Component {
         // maintained for userProfile across pages
         this.props.triggerParentHandler(userProfile1);
         this.setState({ userProfile: userProfile1 });
-      });
+      })
+      .catch(err => console.log(err));
   };
 
   handleChange = e => {
