@@ -1,22 +1,6 @@
 .chatbotMessage {
-  display: block;
   padding: 30% 50px;
   font-size: 2.5em;
   text-align: center;
   height: 94%;
-  -webkit-animation-name: chatbotMessageAnim; /* Safari 4.0 - 8.0 */
-  -webkit-animation-duration: 3s; /* Safari 4.0 - 8.0 */
-  animation-name: chatbotMessageAnim;
-  animation-duration: 3s;
-}
-/* Safari 4.0 - 8.0 */
-@-webkit-keyframes chatbotMessageAnim {
-  from {display:none;}
-  to {display: block;}
-}
-
-/* Standard syntax */
-@keyframes chatbotMessageAnim {
-  from {display:none;}
-  to {display: block;}
 }

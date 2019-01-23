@@ -49,7 +49,10 @@ class Home extends React.Component {
         {this.state.modalVisible && (
           <div className="conversation-overlay" >
             <div className="modal-content" ref={node => { this.node = node; }}>
-              <Conversation userMainProfile={this.props.userMainProfile}/>
+              <div className="conversationWrapper">
+              <Conversation userMainProfile={this.props.userMainProfile} triggerParentHandler={this.props.triggerParentHandler}/>
+              </div>
+
             </div>
           </div>
         )}
