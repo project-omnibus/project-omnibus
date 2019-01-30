@@ -12,22 +12,21 @@ class Home extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      modalVisible: false,
+      convVisible: false,
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
   };
 
   handleClick() {
-    if (!this.state.modalVisible) {
+    if (!this.state.convVisible) {
      // attach/remove event handler
      document.addEventListener('click', this.handleOutsideClick, false);
     } else {
      document.removeEventListener('click', this.handleOutsideClick, false);
     }
 
-    this.setState({modalVisible: !this.state.modalVisible });
-    console.log(this.state.modalVisible);
+    this.setState({convVisible: !this.state.convVisible });
   }
 
   handleOutsideClick(e) {
@@ -46,13 +45,12 @@ class Home extends React.Component {
     return (
       <div>
         <Nav convBrand={this.handleClick} route={this.props.route} />
-        {this.state.modalVisible && (
+        {this.state.convVisible && (
           <div className="conversation-overlay" >
             <div className="modal-content" ref={node => { this.node = node; }}>
               <div className="conversationWrapper">
-              <Conversation userMainProfile={this.props.userMainProfile} triggerParentHandler={this.props.triggerParentHandler}/>
+                <Conversation userMainProfile={this.props.userMainProfile} triggerParentHandler={this.props.triggerParentHandler}/>
               </div>
-
             </div>
           </div>
         )}
