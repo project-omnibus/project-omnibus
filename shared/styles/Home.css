@@ -8,3 +8,66 @@ html{
   background: url("../../client/public/static/blogger.jpg");
   background-size: 100%;
 }
+
+.conversation-overlay {
+    display: block;
+    position: fixed; /* Stay in place */
+    z-index: -1;
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    margin: auto;
+    padding: 20px;
+    max-width: 700px;
+    height: 60%;
+    z-index: 1;
+    border: 0px;
+    border-radius: 0;
+    -webkit-animation-name: modalAnimation; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 2s; /* Safari 4.0 - 8.0 */
+    animation-name: modalAnimation;
+    animation-duration: 2s;
+}
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes modalAnimation {
+  from {height:5%;}
+  to {height:60%;}
+}
+
+/* Standard syntax */
+@keyframes modalAnimation {
+  from {height:5%;}
+  to {height:60%;}
+}
+
+.conversationWrapper{
+  opacity: 0;
+  animation-name: conversAnim;
+  animation-delay: 2s;
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
+
+  -webkit-animation-name: conversAnim; /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 3s; /* Safari 4.0 - 8.0 */
+  -webkit-animation-delay: 2s;
+  -webkit-animation-fill-mode: forwards;
+}
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes conversAnim {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Standard syntax */
+@keyframes conversAnim {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
