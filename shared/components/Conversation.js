@@ -64,11 +64,12 @@ class Conversation extends React.Component {
         this.props.triggerParentHandler(userProfile1);
         this.setState({ userProfile: userProfile1 });
 
-        fetch('/v1/books?q=' + this.state.userProfile.attribute.keywords, {
-          method: 'GET',
+        fetch('/v1/books', {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json'
-          }
+          },
+          body: JSON.stringify(this.state.userProfile)
         })
           .then(res => {
             if (res.status !== 200) throw Error(res.error);

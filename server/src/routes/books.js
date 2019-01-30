@@ -32,7 +32,7 @@ function getTopRelatedBooks (req, res) {
   })
     .then(response => {
       const topRelatedBooks = _.map(response.items, (item) => {
-        return item.volumeInfo;
+        return item.volumeInfo.title;
       });
 
       log.info(`Found related books: [${topRelatedBooks.join(', ')}]`);
