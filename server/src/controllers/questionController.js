@@ -20,11 +20,11 @@ exports.handle_user_input = function (req, res, next) {
 
   // if the current question doesn't have user attribute assigned, append keyword to user attribute "keyword" property
   if (JSON.stringify(req.body.currentQ.userAttribute) === 'null') {
-    log.info('quesiton has no user attribute pushing keywords to keywords prop of user attribute');
+    log.info('question has no user attribute pushing keywords to keywords prop of user attribute');
     req.body.attribute.keywords.push(keywords);
   } else {
     // if the current question has user attribute assigned, append new property to usre attribute with the keywords from the user as the value for it
-    log.info('quesiton has user attribute: ' + req.body.currentQ.userAttribute + ', pushing keywords into user attribute');
+    log.info('question has user attribute: ' + req.body.currentQ.userAttribute + ', pushing keywords into user attribute');
     var attributeKey = req.body.currentQ.userAttribute;
     // if the attribute is already in the user session profile, append instead of assign
     if (req.body.attribute.hasOwnProperty(attributeKey)) {
