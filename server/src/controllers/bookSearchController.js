@@ -15,30 +15,44 @@ exports.createSearchTerms = function(req,res,next){
     log.info('there is a user profile, trying to form a query' + JSON.stringify(req.body.attribute))
     //extract all the fields in the attribute prop of the post from client
     var userProfile = req.body.attribute;
-    var query ="";
+    var keywordsQuery ="";
+    var likeGenreQuery ="";
+    var readBookQuery = "";
+    var wantGenreQuery ="";
 
     if (userProfile.hasOwnProperty('keywords')) {
-      query = query + userProfile.keywords;
+      for (var i=0;i<userProfile.keywords.length;i++){
+        keywordsQuery = keywordsQuery + "+" + userProfile.keywords[i];
+      }
     };
 
     if (userProfile.hasOwnProperty("likeGenre")){
-      query = query + "+subject:" + userProfile.likeGenre;
+      for (var i=0;i<userProfile.likeGenre.length;i++){
+        likeGenreQuery = likeGenreQuery + "+" + userProfile.likeGenre[i];
+      }
     }
 
     if (userProfile.hasOwnProperty("readBook")){
-      query = query + '-' + userProfile.readBook;
+      for (var i=0;i<userProfile.readBook.length;i++){
+        readBookQuery = readBookQuery + "+" + userProfile.readBook[i];
+      }
     }
 
     if (userProfile.hasOwnProperty("wantGenre")){
-      query = query + '+subject:' + userProfile.wantGenre;
+      for (var i=0;i<userProfile.wantGenre.length;i++){
+        wantGenreQuery = wantGenreQuery + "+" + userProfile.wantGenre[i];
+      }
     }
 
-    if(query.length==0){
-      res.status(400).json('There is no query made')
+    if((keywordsQuery.length+likeGenreQuery.length+readBookQuery.length+wantGenreQuery.length)==0){
+      res.status(400).json('There is query')
     } else{
-      console.log(query)
-      req.queryString = query;
-      log.info("query successfully made with " + query)
+      console.log(keywordsQuery)
+      req.keywordsQuery = keywordsQuery;
+      req.likeGenreQuery = likeGenreQuery;
+      req.readBookQuery = readBookQuery;
+      req.wantGenreQuery = wantGenreQuery;
+      log.info("query successfully made with keywordsQuery: " + keywordsQuery + "likeGenreQuery: " + likeGenreQuery + "readBookQuery: " + readBookQuery + "wantGenreQuery: " + wantGenreQuery)
       next();
     }
 
@@ -46,33 +60,62 @@ exports.createSearchTerms = function(req,res,next){
 
 }
 
-exports.searchBooks = function (req,res){
+exports.searchBooks = async function (req,res){
+  var topRelatedBookIdKeywords;
+  var topRelatedBookIdLikeGenre;
+  var topRelatedBookIdReadBook;
+  var topRelatedBookIdwantGenre;
 
-  req.query.key = env.googleApiKey;
-  req.query.orderBy = 'relevance';
-  req.query.maxResults = '5';
-  req.query.q = req.queryString;
+  if (req.keywordsQuery.length != 0){
+    topRelatedBookIdKeywords = await googleSearchBooks(req.keywordsQuery);
+    console.log(topRelatedBookIdKeywords)
+  }
 
-  console.log(req.query.q);
+  if (req.likeGenreQuery.length != 0){
+    topRelatedBookIdLikeGenre = await googleSearchBooks(req.likeGenreQuery);
+    console.log(topRelatedBookIdLikeGenre)
+  }
+
+  if (req.readBookQuery.length != 0){
+    topRelatedBookIdReadBook = await googleSearchBooks(req.readBookQuery);
+  }
+
+  if (req.wantGenreQuery.length != 0){
+    topRelatedBookIdwantGenre = await googleSearchBooks(req.wantGenreQuery);
+  }
+
+  var result = {"keywordResult": topRelatedBookIdKeywords, "likeGenreResult": topRelatedBookIdLikeGenre, "readBookResult":topRelatedBookIdReadBook, "wantGenreResult":topRelatedBookIdwantGenre }
+
+  log.info(result)
+
+  res.send(result);
+}
+
+function googleSearchBooks(queryString){
+  let query={"key":'', "orderBy":'', "q":""};
+  query.key = env.googleApiKey;
+  query.orderBy = 'relevance';
+  query.q = queryString;
+  var topIds;
 
   request({
     uri: `https://www.googleapis.com/books/v1/volumes`,
-    qs: req.query,
+    qs: query,
     json: true
   })
     .then(response => {
-      const topRelatedBooks = _.map(response.items, (item) => {
-        return item.volumeInfo.title;
+      const topRelatedBookId = _.map(response.items, (item) => {
+        return item.id;
       });
 
-      log.info(`Found related books: [${topRelatedBooks.join(', ')}]`);
-      res.json({
-        relatedBooks: topRelatedBooks
-      });
+      console.log("successfully queried from google!")
+      console.log(topRelatedBookId)
+      topIds = topRelatedBookId;
     })
     .catch(err => {
-      log.info(err);
-      res.status(err.statusCode)
-        .json(err.error);
+      console.log(err);
+      topIds = err;
     });
+
+  return topIds
 }
