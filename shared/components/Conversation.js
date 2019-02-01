@@ -77,8 +77,8 @@ class Conversation extends React.Component {
           })
           .then(data => {
             console.log(data);
-            this.setState({ bookResult: data.relatedBooks });
-            if (this.state.userProfile.relevancy.reduce(getSum) <= 0) {
+            this.setState({ bookResult: data.likeGenreResult });
+            if (this.state.userProfile.relevancy.reduce((a,b)=> a+b,0) <= 0) {
               this.setState({ isDone: true });
             };
           });

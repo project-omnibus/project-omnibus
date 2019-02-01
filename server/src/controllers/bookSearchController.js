@@ -61,61 +61,58 @@ exports.createSearchTerms = function(req,res,next){
 }
 
 exports.searchBooks = async function (req,res){
-  var topRelatedBookIdKeywords;
-  var topRelatedBookIdLikeGenre;
-  var topRelatedBookIdReadBook;
-  var topRelatedBookIdwantGenre;
+  var topRelatedBooksKeywords;
+  var topRelatedBooksLikeGenre;
+  var topRelatedBooksReadBook;
+  var topRelatedBooksWantGenre;
 
   if (req.keywordsQuery.length != 0){
-    topRelatedBookIdKeywords = await googleSearchBooks(req.keywordsQuery);
-    console.log(topRelatedBookIdKeywords)
+    topRelatedBooksKeywords = await googleSearchBooks(req.keywordsQuery);
   }
 
   if (req.likeGenreQuery.length != 0){
-    topRelatedBookIdLikeGenre = await googleSearchBooks(req.likeGenreQuery);
-    console.log(topRelatedBookIdLikeGenre)
+    topRelatedBooksLikeGenre = await googleSearchBooks(req.likeGenreQuery);
+
   }
 
   if (req.readBookQuery.length != 0){
-    topRelatedBookIdReadBook = await googleSearchBooks(req.readBookQuery);
+    topRelatedBooksReadBook = await googleSearchBooks(req.readBookQuery);
   }
 
   if (req.wantGenreQuery.length != 0){
-    topRelatedBookIdwantGenre = await googleSearchBooks(req.wantGenreQuery);
+    topRelatedBooksWantGenre = await googleSearchBooks(req.wantGenreQuery);
   }
 
-  var result = {"keywordResult": topRelatedBookIdKeywords, "likeGenreResult": topRelatedBookIdLikeGenre, "readBookResult":topRelatedBookIdReadBook, "wantGenreResult":topRelatedBookIdwantGenre }
-
+  result = 'stii working on it';
   log.info(result)
 
   res.send(result);
 }
 
 function googleSearchBooks(queryString){
-  let query={"key":'', "orderBy":'', "q":""};
+  let query={"key":'', "orderBy":'', "q":"", "maxResults"};
   query.key = env.googleApiKey;
   query.orderBy = 'relevance';
   query.q = queryString;
-  var topIds;
+  query.maxResults = 40;
 
-  request({
+  return request({
     uri: `https://www.googleapis.com/books/v1/volumes`,
     qs: query,
     json: true
   })
     .then(response => {
-      const topRelatedBookId = _.map(response.items, (item) => {
-        return item.id;
+      const topRelatedBooks = _.map(response.items, (item) => {
+        return item;
       });
 
       console.log("successfully queried from google!")
-      console.log(topRelatedBookId)
-      topIds = topRelatedBookId;
+      console.log(topRelatedBooks)
+      return topRelatedBooks;
     })
     .catch(err => {
       console.log(err);
       topIds = err;
     });
 
-  return topIds
 }
