@@ -77,7 +77,7 @@ class Conversation extends React.Component {
           })
           .then(data => {
             console.log(data);
-            this.setState({ bookResult: data.likeGenreResult });
+            this.setState({ bookResult: data});
             if (this.state.userProfile.relevancy.reduce((a,b)=> a+b,0) <= 0) {
               this.setState({ isDone: true });
             };
@@ -111,8 +111,8 @@ class Conversation extends React.Component {
           </form>
           <p>{JSON.stringify(this.state.userProfile)}</p>
           <p>Suggested Books:</p>
-          {this.state.bookResult.map((item, index) => (
-            <p id={index}>{item}</p>
+          {this.state.bookResult.map((item, key) => (
+            <p id={key}>{item.volumeInfo.title}</p>
           ))}
         </div>
       </div>
