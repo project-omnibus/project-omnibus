@@ -55,46 +55,69 @@ exports.createSearchTerms = function(req,res,next){
       log.info("query successfully made with keywordsQuery: " + keywordsQuery + "likeGenreQuery: " + likeGenreQuery + "readBookQuery: " + readBookQuery + "wantGenreQuery: " + wantGenreQuery)
       next();
     }
-
   }
-
 }
 
 exports.searchBooks = async function (req,res){
-  var topRelatedBooksKeywords;
-  var topRelatedBooksLikeGenre;
-  var topRelatedBooksReadBook;
-  var topRelatedBooksWantGenre;
+  var topRelatedBooksKeywords=[];
+  var topRelatedBooksLikeGenre=[];
+  var topRelatedBooksReadBook=[];
+  var topRelatedBooksWantGenre=[];
+  var topRelatedBooksIDKeywords=[];
+  var topRelatedBooksIDLikeGenre=[];
+  var topRelatedBooksIDReadBook=[];
+  var topRelatedBooksIDWantGenre=[];
 
   if (req.keywordsQuery.length != 0){
     topRelatedBooksKeywords = await googleSearchBooks(req.keywordsQuery);
+    topRelatedBooksIDKeywords = topRelatedBooksKeywords.map(items => items.id);
   }
 
   if (req.likeGenreQuery.length != 0){
     topRelatedBooksLikeGenre = await googleSearchBooks(req.likeGenreQuery);
-
+    topRelatedBooksIDLikeGenre = topRelatedBooksLikeGenre.map(items => items.id);
+    //console.log(topRelatedBooksIDLikeGenre)
   }
 
   if (req.readBookQuery.length != 0){
     topRelatedBooksReadBook = await googleSearchBooks(req.readBookQuery);
+    topRelatedBooksIDReadBook = topRelatedBooksReadBook.map(items => items.id);
   }
 
   if (req.wantGenreQuery.length != 0){
     topRelatedBooksWantGenre = await googleSearchBooks(req.wantGenreQuery);
+    topRelatedBooksIDWantGenre = topRelatedBooksWantGenre.map(items => items.id);
   }
 
-  result = 'stii working on it';
+  var uniqueIds = _.union(topRelatedBooksIDKeywords, topRelatedBooksIDLikeGenre, topRelatedBooksIDReadBook, topRelatedBooksIDWantGenre);
+  var relevancyTable = [];
+  for (var i =0; i<uniqueIds.length; i++){
+    var relevancyTableEle = {"bookId":uniqueIds[i], "keywordsRel":-1, "likeGenreRel":-1, "readBookRel":-1,"wantGenre":-1, "totalRel":0};
+    if(topRelatedBooksIDKeywords.length != 0){
+      relevancyTableEle.keywordsRel = _.indexOf(topRelatedBooksIDKeywords,relevancyTableEle.bookId);
+    }
+    if(topRelatedBooksIDLikeGenre.length != 0){
+      relevancyTableEle.likeGenreRel = _.indexOf(topRelatedBooksIDLikeGenre, relevancyTableEle.bookId);
+    }
+    if(topRelatedBooksIDReadBook.length != 0){
+      relevancyTableEle.readBookRel = _.indexOf(topRelatedBooksIDReadBook, relevancyTableEle.bookId);
+    }
+    if(topRelatedBooksIDWantGenre.length != 0){
+      relevancyTableEle.wantGenreRel = _.indexOf(topRelatedBooksIDWantGenre, relevancyTableEle.bookId);
+    }
+    relevancyTableEle.totalRel = relevancyTableEle.keywordsRel+1;
+    relevancyTable.push(relevancyTabelEle)
+  }
+  console.log(relevancyTable)
+
+  var result = 'still working on it';
   log.info(result)
 
   res.send(result);
 }
 
 function googleSearchBooks(queryString){
-  let query={"key":'', "orderBy":'', "q":"", "maxResults"};
-  query.key = env.googleApiKey;
-  query.orderBy = 'relevance';
-  query.q = queryString;
-  query.maxResults = 40;
+  let query={"key":env.googleApiKey, "orderBy":'relevance', "q":queryString, "maxResults":40};
 
   return request({
     uri: `https://www.googleapis.com/books/v1/volumes`,
@@ -107,7 +130,6 @@ function googleSearchBooks(queryString){
       });
 
       console.log("successfully queried from google!")
-      console.log(topRelatedBooks)
       return topRelatedBooks;
     })
     .catch(err => {
