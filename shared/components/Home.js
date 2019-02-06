@@ -2,10 +2,10 @@ import React from 'react';
 // import { Switch } from 'react-router-dom';
 // import { renderRoutes } from 'react-router-config';
 import Nav from './Navigation';
+import Menu from './Menu';
 import Conversation from './Conversation';
 import ChatbotMessageDialogBubble from './ChatbotMessageDialogBubble';
 import UserMessageBox from './UserMessageBox';
-import '../styles/Conversation.css';
 import '../styles/Home.css'
 
 class Home extends React.Component {
@@ -13,6 +13,7 @@ class Home extends React.Component {
     super(props);
     this.state = {
       convVisible: false,
+      menuVisible: false,
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);

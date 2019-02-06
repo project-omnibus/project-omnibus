@@ -7,7 +7,11 @@ import MenuButton from './MenuButton.js';
 class Nav extends React.Component {
   constructor (props) {
     super(props);
-    this.state = {};
+    this.state = {
+      menuVisible: false,
+    };
+    this.handleClick = this.handleClick.bind(this);
+    this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
 
   render () {
@@ -21,6 +25,13 @@ class Nav extends React.Component {
       <nav className='navbar navbar-expand-lg navbar-light bg-light justify-content-between'>
         <button className='btn btn-link' onClick={this.props.convBrand}><Brand /></button>
         <MenuButton />
+        {this.state.menuVisible && (
+          <div className="overlay" >
+            <div className="overlay-content" ref={node => { this.node = node; }}>
+                <Menu />
+            </div>
+          </div>
+        )}
       </nav>
     );
 

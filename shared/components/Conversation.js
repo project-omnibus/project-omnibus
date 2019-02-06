@@ -13,9 +13,15 @@ class Conversation extends React.Component {
     super(props);
     this.state = {
       userProfile: {
-        relevancy: [],
-        qAskedID: [],
-        attribute: {},
+        relevancy: [], //relevancy scores of all questions in database
+        qAskedID: [], //array of questions already asked by chatbot (starts blank)
+        attribute: {// container for keywords (to be searched later), likeBook, likeGenre, readerType
+          keywords:[],
+          likeBook:[],
+          likeGenre:[],
+          likeAuthor:[],
+          readerType:[],
+        },
         currentQ: {
           qid: -1,
           question: 'Hey there! Looking for something to read but not entirely sure where to look?',
@@ -27,8 +33,8 @@ class Conversation extends React.Component {
         },
         answer: ''
       },
-      isDone: false,
-      response: '',
+      isDone: false, // trigger Conversation to end with suggestion
+      response: '', //user's response
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
