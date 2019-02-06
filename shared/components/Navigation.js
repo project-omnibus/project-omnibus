@@ -2,6 +2,7 @@
 import React from 'react';
 import Brand from './Brand.js';
 import MenuButton from './MenuButton';
+import Menu from './Menu';
 import '../styles/Navigation.css'
 
 class Nav extends React.Component {
@@ -45,7 +46,7 @@ class Nav extends React.Component {
     return (
       <nav className='navbar navbar-expand-lg navbar-light bg-light justify-content-between'>
         <button className='btn btn-link' onClick={this.props.convBrand}><Brand /></button>
-        <MenuButton />
+        <button className='btn btn-link' onClick={this.handleClick}><MenuButton menuClick = {this.handleClick}/></button>
         {this.state.menuVisible && (
           <div className="overlay" >
             <div className="overlay-content" ref={node => { this.node = node; }}>
