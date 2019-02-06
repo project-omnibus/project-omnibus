@@ -1,3 +1,7 @@
+/* TODOs
+[ ] modal content's height needs to be 
+relative to the position of the reply box */
+
 .container{
   height: calc(100vh - 76px);
   max-width: 740px;
