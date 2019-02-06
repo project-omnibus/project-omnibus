@@ -47,7 +47,6 @@ exports.createSearchTerms = function(req,res,next){
     if((keywordsQuery.length+likeGenreQuery.length+readBookQuery.length+wantGenreQuery.length)==0){
       res.status(400).json('There is query')
     } else{
-      console.log(keywordsQuery)
       req.keywordsQuery = keywordsQuery;
       req.likeGenreQuery = likeGenreQuery;
       req.readBookQuery = readBookQuery;
@@ -113,6 +112,9 @@ exports.searchBooks = async function (req,res){
   }
 
   var finalRelevancyTable = _.sortBy(relevancyTable, 'totalRel');
+  var finalRelevancyTable = finalRelevancyTable.reverse();
+
+  log.info(finalRelevancyTable)
 
   //return the top 10 books
   var result = [];
@@ -130,8 +132,6 @@ exports.searchBooks = async function (req,res){
       result.push(topRelatedBooksKeywords[finalRelevancyTable[i].wantGenreRel])
     }
   }
-
-  log.info(result)
 
   res.send(result);
 }

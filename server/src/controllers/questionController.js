@@ -170,19 +170,22 @@ function removeNonKeywords (message) {
 
   const definiteArticles = ['the'];
   const indefiniteArticles = ['a', 'an'];
-  const infinitives = ['is', 'be', 'am', 'are', 'do'];
+  const infinitives = ['is', 'be', 'am', 'are', 'do','was'];
   const auxVerbs = ['be', 'have', 'will', 'shall', 'would', 'should', 'can', 'could', 'may', 'might', 'must', 'ought'];
   const pronouns = ['i', 'you', 'me', 'my', 'he', 'she', 'they', 'myself', 'yourself', 'himself', 'herself', 'itself', 'it', 'him', 'her', 'we', 'us', 'them', 'ourselves', 'yourselves', 'themselves'];
   const prepositions = ['on', 'at', 'in', 'of', 'to', 'for', 'with', 'over', 'by'];
-  const conjunctions = ['and', 'but', 'or', 'so', 'for', 'yet', 'either', 'neither', 'nor', 'although', 'after', 'before', 'because', 'how', 'if', 'once', 'since', 'that', 'until', 'unless', 'when', 'while', 'where', 'whether', 'however', 'therefore', 'moreover', 'then', 'otherwise', 'nevertheless', 'instead', 'meanwhile', 'likewise'];
-
+  const conjunctions = ['and', 'but', 'or', 'so', 'for', 'yet', 'either', 'neither', 'nor', 'although', 'after', 'before', 'because', 'how', 'if', 'once', 'since', 'that', 'until', 'unless', 'when', 'while', 'where', 'whether', 'however', 'therefore', 'moreover', 'then', 'otherwise', 'nevertheless', 'instead', 'meanwhile', 'likewise','also'];
+  const misc = ['like','really','very','give','gave','given','good','bad','great','read','reading','about','lot','book','books','have','has','had','having']
+  const alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
   const nonkeywords = definiteArticles.concat(
     indefiniteArticles,
     infinitives,
     auxVerbs,
     pronouns,
     prepositions,
-    conjunctions
+    conjunctions,
+    misc,
+    alphabet
   );
 
   const punctuation = ['.', '"', ',', '/', '?', ':', ';', '!', '(', ')']; // except apostrophe
