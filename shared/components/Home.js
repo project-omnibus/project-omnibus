@@ -13,7 +13,6 @@ class Home extends React.Component {
     super(props);
     this.state = {
       convVisible: false,
-      menuVisible: false,
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);

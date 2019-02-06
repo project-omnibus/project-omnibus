@@ -1,8 +1,8 @@
 // shared/components/Navigation.js
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Brand from './Brand.js';
-import MenuButton from './MenuButton.js';
+import MenuButton from './MenuButton';
+import '../styles/Navigation.css'
 
 class Nav extends React.Component {
   constructor (props) {
@@ -12,6 +12,27 @@ class Nav extends React.Component {
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
+  }
+
+  handleClick() {
+    if (!this.state.menuVisible) {
+     // attach/remove event handler
+     document.addEventListener('click', this.handleOutsideClick, false);
+    }
+    else {
+     document.removeEventListener('click', this.handleOutsideClick, false);
+    }
+
+    this.setState({menuVisible: !this.state.menuVisible });
+  }
+
+  handleOutsideClick(e) {
+    // ignore clicks on the component itself
+    if (this.node.contains(e.target)) {
+     return;
+    }
+
+    this.handleClick();
   }
 
   render () {
