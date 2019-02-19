@@ -4,6 +4,7 @@ import Brand from './Brand.js';
 import MenuButton from './MenuButton';
 import Menu from './Menu';
 import '../styles/Navigation.css'
+import { Link } from 'react-router-dom';
 
 class Nav extends React.Component {
   constructor (props) {
@@ -52,7 +53,7 @@ class Nav extends React.Component {
             <div className="overlay-content" ref={node => { this.node = node; }}>
               <h4 className="menuTitle">Menu</h4>
               <ul className="menuList">
-                <li className="menuItem">Recommendations</li>
+                <li className="menuItem"><Link to="/">Recommendations</Link></li>
                 <li className="menuItem">Chat</li>
                 <li className="menuItem">Community</li>
                 <li className="menuItem">My Profile</li>
