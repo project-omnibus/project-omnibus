@@ -50,7 +50,13 @@ class Nav extends React.Component {
         {this.state.menuVisible && (
           <div className="overlay" >
             <div className="overlay-content" ref={node => { this.node = node; }}>
-                <Menu />
+              <h4 className="menuTitle">Menu</h4>
+              <ul className="menuList">
+                <li className="menuItem">Recommendations</li>
+                <li className="menuItem">Chat</li>
+                <li className="menuItem">Community</li>
+                <li className="menuItem">My Profile</li>
+              </ul>
             </div>
           </div>
         )}
