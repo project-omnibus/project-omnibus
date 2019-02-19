@@ -13,6 +13,7 @@ class Home extends React.Component {
     super(props);
     this.state = {
       convVisible: false,
+      bookRecList: [],
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
@@ -54,6 +55,20 @@ class Home extends React.Component {
             </div>
           </div>
         )}
+        <div className = "bookContainer">
+          <ul className = "bookList">
+            <li className="bookListItem"><div className="bookImage"></div></li>
+            <li className="bookListItem"><div className="bookImage"></div></li>
+            <li className="bookListItem"><div className="bookImage"></div></li>
+            <li className="bookListItem"><div className="bookImage"></div></li>
+            <li className="bookListItem"><div className="bookImage"></div></li>
+            <li className="bookListItem"><div className="bookImage"></div></li>
+            <li className="bookListItem"><div className="bookImage"></div></li>
+            <li className="bookListItem"><div className="bookImage"></div></li>
+            <li className="bookListItem"><div className="bookImage"></div></li>
+            <li className="bookListItem"><div className="bookImage"></div></li>
+          </ul>
+        </div>
       </div>
     );
   }
