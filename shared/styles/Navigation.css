@@ -19,3 +19,9 @@
     border-radius: 0;
     background-color: rgb(255,255,255);
 }
+
+.menuList{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
