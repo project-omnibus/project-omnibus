@@ -1,0 +1,12 @@
+.bubble{
+  border: 1px solid grey;
+  border-radius: 15px;
+  padding: 7px 12px;
+  height: 4rem;
+}
+
+.messageText {
+  padding: 30% 50px;
+  font-size: 1em;
+  height: 94%;
+}
