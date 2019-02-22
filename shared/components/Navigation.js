@@ -14,6 +14,7 @@ class Nav extends React.Component {
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
+    this.handleChatClick = this.handleChatClick.bind(this);
   }
 
   handleClick() {
@@ -26,6 +27,11 @@ class Nav extends React.Component {
     }
 
     this.setState({menuVisible: !this.state.menuVisible });
+  }
+
+  handleChatClick(){
+    this.handleClick();
+    this.props.convBrand();
   }
 
   handleOutsideClick(e) {
@@ -53,8 +59,8 @@ class Nav extends React.Component {
             <div className="overlay-content" ref={node => { this.node = node; }}>
               <h4 className="menuTitle">Menu</h4>
               <ul className="menuList">
+                <li className="menuItem" onClick={this.handleChatClick}>Chat</li>
                 <li className="menuItem" onClick={this.handleClick} ><Link to="/">Recommendations</Link></li>
-                <li className="menuItem">Chat</li>
                 <li className="menuItem">Community</li>
                 <li className="menuItem">My Profile</li>
               </ul>
