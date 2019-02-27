@@ -13,14 +13,27 @@
   border: 0px;
   margin: 12vh 80vw 80vh 30px;
   border-radius: 15px;
-  padding: 7px 12px;
+  padding: 20px;
   width: 25vw;
   background: rgba(230, 230, 230,1.0);
   z-index: 1;
 }
 
 .messageText {
-  padding: 20px;
   font-size: 1em;
+}
 
+.btn{
+
+}
+.btnPrimary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.messageButtons{
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px 0 0 0;
 }
