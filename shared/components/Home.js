@@ -61,7 +61,7 @@ class Home extends React.Component {
           </div>
         )}
         {this.state.notifVisible && (
-            <Notification />
+            <Notification convActive={this.handleClick} />
         )}
         <div>
           <ul className = "bookList">
