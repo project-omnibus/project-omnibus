@@ -5,13 +5,17 @@ class Notification extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      message: 'Hey there!',
+      message: "Hey! Looks like this is your first time here. Let's talk about your reading interests and I'll make some recommendations.",
     };
   };
   render () {
-    <div className='bubble'>
-      <div className='messageText'>{this.props.message}</div>
-    </div>
+    return(
+      <div className='notifOverlay'>
+      <div className='bubble'>
+        <div className='messageText'>{this.state.message}</div>
+      </div>
+      </div>
+    );
   }
 }
 export default Notification;

@@ -6,6 +6,7 @@ import Menu from './Menu';
 import Conversation from './Conversation';
 import ChatbotMessageDialogBubble from './ChatbotMessageDialogBubble';
 import UserMessageBox from './UserMessageBox';
+import Notification from './Notification'
 import '../styles/Home.css'
 
 class Home extends React.Component {
@@ -14,11 +15,15 @@ class Home extends React.Component {
     this.state = {
       convVisible: false,
       bookRecList: [],
+      notifVisible: false,
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
   };
 
+  componentDidMount () {
+    setTimeout(() => this.setState({notifVisible: true}), 5000);
+  }
   handleClick() {
     if (!this.state.convVisible) {
      // attach/remove event handler
@@ -55,7 +60,10 @@ class Home extends React.Component {
             </div>
           </div>
         )}
-        <div className = "bookContainer">
+        {this.state.notifVisible && (
+            <Notification />
+        )}
+        <div>
           <ul className = "bookList">
             <li className="bookListItem"><div className="bookImage"></div></li>
             <li className="bookListItem"><div className="bookImage"></div></li>
