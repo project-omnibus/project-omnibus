@@ -25,3 +25,7 @@
   margin: 0;
   padding: 0;
 }
+
+.navbar{
+  z-index:100;
+}
