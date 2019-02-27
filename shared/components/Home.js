@@ -19,11 +19,13 @@ class Home extends React.Component {
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
+    this.handleNotifClose =this.handleNotifClose.bind(this);
   };
 
   componentDidMount () {
     setTimeout(() => this.setState({notifVisible: true}), 5000);
   }
+
   handleClick() {
     if (!this.state.convVisible) {
      // attach/remove event handler
@@ -44,6 +46,9 @@ class Home extends React.Component {
     this.handleClick();
   }
 
+  handleNotifClose(e){
+    this.setState({notifVisible: false });
+  }
 
   render () {
     console.log('rendering:home');
@@ -61,7 +66,7 @@ class Home extends React.Component {
           </div>
         )}
         {this.state.notifVisible && (
-            <Notification convActive={this.handleClick} />
+            <Notification convActive={this.handleClick} notifClose = {this.handleNotifClose}/>
         )}
         <div>
           <ul className = "bookList">
