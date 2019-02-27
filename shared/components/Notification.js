@@ -29,16 +29,16 @@ class Notification extends React.Component {
   render () {
     let buttonDisplay = this.state.buttons.map((e,i) => {
       if (e.type=='startChat'){
-        return (<button className={e.class} onClick={this.handleChatClick}>{e.text}</button>);
+        return (<button key={i} className={e.class} onClick={this.handleChatClick}>{e.text}</button>);
       }
       else{
-        return (<button className={e.class} onClick={this.handleButtonClick}>{e.text}</button>);
+        return (<button key={i} className={e.class} onClick={this.handleButtonClick}>{e.text}</button>);
       }
 
     });
     return(
       <div className='notifOverlay'>
-        <div className='bubble' ref={node => { this.node = node; }}>
+        <div className='bubble'>
           <div className='messageText'>{this.state.message}</div>
           <div className='messageButtons'>
             {buttonDisplay}
