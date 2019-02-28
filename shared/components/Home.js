@@ -10,6 +10,7 @@ import Notification from './Notification'
 import '../styles/Home.css'
 
 class Home extends React.Component {
+
   constructor (props) {
     super(props);
     this.state = {
@@ -19,10 +20,54 @@ class Home extends React.Component {
       recommendations: [],
       query: '',
       response: '',
+      dummyProfile: {
+        relevancy:[0,0,0,0,0,0,0,0,0,0,0,100],
+        qAskedID:[0,1,2,3,4,5,6,7,8,9,10,11],
+        attribute:{
+          keywords:
+          [
+            ["like","convey","feelings","often","seem","hard","describe"],
+            ["s","good","story","about","technology","vs","spirituality","those","seemingly","opposite","things","aren","t","very","polarized","contradictions"],
+            ["s","pretty","interesting","far","s","getting","little","repetitive"],
+            ["s","not","just","subject","matter","like","pace","their","story","rhythm","their","words","calmness","characters"],
+            ["ok"]
+          ],
+          readerType: ["not","very","often"],
+          likeGenre:
+          [
+            "surreal",
+            "fiction",
+            ["nonfiction","about","interesting","topics"]
+          ],
+          likeBook:
+          [
+            "american","gods",
+            ["zen","art","motorcycle","maintence","about","similar","topic"]
+          ],
+          readBook:
+          [
+            "well","m","currently","reading","weapons","math","destruction"
+          ],
+          wantGenre:
+          ["probably","some","kind","fiction","similar","neil","gaiman"]
+        },
+        currentQ:
+        {
+          qid:11,
+          question:"OK I think I can help you in finding a book, let me take a look!",
+          userInput:false,
+          relevancy:10,
+          specificity:2,
+          userAttribute:null,
+          followUpBy:[]
+        },
+        answer:"ok"
+      },
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
     this.handleNotifClose =this.handleNotifClose.bind(this);
+    this.handleRecs = this.handleRecs.bind(this);
   };
 
   componentDidMount () {
@@ -30,6 +75,10 @@ class Home extends React.Component {
     this.callApi()
       .then(res => this.setState({ response: res.status }))
       .catch(err => console.log(err));
+    //testing Google Books API
+    //fill the state's query with the dummyProfile's keywords
+    this.setState({query: this.state.dummyProfile.attribute.keywords.join('+')});
+    this.handleRecs
   }
 
   async callApi () {
@@ -64,7 +113,6 @@ class Home extends React.Component {
   }
 
   handleRecs = async e => {
-    e.preventDefault();
     if (this.state.query.length === 0) {
       alert('Value should not be empty!');
       return;
@@ -80,6 +128,7 @@ class Home extends React.Component {
     const body = await response.json();
     if (response.status !== 200) throw Error(body.error);
     this.setState({ recommendations: body.relatedBooks });
+    console.log(this.state.recommendations);
   };
 
   render () {
