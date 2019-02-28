@@ -23,7 +23,7 @@ class Home extends React.Component {
   };
 
   componentDidMount () {
-    setTimeout(() => this.setState({notifVisible: true}), 5000);
+    setTimeout(() => this.setState({notifVisible: true}), 3000);
   }
 
   handleClick() {
@@ -57,13 +57,13 @@ class Home extends React.Component {
       <div>
         <Nav convBrand={this.handleClick} route={this.props.route} />
         {this.state.convVisible && (
+          <div>
           <div className="conversation-overlay" >
-            <div className="modal-content" ref={node => { this.node = node; }}>
-              <div className="conversationWrapper">
-                <Conversation userMainProfile={this.props.userMainProfile} triggerParentHandler={this.props.triggerParentHandler}/>
-              </div>
-            </div>
+
           </div>
+          <div className="modal-content" ref={node => { this.node = node; }}>
+            <Conversation userMainProfile={this.props.userMainProfile} triggerParentHandler={this.props.triggerParentHandler}/>
+          </div></div>
         )}
         {this.state.notifVisible && (
             <Notification convActive={this.handleClick} notifClose = {this.handleNotifClose}/>

@@ -91,7 +91,7 @@ class Conversation extends React.Component {
 
   render () {
     return (
-      <div>
+      <div className="conversationWrapper">
         <ChatbotMessageDialogBubble message={this.state.userProfile.currentQ.question} />
         <UserMessageBox value={this.state.userProfile.answer} onSubmit={this.handleSubmit} handleChange={this.handleChange} />
       </div>

@@ -1,3 +1,4 @@
 .chatbotBubbleWrapper {
-  height:52vh;
+  align-self: center;
+  flex: 1;
 }
