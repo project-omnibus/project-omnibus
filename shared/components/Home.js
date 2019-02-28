@@ -16,6 +16,9 @@ class Home extends React.Component {
       convVisible: false,
       bookRecList: [],
       notifVisible: false,
+      recommendations: [],
+      query: '',
+      response: '',
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
@@ -24,6 +27,16 @@ class Home extends React.Component {
 
   componentDidMount () {
     setTimeout(() => this.setState({notifVisible: true}), 3000);
+    this.callApi()
+      .then(res => this.setState({ response: res.status }))
+      .catch(err => console.log(err));
+  }
+
+  async callApi () {
+    const response = await fetch('/livecheck');
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
   }
 
   handleClick() {
@@ -49,6 +62,25 @@ class Home extends React.Component {
   handleNotifClose(e){
     this.setState({notifVisible: false });
   }
+
+  handleRecs = async e => {
+    e.preventDefault();
+    if (this.state.query.length === 0) {
+      alert('Value should not be empty!');
+      return;
+    }
+
+    const response = await fetch('/v1/books?q=' + this.state.query, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.error);
+    this.setState({ recommendations: body.relatedBooks });
+  };
 
   render () {
     console.log('rendering:home');
