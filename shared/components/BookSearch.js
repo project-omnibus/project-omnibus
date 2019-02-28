@@ -60,7 +60,7 @@ class BookSearch extends React.Component {
           <button type='submit'>Submit</button>
         </form>
         {this.state.responseToPost.map((item, index) =>
-          <p key={index}>{item}</p>
+          <p key={index}>{item.title}</p>
         )}
       </div>
     );
