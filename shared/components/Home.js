@@ -67,7 +67,7 @@ class Home extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
     this.handleNotifClose =this.handleNotifClose.bind(this);
-    this.handleRecs = this.handleRecs.bind(this);
+    //this.handleRecs = this.handleRecs.bind(this);
   };
 
   componentDidMount () {
@@ -75,10 +75,10 @@ class Home extends React.Component {
     this.callApi()
       .then(res => this.setState({ response: res.status }))
       .catch(err => console.log(err));
-    //testing Google Books API
-    //fill the state's query with the dummyProfile's keywords
-    this.setState({query: this.state.dummyProfile.attribute.keywords.join('+')});
-    this.handleRecs
+
+
+
+    this.handleRecs();
   }
 
   async callApi () {
@@ -112,11 +112,14 @@ class Home extends React.Component {
     this.setState({notifVisible: false });
   }
 
-  handleRecs = async e => {
-    if (this.state.query.length === 0) {
-      alert('Value should not be empty!');
-      return;
-    }
+  async handleRecs () {
+    let keywords = this.state.dummyProfile.attribute.keywords.join().toString();
+
+    //testing Google Books API
+    //fill the state's query with the dummyProfile's keywords
+    this.setState({query: keywords});
+    // keywords = keywords.toString().replace(","," and ");
+    console.log(this.state.query);
 
     const response = await fetch('/v1/books?q=' + this.state.query, {
       method: 'GET',
