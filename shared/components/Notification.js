@@ -37,14 +37,13 @@ class Notification extends React.Component {
 
     });
     return(
-      <div className='notifOverlay'>
+
         <div className='bubble'>
           <div className='messageText'>{this.state.message}</div>
           <div className='messageButtons'>
             {buttonDisplay}
           </div>
         </div>
-      </div>
     );
   }
 }

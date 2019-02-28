@@ -9,9 +9,9 @@
   background-color: transparent;
 }
 .bubble{
-  position: fixed;
+  position: absolute;
   border: 0px;
-  margin: 12vh 80vw 80vh 30px;
+  margin: 10px 10px;
   border-radius: 15px;
   padding: 20px;
   width: 25vw;
