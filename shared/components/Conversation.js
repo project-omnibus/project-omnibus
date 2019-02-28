@@ -81,6 +81,7 @@ class Conversation extends React.Component {
         this.setState({ userProfile: userProfile1 });
       })
       .catch(err => console.log(err));
+    localStorage.setItem('userProfile',JSON.stringify(this.state.userProfile));
   };
 
   handleChange = e => {
