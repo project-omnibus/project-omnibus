@@ -9,7 +9,7 @@ class Notification extends React.Component {
       buttons: [
         {type: 'startChat',
         class: 'btn btnPrimary',
-        text:'OK'},
+        text:'Yeah!'},
         {type: 'cancel',
         class: 'btn',
         text:'No thanks'},
