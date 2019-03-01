@@ -23,46 +23,8 @@ class Home extends React.Component {
       dummyProfile: {
         relevancy:[0,0,0,0,0,0,0,0,0,0,0,100],
         qAskedID:[0,1,2,3,4,5,6,7,8,9,10,11],
-        attribute:{
-          keywords:
-          [
-            ["like","convey","feelings","often","seem","hard","describe"],
-            ["s","good","story","about","technology","vs","spirituality","those","seemingly","opposite","things","aren","t","very","polarized","contradictions"],
-            ["s","pretty","interesting","far","s","getting","little","repetitive"],
-            ["s","not","just","subject","matter","like","pace","their","story","rhythm","their","words","calmness","characters"],
-            ["ok"]
-          ],
-          readerType: ["not","very","often"],
-          likeGenre:
-          [
-            "surreal",
-            "fiction",
-            ["nonfiction","about","interesting","topics"]
-          ],
-          likeBook:
-          [
-            "american","gods",
-            ["zen","art","motorcycle","maintence","about","similar","topic"]
-          ],
-          readBook:
-          [
-            "well","m","currently","reading","weapons","math","destruction"
-          ],
-          wantGenre:
-          ["probably","some","kind","fiction","similar","neil","gaiman"]
-        },
-        currentQ:
-        {
-          qid:11,
-          question:"OK I think I can help you in finding a book, let me take a look!",
-          userInput:false,
-          relevancy:10,
-          specificity:2,
-          userAttribute:null,
-          followUpBy:[]
-        },
-        answer:"ok"
-      },
+        attribute:'',
+      }        
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
@@ -70,14 +32,55 @@ class Home extends React.Component {
     //this.handleRecs = this.handleRecs.bind(this);
   };
 
-  componentDidMount () {
+  async componentDidMount () {
     setTimeout(() => this.setState({notifVisible: true}), 3000);
     this.callApi()
       .then(res => this.setState({ response: res.status }))
       .catch(err => console.log(err));
-
-
-
+    const dummyProfile = {
+      relevancy:[0,0,0,0,0,0,0,0,0,0,0,100],
+      qAskedID:[0,1,2,3,4,5,6,7,8,9,10,11],
+      attribute:{
+        keywords:
+        [
+          ["like","convey","feelings","often","seem","hard","describe"],
+          ["s","good","story","about","technology","vs","spirituality","those","seemingly","opposite","things","aren","t","very","polarized","contradictions"],
+          ["s","pretty","interesting","far","s","getting","little","repetitive"],
+          ["s","not","just","subject","matter","like","pace","their","story","rhythm","their","words","calmness","characters"],
+          ["ok"]
+        ],
+        readerType: ["not","very","often"],
+        likeGenre:
+        [
+          "surreal",
+          "fiction",
+          ["nonfiction","about","interesting","topics"]
+        ],
+        likeBook:
+        [
+          "american","gods",
+          ["zen","art","motorcycle","maintence","about","similar","topic"]
+        ],
+        readBook:
+        [
+          "well","m","currently","reading","weapons","math","destruction"
+        ],
+        wantGenre:
+        ["probably","some","kind","fiction","similar","neil","gaiman"]
+      },
+      currentQ:
+      {
+        qid:11,
+        question:"OK I think I can help you in finding a book, let me take a look!",
+        userInput:false,
+        relevancy:10,
+        specificity:2,
+        userAttribute:null,
+        followUpBy:[]
+      },
+      answer:"ok"
+    };
+    await this.setState({dummyProfile:dummyProfile});
     this.handleRecs();
   }
 
@@ -117,7 +120,7 @@ class Home extends React.Component {
 
     //testing Google Books API
     //fill the state's query with the dummyProfile's keywords
-    this.setState({query: keywords});
+    await this.setState({query: keywords});
     // keywords = keywords.toString().replace(","," and ");
     console.log(this.state.query);
 
