@@ -118,18 +118,19 @@ class Home extends React.Component {
     //fill the state's query with the dummyProfile's keywords
     await this.setState({query: keywords});
     // keywords = keywords.toString().replace(","," and ");
-    console.log(this.state.query);
 
-    const response = await fetch('/v1/books?q=' + this.state.query, {
-      method: 'GET',
+    const response = await fetch('/v1/books', {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
-      }
-    });
+      },
+      body: JSON.stringify(this.state.dummyProfile)
+    })
 
     const body = await response.json();
     if (response.status !== 200) throw Error(body.error);
-    this.setState({ recommendations: body.relatedBooks });
+    this.setState({ recommendations: body });
+    
     console.log(this.state.recommendations);
   };
 
