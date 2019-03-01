@@ -41,9 +41,6 @@ class Conversation extends React.Component {
   };
 
   componentDidMount () {
-    if (Object.keys(this.props.userMainProfile).length !== 0) {
-      this.setState({ userProfile: this.props.userMainProfile });
-    }
     this.callApi()
       .then(res => this.setState({ response: res.status }))
       .catch(err => console.log(err));
@@ -64,6 +61,7 @@ class Conversation extends React.Component {
     event.preventDefault(); // check for errors in event
     // var userProfileString = JSON.stringify(this.state.userProfile);
     // make POST request to the api URL
+
     fetch('/conversation/api', {
       method: 'POST',
       headers: {
@@ -74,13 +72,29 @@ class Conversation extends React.Component {
       .then(res => res.json())
       .then(data => {
         var userProfile1 = data;
-        userProfile1.answer = '';
-        // updates userProfile in the parent component, so that consistency is
-        // maintained for userProfile across pages
+        userProfile1.answer = "";
         this.props.triggerParentHandler(userProfile1);
         this.setState({ userProfile: userProfile1 });
-      })
-      .catch(err => console.log(err));
+
+        fetch('/v1/books', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.state.userProfile)
+        })
+          .then(res => {
+            if (res.status !== 200) throw Error(res.error);
+            return res.json();
+          })
+          .then(data => {
+            console.log(data);
+            this.setState({ bookResult: data});
+            if (this.state.userProfile.relevancy.reduce((a,b)=> a+b,0) <= 0) {
+              this.setState({ isDone: true });
+            };
+          });
+      });
     localStorage.setItem('userProfile',JSON.stringify(this.state.userProfile));
   };
 
