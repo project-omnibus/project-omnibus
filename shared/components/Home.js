@@ -20,11 +20,7 @@ class Home extends React.Component {
       recommendations: [],
       query: '',
       response: '',
-      dummyProfile: {
-        relevancy:[0,0,0,0,0,0,0,0,0,0,0,100],
-        qAskedID:[0,1,2,3,4,5,6,7,8,9,10,11],
-        attribute:'',
-      }        
+      dummyProfile: {}
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
