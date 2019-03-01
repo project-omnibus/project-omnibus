@@ -130,44 +130,72 @@ class Home extends React.Component {
     const body = await response.json();
     if (response.status !== 200) throw Error(body.error);
     this.setState({ recommendations: body });
-    
+
     console.log(this.state.recommendations);
   };
 
   render () {
     console.log('rendering:home');
 
-    return (
-      <div>
-        <Nav convBrand={this.handleClick} route={this.props.route} />
-        {this.state.convVisible && (
-          <div>
-          <div className="conversation-overlay" >
-
-          </div>
-          <div className="modal-content" ref={node => { this.node = node; }}>
-            <Conversation userMainProfile={this.props.userMainProfile} triggerParentHandler={this.props.triggerParentHandler}/>
-          </div></div>
-        )}
-        {this.state.notifVisible && (
-            <Notification convActive={this.handleClick} notifClose = {this.handleNotifClose}/>
-        )}
+    if(this.state.recommendations[0]==undefined||this.state.recommendations.length==0){
+      return (
         <div>
-          <ul className = "bookList">
-            <li className="bookListItem"><div className="bookImage"></div></li>
-            <li className="bookListItem"><div className="bookImage"></div></li>
-            <li className="bookListItem"><div className="bookImage"></div></li>
-            <li className="bookListItem"><div className="bookImage"></div></li>
-            <li className="bookListItem"><div className="bookImage"></div></li>
-            <li className="bookListItem"><div className="bookImage"></div></li>
-            <li className="bookListItem"><div className="bookImage"></div></li>
-            <li className="bookListItem"><div className="bookImage"></div></li>
-            <li className="bookListItem"><div className="bookImage"></div></li>
-            <li className="bookListItem"><div className="bookImage"></div></li>
-          </ul>
+          <Nav convBrand={this.handleClick} route={this.props.route} />
+          {this.state.convVisible && (
+            <div>
+            <div className="conversation-overlay" >
+
+            </div>
+            <div className="modal-content" ref={node => { this.node = node; }}>
+              <Conversation userMainProfile={this.props.userMainProfile} triggerParentHandler={this.props.triggerParentHandler}/>
+            </div></div>
+          )}
+          {this.state.notifVisible && (
+              <Notification convActive={this.handleClick} notifClose = {this.handleNotifClose}/>
+          )}
+          <div>
+            <ul className = "bookList">
+              <li className="bookListItem"><div className="bookImage"></div></li>
+              <li className="bookListItem"><div className="bookImage"></div></li>
+              <li className="bookListItem"><div className="bookImage"></div></li>
+              <li className="bookListItem"><div className="bookImage"></div></li>
+              <li className="bookListItem"><div className="bookImage"></div></li>
+              <li className="bookListItem"><div className="bookImage"></div></li>
+              <li className="bookListItem"><div className="bookImage"></div></li>
+              <li className="bookListItem"><div className="bookImage"></div></li>
+              <li className="bookListItem"><div className="bookImage"></div></li>
+              <li className="bookListItem"><div className="bookImage"></div></li>
+            </ul>
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else if (this.state.recommendations.length >0){
+      return (
+        <div>
+          <Nav convBrand={this.handleClick} route={this.props.route} />
+          {this.state.convVisible && (
+            <div>
+            <div className="conversation-overlay" >
+
+            </div>
+            <div className="modal-content" ref={node => { this.node = node; }}>
+              <Conversation userMainProfile={this.props.userMainProfile} triggerParentHandler={this.props.triggerParentHandler}/>
+            </div></div>
+          )}
+          {this.state.notifVisible && (
+              <Notification convActive={this.handleClick} notifClose = {this.handleNotifClose}/>
+          )}
+          <div>
+            <ul className = "bookList">
+              {this.state.recommendations.map((item,key)=>
+                <li className="bookListItem" key={key}><div className="bookImage"><img src={item.volumeInfo.imageLinks.thumbnail}/></div></li>
+              )}
+            </ul>
+          </div>
+        </div>
+      );
+    }
+
   }
 }
 export default Home;
