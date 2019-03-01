@@ -60,15 +60,16 @@ class Conversation extends React.Component {
       .then(res => res.json())
       .then(data => {
         var userProfile1 = data;
-        userProfile1.answer = '';
+        userProfile1.answer = "";
         this.props.triggerParentHandler(userProfile1);
         this.setState({ userProfile: userProfile1 });
 
-        fetch('/v1/books?q=' + this.state.userProfile.attribute.keywords, {
-          method: 'GET',
+        fetch('/v1/books', {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json'
-          }
+          },
+          body: JSON.stringify(this.state.userProfile)
         })
           .then(res => {
             if (res.status !== 200) throw Error(res.error);
@@ -76,8 +77,8 @@ class Conversation extends React.Component {
           })
           .then(data => {
             console.log(data);
-            this.setState({ bookResult: data.relatedBooks });
-            if (this.state.userProfile.relevancy.reduce(getSum) <= 0) {
+            this.setState({ bookResult: data});
+            if (this.state.userProfile.relevancy.reduce((a,b)=> a+b,0) <= 0) {
               this.setState({ isDone: true });
             };
           });
@@ -110,16 +111,12 @@ class Conversation extends React.Component {
           </form>
           <p>{JSON.stringify(this.state.userProfile)}</p>
           <p>Suggested Books:</p>
-          {this.state.bookResult.map((item, index) => (
-            <p id={index}>{item}</p>
+          {this.state.bookResult.map((item, key) => (
+            <p id={key}>{item.volumeInfo.title}</p>
           ))}
         </div>
       </div>
     );
   }
-}
-
-function getSum (total, num) {
-  return total + num;
 }
 export default Conversation;

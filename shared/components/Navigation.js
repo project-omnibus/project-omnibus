@@ -17,6 +17,7 @@ class Nav extends React.Component {
             <li className={selected === '' ? 'active' : ''}><Link to='/'> HOME </Link></li>
             <li className={selected === 'conversation' ? 'active' : ''}><Link to='/conversation'>Conversation</Link></li>
             <li className={selected === 'book search' ? 'active' : ''}><Link to='/booksearch'>Book Search</Link></li>
+            <li className={selected === 'chatbot' ? 'active' : ''}><Link to='/chatbot'>ChatBot</Link></li>
           </ul>
         </div>
       </nav>
