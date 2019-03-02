@@ -68,9 +68,13 @@ relative to the position of the reply box */
   width: 18%;
   height: 27vw;
 }
-.bookImage{
+.bookPlaceholder{
   width: 100%;
   height: 100%;
   background-color: rgb(242, 242, 242);
+  margin: 0;
+}
+.bookCover{
+  width: 100%;
   margin: 0;
 }

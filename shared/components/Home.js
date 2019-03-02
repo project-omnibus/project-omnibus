@@ -155,16 +155,16 @@ class Home extends React.Component {
           )}
           <div>
             <ul className = "bookList">
-              <li className="bookListItem"><div className="bookImage"></div></li>
-              <li className="bookListItem"><div className="bookImage"></div></li>
-              <li className="bookListItem"><div className="bookImage"></div></li>
-              <li className="bookListItem"><div className="bookImage"></div></li>
-              <li className="bookListItem"><div className="bookImage"></div></li>
-              <li className="bookListItem"><div className="bookImage"></div></li>
-              <li className="bookListItem"><div className="bookImage"></div></li>
-              <li className="bookListItem"><div className="bookImage"></div></li>
-              <li className="bookListItem"><div className="bookImage"></div></li>
-              <li className="bookListItem"><div className="bookImage"></div></li>
+              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
+              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
+              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
+              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
+              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
+              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
+              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
+              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
+              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
+              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
             </ul>
           </div>
         </div>
@@ -188,7 +188,7 @@ class Home extends React.Component {
           <div>
             <ul className = "bookList">
               {this.state.recommendations.map((item,key)=>
-                <li className="bookListItem" key={key}><div className="bookImage"><img src={item.volumeInfo.imageLinks.thumbnail}/></div></li>
+                <li className="bookListItem" key={key}><img className="bookCover" src={item.volumeInfo.imageLinks.thumbnail}/></li>
               )}
             </ul>
           </div>
