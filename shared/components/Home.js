@@ -20,11 +20,12 @@ class Home extends React.Component {
       recommendations: [],
       query: '',
       response: '',
-      dummyProfile: {}
+      userProfile: {}
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
     this.handleNotifClose =this.handleNotifClose.bind(this);
+    this.handleUpdateUserProfile = this.handleUpdateUserProfile.bind(this);
     //this.handleRecs = this.handleRecs.bind(this);
   };
 
@@ -33,50 +34,7 @@ class Home extends React.Component {
     this.callApi()
       .then(res => this.setState({ response: res.status }))
       .catch(err => console.log(err));
-    const dummyProfile = {
-      relevancy:[0,0,0,0,0,0,0,0,0,0,0,100],
-      qAskedID:[0,1,2,3,4,5,6,7,8,9,10,11],
-      attribute:{
-        keywords:
-        [
-          ["like","convey","feelings","often","seem","hard","describe"],
-          ["s","good","story","about","technology","vs","spirituality","those","seemingly","opposite","things","aren","t","very","polarized","contradictions"],
-          ["s","pretty","interesting","far","s","getting","little","repetitive"],
-          ["s","not","just","subject","matter","like","pace","their","story","rhythm","their","words","calmness","characters"],
-          ["ok"]
-        ],
-        readerType: ["not","very","often"],
-        likeGenre:
-        [
-          "surreal",
-          "fiction",
-          ["nonfiction","about","interesting","topics"]
-        ],
-        likeBook:
-        [
-          "american","gods",
-          ["zen","art","motorcycle","maintence","about","similar","topic"]
-        ],
-        readBook:
-        [
-          "well","m","currently","reading","weapons","math","destruction"
-        ],
-        wantGenre:
-        ["probably","some","kind","fiction","similar","neil","gaiman"]
-      },
-      currentQ:
-      {
-        qid:11,
-        question:"OK I think I can help you in finding a book, let me take a look!",
-        userInput:false,
-        relevancy:10,
-        specificity:2,
-        userAttribute:null,
-        followUpBy:[]
-      },
-      answer:"ok"
-    };
-    await this.setState({dummyProfile:dummyProfile});
+    await this.hydrateStateWithLocalStorage();
     this.handleRecs();
   }
 
@@ -112,10 +70,10 @@ class Home extends React.Component {
   }
 
   async handleRecs () {
-    let keywords = this.state.dummyProfile.attribute.keywords.join().toString();
+    let keywords = this.state.userProfile.attribute.keywords.join().toString();
 
     //testing Google Books API
-    //fill the state's query with the dummyProfile's keywords
+    //fill the state's query with the userProfile's keywords
     await this.setState({query: keywords});
     // keywords = keywords.toString().replace(","," and ");
 
@@ -124,7 +82,7 @@ class Home extends React.Component {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(this.state.dummyProfile)
+      body: JSON.stringify(this.state.userProfile)
     })
 
     const body = await response.json();
@@ -133,6 +91,32 @@ class Home extends React.Component {
 
     console.log(this.state.recommendations);
   };
+
+  async handleUpdateUserProfile(profile){
+    event.preventDefault();
+    await this.setState({userProfile:profile})
+    localStorage.setItem('userProfile',JSON.stringify(this.state.userProfile));
+    this.handleRecs();
+  }
+
+  hydrateStateWithLocalStorage() {
+    // for all items in state
+    for (let key in this.state) {
+      // if the key exists in localStorage
+      if (localStorage.hasOwnProperty(key)) {
+        // get the key's value from localStorage
+        let value = localStorage.getItem(key);
+        // parse the localStorage string and setState
+        try {
+          value = JSON.parse(value);
+          this.setState({ [key]: value });
+        } catch (e) {
+          // handle empty string
+          this.setState({ [key]: value });
+        }
+      }
+    }
+  }
 
   render () {
     console.log('rendering:home');
@@ -147,7 +131,7 @@ class Home extends React.Component {
 
             </div>
             <div className="modal-content" ref={node => { this.node = node; }}>
-              <Conversation userMainProfile={this.props.userMainProfile} triggerParentHandler={this.props.triggerParentHandler}/>
+              <Conversation userMainProfile={this.props.userMainProfile} triggerParentHandler={this.props.triggerParentHandler} updateUserProfile={this.handleUpdateUserProfile}/>
             </div></div>
           )}
           {this.state.notifVisible && (
@@ -179,7 +163,7 @@ class Home extends React.Component {
 
             </div>
             <div className="modal-content" ref={node => { this.node = node; }}>
-              <Conversation userMainProfile={this.props.userMainProfile} triggerParentHandler={this.props.triggerParentHandler}/>
+              <Conversation userMainProfile={this.props.userMainProfile} triggerParentHandler={this.props.triggerParentHandler} updateUserProfile = {this.handleUserProfile}/>
             </div></div>
           )}
           {this.state.notifVisible && (

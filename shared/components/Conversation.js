@@ -38,6 +38,7 @@ class Conversation extends React.Component {
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSeeRec = this.handleSeeRec.bind(this);
   };
 
   componentDidMount () {
@@ -75,25 +76,9 @@ class Conversation extends React.Component {
         userProfile1.answer = "";
         this.props.triggerParentHandler(userProfile1);
         this.setState({ userProfile: userProfile1 });
-
-        fetch('/v1/books', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(this.state.userProfile)
-        })
-          .then(res => {
-            if (res.status !== 200) throw Error(res.error);
-            return res.json();
-          })
-          .then(data => {
-            console.log(data);
-            this.setState({ bookResult: data});
-            if (this.state.userProfile.relevancy.reduce((a,b)=> a+b,0) <= 0) {
-              this.setState({ isDone: true });
-            };
-          });
+        if (this.state.userProfile.relevancy.reduce((a,b)=> a+b,0) <= 0) {
+          this.setState({ isDone: true });
+        };
       });
     localStorage.setItem('userProfile',JSON.stringify(this.state.userProfile));
   };
@@ -104,10 +89,14 @@ class Conversation extends React.Component {
     this.setState({ userProfile: userProfileCopy });
   }
 
+  handleSeeRec = e =>{
+    e.preventDefault();
+    this.props.updateUserProfile(this.state.userProfile)
+  }
   render () {
     return (
       <div className="conversationWrapper">
-        <ChatbotMessageDialogBubble message={this.state.userProfile.currentQ.question} />
+        <ChatbotMessageDialogBubble message={this.state.userProfile.currentQ.question} handleSeeRec = {this.handleSeeRec}/>
         <UserMessageBox value={this.state.userProfile.answer} onSubmit={this.handleSubmit} handleChange={this.handleChange} />
       </div>
     );
