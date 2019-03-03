@@ -1,0 +1,9 @@
+.message-box{
+  border: 1px solid grey;
+  border-radius: 15px;
+  padding: 7px 12px;
+  height: 4rem;
+  display: block;
+  align-self: flex-end;
+  width: 100%;
+}

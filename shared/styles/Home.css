@@ -1,0 +1,80 @@
+/* TODOs
+[ ] modal content's height needs to be
+relative to the position of the reply box */
+
+.container{
+  height: calc(100vh - 76px);
+  max-width: 740px;
+  align-items: stretch;
+}
+
+/* html{
+  background: url("../../client/public/static/blogger.jpg");
+  background-size: 100%;
+} */
+
+.conversation-overlay {
+    display: block;
+    position: fixed; /* Stay in place */
+    z-index: 0;
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background: rgb(0,0,0); /* Fallback color */
+    background: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    position: absolute;
+    margin: 0 0 0 27.5%;
+    padding: 20px;
+    width: 45%;
+    height: 60%;
+    z-index: 1;
+    border: 0px;
+    border-radius: 0;
+    -webkit-animation-name: modalAnimation; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 2s; /* Safari 4.0 - 8.0 */
+    animation-name: modalAnimation;
+    animation-duration: 2s;
+}
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes modalAnimation {
+  from {height:5%;}
+  to {height:60%;}
+}
+
+/* Standard syntax */
+@keyframes modalAnimation {
+  from {height:5%;}
+  to {height:60%;}
+}
+
+
+.bookList{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  z-index: -1;
+}
+
+.bookListItem {
+  display: inline-block;
+  margin: 7px 1%;
+  padding: 0;
+  width: 18%;
+  height: 27vw;
+}
+.bookPlaceholder{
+  width: 100%;
+  height: 100%;
+  background-color: rgb(242, 242, 242);
+  margin: 0;
+}
+.bookCover{
+  width: 100%;
+  margin: 0;
+}

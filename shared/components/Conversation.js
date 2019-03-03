@@ -1,5 +1,8 @@
 import React from 'react';
 import Nav from './Navigation';
+import ChatbotMessageDialogBubble from './ChatbotMessageDialogBubble';
+import UserMessageBox from './UserMessageBox';
+import '../styles/Conversation.css';
 
 class Conversation extends React.Component {
   // Conversation component is used to route all user conversation
@@ -10,9 +13,15 @@ class Conversation extends React.Component {
     super(props);
     this.state = {
       userProfile: {
-        relevancy: [],
-        qAskedID: [],
-        attribute: {},
+        relevancy: [], //relevancy scores of all questions in database
+        qAskedID: [], //array of questions already asked by chatbot (starts blank)
+        attribute: {// container for keywords (to be searched later), likeBook, likeGenre, readerType
+          keywords:[],
+          likeBook:[],
+          likeGenre:[],
+          likeAuthor:[],
+          readerType:[],
+        },
         currentQ: {
           qid: -1,
           question: 'Hey there! Looking for something to read but not entirely sure where to look?',
@@ -24,11 +33,11 @@ class Conversation extends React.Component {
         },
         answer: ''
       },
-      bookResult: [],
-      isDone: false,
-      response: '' };
+      isDone: false, // trigger Conversation to end with suggestion
+      response: '', //user's response
+    };
+
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   };
 
   componentDidMount () {
@@ -49,7 +58,10 @@ class Conversation extends React.Component {
 
   handleSubmit (event) {
     console.log('in conversation handlesubmit');
-    event.preventDefault();
+    event.preventDefault(); // check for errors in event
+    // var userProfileString = JSON.stringify(this.state.userProfile);
+    // make POST request to the api URL
+
     fetch('/conversation/api', {
       method: 'POST',
       headers: {
@@ -83,38 +95,20 @@ class Conversation extends React.Component {
             };
           });
       });
+    localStorage.setItem('userProfile',JSON.stringify(this.state.userProfile));
   };
 
-  handleChange (event) {
-    var userProfile1 = this.state.userProfile;
-    userProfile1.answer = event.target.value;
-    this.setState({ userProfile: userProfile1 });
+  handleChange = e => {
+    let userProfileCopy = this.state.userProfile;
+    userProfileCopy.answer = e.target.value;
+    this.setState({ userProfile: userProfileCopy });
   }
 
   render () {
     return (
-      <div>
-        <Nav route={this.props.route} />
-        <div id='question'>
-          {this.state.userProfile.currentQ.question}
-        </div>
-        <div className='Answer'>
-          <form onSubmit={this.handleSubmit}>
-            <p>
-              <strong>Answer:</strong>
-            </p>
-            <input
-              type='text'
-              value={this.state.userProfile.answer}
-              onChange={this.handleChange}
-            />
-          </form>
-          <p>{JSON.stringify(this.state.userProfile)}</p>
-          <p>Suggested Books:</p>
-          {this.state.bookResult.map((item, key) => (
-            <p id={key}>{item.volumeInfo.title}</p>
-          ))}
-        </div>
+      <div className="conversationWrapper">
+        <ChatbotMessageDialogBubble message={this.state.userProfile.currentQ.question} />
+        <UserMessageBox value={this.state.userProfile.answer} onSubmit={this.handleSubmit} handleChange={this.handleChange} />
       </div>
     );
   }
