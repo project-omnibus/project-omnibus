@@ -4,3 +4,15 @@
   text-align: center;
   height: 100%;
 }
+.clickable {
+  cursor: pointer;
+  color: #007bff;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.clickable:hover {
+  cursor: pointer;
+  color: #0056b3;
+  text-decoration: underline;
+}

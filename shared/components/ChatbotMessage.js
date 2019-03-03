@@ -6,7 +6,7 @@ const ChatbotMessage = props => {
   if (props.message == "Hmmm...well, here are some books you make like.") {
     return (
       <div className='chatbotMessage'>
-        Hmmm...well, <Link to="/">here</Link> are some books you make like.
+        Hmmm...well, <span className='clickable'>here</span> are some books you make like.
       </div>
     );
   } else {
