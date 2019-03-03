@@ -76,7 +76,7 @@ class Conversation extends React.Component {
         userProfile1.answer = "";
         this.props.triggerParentHandler(userProfile1);
         this.setState({ userProfile: userProfile1 });
-        if (this.state.userProfile.relevancy.reduce((a,b)=> a+b,0) <= 0) {
+        if (this.state.userProfile.currentQ.question=="Hmmm...well, here are some books you make like.") {
           this.setState({ isDone: true });
         };
       });
