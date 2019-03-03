@@ -171,7 +171,9 @@ class Home extends React.Component {
           <div>
             <ul className = "bookList">
               {this.state.recommendations.map((item,key)=>
-                <li className="bookListItem" key={key}><img className="bookCover" src={item.volumeInfo.imageLinks.thumbnail}/></li>
+                (item.volumeInfo.imageLinks!= undefined && item.volumeInfo.imageLinks.thumbnail!=undefined) ? (
+                    <li className="bookListItem" key={key}><img className="bookCover" src={item.volumeInfo.imageLinks.thumbnail}/></li>
+                ):(<li className="bookListItem" key={key}><img className="bookCover" src='https://books.google.com/googlebooks/images/no_cover_thumb.gif'/></li>)
               )}
             </ul>
           </div>

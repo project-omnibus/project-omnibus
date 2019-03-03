@@ -99,9 +99,10 @@ class Conversation extends React.Component {
       <div className="conversationWrapper">
         <ChatbotMessageDialogBubble message={this.state.userProfile.currentQ.question}
         handleRecs = {this.handleRecs}/>
+        {!this.state.isDone && (
         <UserMessageBox value={this.state.userProfile.answer}
         onSubmit={this.handleSubmit}
-        handleChange={this.handleChange} />
+        handleChange={this.handleChange} />)};
       </div>
     );
   }

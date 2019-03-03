@@ -44,9 +44,16 @@ exports.createSearchTerms = function(req,res,next){
       }
     }
 
+    if (userProfile.hasOwnProperty("likeBook")){
+      for (var i=0;i<userProfile.wantGenre.length;i++){
+        likeGenreQuery = likeGenreQuery + "+" + userProfile.likeBook[i];
+        readBookQuery = readBookQuery + "+" + userProfile.likeBook[i];
+      }
+    }
+
     if((keywordsQuery.length+likeGenreQuery.length+readBookQuery.length+wantGenreQuery.length)==0){
       res.status(400).json('There is query')
-    } else{
+    } else {
       req.keywordsQuery = keywordsQuery;
       req.likeGenreQuery = likeGenreQuery;
       req.readBookQuery = readBookQuery;
@@ -89,6 +96,10 @@ exports.searchBooks = async function (req,res){
   }
 
   var uniqueIds = _.union(topRelatedBooksIDKeywords, topRelatedBooksIDLikeGenre, topRelatedBooksIDReadBook, topRelatedBooksIDWantGenre);
+
+  console.log(topRelatedBooksIDReadBook)
+  console.log(topRelatedBooksIDKeywords)
+
   var relevancyTable = [];
   for (var i =0; i<uniqueIds.length; i++){
     var relevancyTableEle = {"bookId":uniqueIds[i], "keywordsRel":-1, "likeGenreRel":-1, "readBookRel":-1,"wantGenreRel":-1, "totalRel":0};
@@ -104,35 +115,35 @@ exports.searchBooks = async function (req,res){
     if(topRelatedBooksIDWantGenre.length != 0){
       relevancyTableEle.wantGenreRel = _.indexOf(topRelatedBooksIDWantGenre, relevancyTableEle.bookId);
     }
-    //relevancyTableEle.totalRel = existInArray(relevancyTableEle.keywordsRel)*(40-relevancyTableEle.keywordsRel) + existInArray(relevancyTableEle.likeGenreRel)*(40-relevancyTableEle.likeGenreRel) + existInArray(relevancyTableEle.wantGenreRel)*(40-relevancyTableEle.wantGenreRel) - existInArray(relevancyTableEle.readBookRel)*(40-relevancyTableEle.readBookRel);
 
     relevancyTableEle.totalRel = existInArray(relevancyTableEle.keywordsRel)*(40-relevancyTableEle.keywordsRel) + existInArray(relevancyTableEle.likeGenreRel)*(40-relevancyTableEle.likeGenreRel) - existInArray(relevancyTableEle.readBookRel)*(40-relevancyTableEle.readBookRel) + existInArray(relevancyTableEle.wantGenreRel)*(40-relevancyTableEle.wantGenreRel);
 
     relevancyTable.push(relevancyTableEle)
   }
 
+  console.log(relevancyTable)
+
+
   var finalRelevancyTable = _.sortBy(relevancyTable, 'totalRel');
   var finalRelevancyTable = finalRelevancyTable.reverse();
-
-  log.info(finalRelevancyTable)
 
   //return the top 10 books
   var result = [];
   for(i=0;i<10;i++){
     if(finalRelevancyTable[i].keywordsRel != -1){
       result.push(topRelatedBooksKeywords[finalRelevancyTable[i].keywordsRel])
-    }
-    if(finalRelevancyTable[i].likeGenreRel != -1){
+    }else if(finalRelevancyTable[i].likeGenreRel != -1){
       result.push(topRelatedBooksLikeGenre[finalRelevancyTable[i].likeGenreRel])
-    }
-    if(finalRelevancyTable[i].readBookRel != -1){
-      result.push(topRelatedBooksKeywords[finalRelevancyTable[i].readBookRel])
-    }
-    if(finalRelevancyTable[i].wantGenreRel != -1){
-      result.push(topRelatedBooksKeywords[finalRelevancyTable[i].wantGenreRel])
+    }else {
+      if (finalRelevancyTable[i].readBookRel != -1){
+        result.push(topRelatedBooksReadBook[finalRelevancyTable[i].readBookRel])
+      }else if(finalRelevancyTable[i].wantGenreRel != -1){
+        result.push(topRelatedBooksWantGenre[finalRelevancyTable[i].wantGenreRel])
+      }
     }
   }
-
+  log.info(result)
+  //console.log(result)
   res.send(result);
 }
 
