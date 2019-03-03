@@ -102,7 +102,7 @@ class Conversation extends React.Component {
         {!this.state.isDone && (
         <UserMessageBox value={this.state.userProfile.answer}
         onSubmit={this.handleSubmit}
-        handleChange={this.handleChange} />)};
+        handleChange={this.handleChange} />)}
       </div>
     );
   }
