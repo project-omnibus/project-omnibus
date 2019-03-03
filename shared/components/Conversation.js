@@ -38,7 +38,7 @@ class Conversation extends React.Component {
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleSeeRec = this.handleSeeRec.bind(this);
+    this.handleRecs = this.handleRecs.bind(this);
   };
 
   componentDidMount () {
@@ -89,15 +89,19 @@ class Conversation extends React.Component {
     this.setState({ userProfile: userProfileCopy });
   }
 
-  handleSeeRec = e =>{
+  handleRecs = e => {
     e.preventDefault();
-    this.props.updateUserProfile(this.state.userProfile)
+    this.props.handleRecs();
   }
+
   render () {
     return (
       <div className="conversationWrapper">
-        <ChatbotMessageDialogBubble message={this.state.userProfile.currentQ.question} handleSeeRec = {this.handleSeeRec}/>
-        <UserMessageBox value={this.state.userProfile.answer} onSubmit={this.handleSubmit} handleChange={this.handleChange} />
+        <ChatbotMessageDialogBubble message={this.state.userProfile.currentQ.question}
+        handleRecs = {this.handleRecs}/>
+        <UserMessageBox value={this.state.userProfile.answer}
+        onSubmit={this.handleSubmit}
+        handleChange={this.handleChange} />
       </div>
     );
   }

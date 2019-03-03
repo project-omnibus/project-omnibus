@@ -20,13 +20,11 @@ class Home extends React.Component {
       recommendations: [],
       query: '',
       response: '',
-      userProfile: {}
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
     this.handleNotifClose =this.handleNotifClose.bind(this);
-    this.handleUpdateUserProfile = this.handleUpdateUserProfile.bind(this);
-    //this.handleRecs = this.handleRecs.bind(this);
+    this.handleRecs = this.handleRecs.bind(this);
   };
 
   async componentDidMount () {
@@ -35,7 +33,11 @@ class Home extends React.Component {
       .then(res => this.setState({ response: res.status }))
       .catch(err => console.log(err));
     await this.hydrateStateWithLocalStorage();
-    this.handleRecs();
+    console.log(localStorage.getItem('recommendations'));
+    if (localStorage.getItem('recommendations')!=null){
+      await this.setState({
+        recommendations: JSON.parse(localStorage.getItem('recommendations')) });
+    }
   }
 
   async callApi () {
@@ -70,34 +72,27 @@ class Home extends React.Component {
   }
 
   async handleRecs () {
-    let keywords = this.state.userProfile.attribute.keywords.join().toString();
+    let localUserProfile = localStorage.getItem('userProfile');
 
-    //testing Google Books API
-    //fill the state's query with the userProfile's keywords
-    await this.setState({query: keywords});
-    // keywords = keywords.toString().replace(","," and ");
+    if(localUserProfile!=""){
+      console.log(localUserProfile)
 
-    const response = await fetch('/v1/books', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this.state.userProfile)
-    })
+      const response = await fetch('/v1/books', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: localUserProfile
+      })
 
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.error);
-    this.setState({ recommendations: body });
+      const body = await response.json();
+      if (response.status !== 200) throw Error(body.error);
+      this.setState({ recommendations: body });
+      localStorage.setItem('recommendations',JSON.stringify(body));
+      this.handleClick();
+    }
 
-    console.log(this.state.recommendations);
   };
-
-  async handleUpdateUserProfile(profile){
-    event.preventDefault();
-    await this.setState({userProfile:profile})
-    localStorage.setItem('userProfile',JSON.stringify(this.state.userProfile));
-    this.handleRecs();
-  }
 
   hydrateStateWithLocalStorage() {
     // for all items in state
@@ -131,7 +126,9 @@ class Home extends React.Component {
 
             </div>
             <div className="modal-content" ref={node => { this.node = node; }}>
-              <Conversation userMainProfile={this.props.userMainProfile} triggerParentHandler={this.props.triggerParentHandler} updateUserProfile={this.handleUpdateUserProfile}/>
+              <Conversation userMainProfile={this.props.userMainProfile}
+              triggerParentHandler={this.props.triggerParentHandler}
+              handleRecs={this.handleRecs}/>
             </div></div>
           )}
           {this.state.notifVisible && (
@@ -163,7 +160,9 @@ class Home extends React.Component {
 
             </div>
             <div className="modal-content" ref={node => { this.node = node; }}>
-              <Conversation userMainProfile={this.props.userMainProfile} triggerParentHandler={this.props.triggerParentHandler} updateUserProfile = {this.handleUserProfile}/>
+              <Conversation userMainProfile={this.props.userMainProfile}
+              triggerParentHandler={this.props.triggerParentHandler}
+              handleRecs = {this.handleRecs}/>
             </div></div>
           )}
           {this.state.notifVisible && (

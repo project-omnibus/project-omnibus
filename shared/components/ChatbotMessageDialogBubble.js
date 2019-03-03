@@ -6,7 +6,7 @@ const ChatbotMessageDialogBubble = props => {
 
   return (
     <div className='chatbotBubbleWrapper'>
-      <ChatbotMessage message={props.message} handleSeeRec = {props.handleSeeRec}/>
+      <ChatbotMessage message={props.message} handleRecs = {props.handleRecs}/>
     </div>
   );
 };
