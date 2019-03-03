@@ -29,9 +29,9 @@ relative to the position of the reply box */
 /* Modal Content */
 .modal-content {
     position: absolute;
-    margin: 0 0 0 27.5%;
+    margin: 0 0 0 17.5%;
     padding: 20px;
-    width: 45%;
+    width: 65%;
     height: 60%;
     z-index: 1;
     border: 0px;

@@ -1,5 +1,4 @@
 import React from 'react'; // imports allows for JSX syntax
-import { Link } from 'react-router-dom';
 import '../styles/ChatbotMessage.css';
 
 const ChatbotMessage = props => {
