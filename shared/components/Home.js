@@ -20,12 +20,11 @@ class Home extends React.Component {
       recommendations: [],
       query: '',
       response: '',
-      dummyProfile: {}
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
     this.handleNotifClose =this.handleNotifClose.bind(this);
-    //this.handleRecs = this.handleRecs.bind(this);
+    this.handleRecs = this.handleRecs.bind(this);
   };
 
   async componentDidMount () {
@@ -33,51 +32,12 @@ class Home extends React.Component {
     this.callApi()
       .then(res => this.setState({ response: res.status }))
       .catch(err => console.log(err));
-    const dummyProfile = {
-      relevancy:[0,0,0,0,0,0,0,0,0,0,0,100],
-      qAskedID:[0,1,2,3,4,5,6,7,8,9,10,11],
-      attribute:{
-        keywords:
-        [
-          ["like","convey","feelings","often","seem","hard","describe"],
-          ["s","good","story","about","technology","vs","spirituality","those","seemingly","opposite","things","aren","t","very","polarized","contradictions"],
-          ["s","pretty","interesting","far","s","getting","little","repetitive"],
-          ["s","not","just","subject","matter","like","pace","their","story","rhythm","their","words","calmness","characters"],
-          ["ok"]
-        ],
-        readerType: ["not","very","often"],
-        likeGenre:
-        [
-          "surreal",
-          "fiction",
-          ["nonfiction","about","interesting","topics"]
-        ],
-        likeBook:
-        [
-          "american","gods",
-          ["zen","art","motorcycle","maintence","about","similar","topic"]
-        ],
-        readBook:
-        [
-          "well","m","currently","reading","weapons","math","destruction"
-        ],
-        wantGenre:
-        ["probably","some","kind","fiction","similar","neil","gaiman"]
-      },
-      currentQ:
-      {
-        qid:11,
-        question:"OK I think I can help you in finding a book, let me take a look!",
-        userInput:false,
-        relevancy:10,
-        specificity:2,
-        userAttribute:null,
-        followUpBy:[]
-      },
-      answer:"ok"
-    };
-    await this.setState({dummyProfile:dummyProfile});
-    this.handleRecs();
+    await this.hydrateStateWithLocalStorage();
+    console.log(localStorage.getItem('recommendations'));
+    if (localStorage.getItem('recommendations')!=null){
+      await this.setState({
+        recommendations: JSON.parse(localStorage.getItem('recommendations')) });
+    }
   }
 
   async callApi () {
@@ -112,27 +72,46 @@ class Home extends React.Component {
   }
 
   async handleRecs () {
-    let keywords = this.state.dummyProfile.attribute.keywords.join().toString();
+    let localUserProfile = localStorage.getItem('userProfile');
 
-    //testing Google Books API
-    //fill the state's query with the dummyProfile's keywords
-    await this.setState({query: keywords});
-    // keywords = keywords.toString().replace(","," and ");
+    if(localUserProfile!=""){
+      console.log(localUserProfile)
 
-    const response = await fetch('/v1/books', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this.state.dummyProfile)
-    })
+      const response = await fetch('/v1/books', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: localUserProfile
+      })
 
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.error);
-    this.setState({ recommendations: body });
+      const body = await response.json();
+      if (response.status !== 200) throw Error(body.error);
+      this.setState({ recommendations: body });
+      localStorage.setItem('recommendations',JSON.stringify(body));
+      this.handleClick();
+    }
 
-    console.log(this.state.recommendations);
   };
+
+  hydrateStateWithLocalStorage() {
+    // for all items in state
+    for (let key in this.state) {
+      // if the key exists in localStorage
+      if (localStorage.hasOwnProperty(key)) {
+        // get the key's value from localStorage
+        let value = localStorage.getItem(key);
+        // parse the localStorage string and setState
+        try {
+          value = JSON.parse(value);
+          this.setState({ [key]: value });
+        } catch (e) {
+          // handle empty string
+          this.setState({ [key]: value });
+        }
+      }
+    }
+  }
 
   render () {
     console.log('rendering:home');
@@ -147,7 +126,9 @@ class Home extends React.Component {
 
             </div>
             <div className="modal-content" ref={node => { this.node = node; }}>
-              <Conversation userMainProfile={this.props.userMainProfile} triggerParentHandler={this.props.triggerParentHandler}/>
+              <Conversation userMainProfile={this.props.userMainProfile}
+              triggerParentHandler={this.props.triggerParentHandler}
+              handleRecs={this.handleRecs}/>
             </div></div>
           )}
           {this.state.notifVisible && (
@@ -179,7 +160,9 @@ class Home extends React.Component {
 
             </div>
             <div className="modal-content" ref={node => { this.node = node; }}>
-              <Conversation userMainProfile={this.props.userMainProfile} triggerParentHandler={this.props.triggerParentHandler}/>
+              <Conversation userMainProfile={this.props.userMainProfile}
+              triggerParentHandler={this.props.triggerParentHandler}
+              handleRecs = {this.handleRecs}/>
             </div></div>
           )}
           {this.state.notifVisible && (
@@ -188,7 +171,9 @@ class Home extends React.Component {
           <div>
             <ul className = "bookList">
               {this.state.recommendations.map((item,key)=>
-                <li className="bookListItem" key={key}><img className="bookCover" src={item.volumeInfo.imageLinks.thumbnail}/></li>
+                (item.volumeInfo.imageLinks!= undefined && item.volumeInfo.imageLinks.thumbnail!=undefined) ? (
+                    <li className="bookListItem" key={key}><img className="bookCover" src={item.volumeInfo.imageLinks.thumbnail}/></li>
+                ):(<li className="bookListItem" key={key}><img className="bookCover" src='https://books.google.com/googlebooks/images/no_cover_thumb.gif'/></li>)
               )}
             </ul>
           </div>
