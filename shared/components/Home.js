@@ -28,7 +28,7 @@ class Home extends React.Component {
   };
 
   async componentDidMount () {
-    setTimeout(() => this.setState({notifVisible: true}), 3000);
+
     this.callApi()
       .then(res => this.setState({ response: res.status }))
       .catch(err => console.log(err));
@@ -37,6 +37,9 @@ class Home extends React.Component {
     if (localStorage.getItem('recommendations')!=null){
       await this.setState({
         recommendations: JSON.parse(localStorage.getItem('recommendations')) });
+    }
+    else{
+      setTimeout(() => this.setState({notifVisible: true}), 3000);
     }
   }
 
