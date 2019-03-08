@@ -14,7 +14,7 @@ exports.createSearchTerms = function(req,res,next){
   else {
     log.info('there is a user profile, trying to form a query' + JSON.stringify(req.body.attribute))
     //extract all the fields in the attribute prop of the post from client
-    var userProfile = req.body.attribute;
+    const userProfile = req.body.attribute;
     var keywordsQuery ="";
     var likeGenreQuery ="";
     var readBookQuery = "";
@@ -45,7 +45,7 @@ exports.createSearchTerms = function(req,res,next){
     }
 
     if (userProfile.hasOwnProperty("likeBook")){
-      for (var i=0;i<userProfile.wantGenre.length;i++){
+      for (var i=0;i<userProfile.likeBook.length;i++){
         likeGenreQuery = likeGenreQuery + "+" + userProfile.likeBook[i];
         readBookQuery = readBookQuery + "+" + userProfile.likeBook[i];
       }
@@ -65,6 +65,7 @@ exports.createSearchTerms = function(req,res,next){
 }
 
 exports.searchBooks = async function (req,res){
+  const userProfile = req.body.attribute;
   var topRelatedBooksKeywords=[];
   var topRelatedBooksLikeGenre=[];
   var topRelatedBooksReadBook=[];
@@ -97,9 +98,6 @@ exports.searchBooks = async function (req,res){
 
   var uniqueIds = _.union(topRelatedBooksIDKeywords, topRelatedBooksIDLikeGenre, topRelatedBooksIDReadBook, topRelatedBooksIDWantGenre);
 
-  console.log(topRelatedBooksIDReadBook)
-  console.log(topRelatedBooksIDKeywords)
-
   var relevancyTable = [];
   for (var i =0; i<uniqueIds.length; i++){
     var relevancyTableEle = {"bookId":uniqueIds[i], "keywordsRel":-1, "likeGenreRel":-1, "readBookRel":-1,"wantGenreRel":-1, "totalRel":0};
@@ -121,9 +119,6 @@ exports.searchBooks = async function (req,res){
     relevancyTable.push(relevancyTableEle)
   }
 
-  console.log(relevancyTable)
-
-
   var finalRelevancyTable = _.sortBy(relevancyTable, 'totalRel');
   var finalRelevancyTable = finalRelevancyTable.reverse();
 
@@ -131,14 +126,14 @@ exports.searchBooks = async function (req,res){
   var result = [];
   for(i=0;i<10;i++){
     if(finalRelevancyTable[i].keywordsRel != -1){
-      result.push(topRelatedBooksKeywords[finalRelevancyTable[i].keywordsRel])
+      result.push({book:topRelatedBooksKeywords[finalRelevancyTable[i].keywordsRel],attribute:userProfile.keywords})
     }else if(finalRelevancyTable[i].likeGenreRel != -1){
-      result.push(topRelatedBooksLikeGenre[finalRelevancyTable[i].likeGenreRel])
-    }else {
+      result.push({book:topRelatedBooksLikeGenre[finalRelevancyTable[i].likeGenreRel], attribute:userProfile.likeGenre})
+    } else {
       if (finalRelevancyTable[i].readBookRel != -1){
-        result.push(topRelatedBooksReadBook[finalRelevancyTable[i].readBookRel])
-      }else if(finalRelevancyTable[i].wantGenreRel != -1){
-        result.push(topRelatedBooksWantGenre[finalRelevancyTable[i].wantGenreRel])
+        result.push({book:topRelatedBooksReadBook[finalRelevancyTable[i].readBookRel], attribute:userProfile.readBook})
+      } else if(finalRelevancyTable[i].wantGenreRel != -1){
+        result.push({book:topRelatedBooksWantGenre[finalRelevancyTable[i].wantGenreRel], attribute:userProfile.wantGenre})
       }
     }
   }

@@ -4,6 +4,7 @@ var pg = require('pg');
 pg.defaults.ssl = true;
 var natural = require('natural');
 var lowerCase = require('lower-case');
+const uuidv4 = require('uuid/v4')
 
 var databaseURL = env.databaseURL;
 
@@ -107,7 +108,7 @@ exports.make_init_user = function (req, res, next) {
       connectionString: databaseURL
     });
     client.connect();
-    var userSession = { relevancy: [], qAskedID: [], attribute: { keywords: [] }, currentQ: {}, answer: [] };
+    var userSession = req.body;
     // make the questionList object from the question table on the database.
     client.query('SELECT * FROM question_table')
       .then(result => {

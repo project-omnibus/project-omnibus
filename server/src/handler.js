@@ -7,7 +7,8 @@ const fs = require('fs');
 
 module.exports = {
   requestLogging,
-  correlationId
+  correlationId,
+  conversationLogging,
 };
 
 function requestLogging (req, res, next) {
@@ -22,25 +23,37 @@ function requestLogging (req, res, next) {
       body: req.body,
       correlationId: req.id
     }, _.isEmpty);
-    if(req.method=='POST'){
-      fs.open('conversation.log', 'a', (err, fd) => {
-        if (err) throw err;
-        //for each key in req.body (which for now is just the userProfile object from Conversation.js)
-        //write out the key's value as a string + ','
-        //if the key is 'attribute' or currentQ, go through each of the keys in those objects as well
-        //at the end write a new line character
-        fs.appendFile(fd, (JSON.stringify(req.body)+'\n'), 'utf8', (err) => {
-          fs.close(fd, (err) => {
-            if (err) throw err;
-          });
-          if (err) throw err;
-        });
-      });
-    }
-
     log.info(obj, 'API request');
   }
 
+  next();
+}
+
+function conversationLogging(req,res,next){
+  let sessionId = req.body.sessionId;
+  let fileName = './conversationlogs/conversation_'+sessionId+'.log';
+  let question = req.body.currentQ.question;
+  let answer = req.body.answer;
+  let keyWordAttribute = req.body.attribute.keywords;
+  let likeBookAttribute = req.body.attribute.likeBook;
+  let likeGenreAttribute = req.body.attribute.likeGenre;
+  let likeAuthorAttribute = req.body.attribute.likeAuthor;
+  let readerType = req.body.attribute.readerType;
+  let dataToWrite = 'question: '+question+'; ' + 'answer: '+answer+'; '+'Attribute Obtained: keywords: [' + keyWordAttribute + ']; likeBook: ['+likeBookAttribute + ']; likeGenre:[' + likeGenreAttribute +']; likeAuthor: ['+likeAuthorAttribute+']; readerType: [' + readerType + ']\n'
+
+  fs.open(fileName, 'a', (err, fd) => {
+    if (err) throw err;
+    //for each key in req.body (which for now is just the userProfile object from Conversation.js)
+    //write out the key's value as a string + ','
+    //if the key is 'attribute' or currentQ, go through each of the keys in those objects as well
+    //at the end write a new line character
+    fs.appendFile(fd, dataToWrite, (err) => {
+      fs.close(fd, (err) => {
+        if (err) throw err;
+      });
+      if (err) throw err;
+    });
+  });
   next();
 }
 

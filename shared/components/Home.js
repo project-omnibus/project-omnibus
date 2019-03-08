@@ -8,6 +8,7 @@ import ChatbotMessageDialogBubble from './ChatbotMessageDialogBubble';
 import UserMessageBox from './UserMessageBox';
 import Notification from './Notification'
 import '../styles/Home.css'
+import uuidv4 from 'uuid/v4';
 
 class Home extends React.Component {
 
@@ -20,7 +21,8 @@ class Home extends React.Component {
       recommendations: [],
       query: '',
       response: '',
-      userProfile: {}
+      userProfile: {},
+      sessionId:''
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
@@ -36,6 +38,8 @@ class Home extends React.Component {
       .catch(err => console.log(err));
     await this.hydrateStateWithLocalStorage();
     this.handleRecs();
+    var id = await uuidv4()
+    this.setState({sessionId:id})
   }
 
   async callApi () {
@@ -131,7 +135,7 @@ class Home extends React.Component {
 
             </div>
             <div className="modal-content" ref={node => { this.node = node; }}>
-              <Conversation userMainProfile={this.props.userMainProfile} triggerParentHandler={this.props.triggerParentHandler} updateUserProfile={this.handleUpdateUserProfile}/>
+              <Conversation userMainProfile={this.props.userMainProfile} triggerParentHandler={this.props.triggerParentHandler} updateUserProfile={this.handleUpdateUserProfile} sessionId={this.state.sessionId}/>
             </div></div>
           )}
           {this.state.notifVisible && (
@@ -172,8 +176,8 @@ class Home extends React.Component {
           <div>
             <ul className = "bookList">
               {this.state.recommendations.map((item,key)=>
-                (item.volumeInfo.imageLinks!= undefined && item.volumeInfo.imageLinks.thumbnail!=undefined) ? (
-                    <li className="bookListItem" key={key}><img className="bookCover" src={item.volumeInfo.imageLinks.thumbnail}/></li>
+                (item.book.volumeInfo.imageLinks!= undefined && item.book.volumeInfo.imageLinks.thumbnail!=undefined) ? (
+                    <li className="bookListItem" key={key}><img className="bookCover" src={item.book.volumeInfo.imageLinks.thumbnail}/></li>
                 ):(<li className="bookListItem" key={key}><img className="bookCover" src='https://books.google.com/googlebooks/images/no_cover_thumb.gif'/></li>)
               )}
             </ul>
