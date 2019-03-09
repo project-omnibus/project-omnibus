@@ -18,6 +18,7 @@ class Home extends React.Component {
       bookRecList: [],
       notifVisible: false,
       notifMessage: '',
+      notifButtons: [],
       recommendations: [],
       query: '',
       response: '',
@@ -40,6 +41,7 @@ class Home extends React.Component {
     }
     else{
       this.setState({notifMessage: "Hi there! Looks like it's your first time here. Let's talk about what books you're interested in. Click on me to begin chatting."});
+      this.setState({notifButtons: []});
       setTimeout(() => this.setState({notifVisible: true}), 3000);
     }
   }
@@ -73,10 +75,12 @@ class Home extends React.Component {
     //display notification with message "Looks like you left mid-conversation. Click me to continue."
     if(this.state.recommendations[0]==undefined||this.state.recommendations.length==0){
       this.setState({notifMessage: "Looks like you left mid-conversation. Click me to continue for recommendations."});
+      this.setState({notifButtons: []});
       setTimeout(() => this.setState({notifVisible: true}), 2000);
     }
     else{
       this.setState({notifMessage: "Here are my recommendations based on our conversation. Click me anytime for another chat."});
+      this.setState({notifButtons: [{type: 'confirm', class: 'btn btnPrimary', text:'OK got it'},]});
       setTimeout(() => this.setState({notifVisible: true}), 2000);
     }
 
@@ -106,6 +110,7 @@ class Home extends React.Component {
       this.setState({ recommendations: body });
       localStorage.setItem('recommendations',JSON.stringify(body));
       this.setState({notifMessage: "Here are my recommendations based on our conversation. Click me anytime for another chat."});
+      this.setState({notifButtons: [{type: 'confirm', class: 'btn btnPrimary', text:'OK got it'},]});
       setTimeout(() => this.setState({notifVisible: true}), 2000);
       this.handleClick();
     }
@@ -151,6 +156,7 @@ class Home extends React.Component {
           )}
           {this.state.notifVisible && (
               <Notification message={this.state.notifMessage}
+              buttons={this.state.notifButtons}
               convActive={this.handleClick} notifClose = {this.handleNotifClose}/>
           )}
           <div>
@@ -186,6 +192,7 @@ class Home extends React.Component {
           )}
           {this.state.notifVisible && (
               <Notification message={this.state.notifMessage}
+              buttons={this.state.notifButtons}
               convActive={this.handleClick} notifClose = {this.handleNotifClose}/>
           )}
           <div>
