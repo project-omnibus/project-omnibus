@@ -32,7 +32,6 @@ class Home extends React.Component {
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
     this.handleNotifClose =this.handleNotifClose.bind(this);
     this.handleRecs = this.handleRecs.bind(this);
-    this.handleBookClick = this.handleBookClick.bind(this);
   };
 
   async componentDidMount () {
