@@ -28,7 +28,7 @@ class BookDisplayRow extends React.Component {
   }
   render(){
     return (
-      <div ref={node => { this.node = node; }}>
+      <div className = "bookRow" ref={node => { this.node = node; }}>
         <ul className = "bookList">
         {this.props.bookRow.map((e,i)=>{
           return(<li onClick = {() =>{this.handleBookClick(e)}} className="bookListItem" key={`${this.props.rowNum},${i}`}>

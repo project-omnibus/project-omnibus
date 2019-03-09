@@ -1,3 +1,6 @@
+.bookRow{
+  overflow: auto;
+}
 .bookList{
   list-style-type: none;
   margin: 0;
@@ -9,15 +12,11 @@
   margin: 7px 1%;
   padding: 0;
   width: 18%;
-  height: 27vw;
 }
 @media screen and (max-width: 414px){
   .bookListItem {
-    display: inline-block;
     margin: 7px 1%;
-    padding: 0;
     width: 48%;
-    height: 27vw;
   }
 }
 .bookPlaceholder{
