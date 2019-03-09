@@ -38,9 +38,10 @@ class BookDisplayRow extends React.Component {
         </ul>
         {this.state.bookClicked && (
           <div>
-            <p>{this.state.selectedBook.book.volumeInfo.title}</p>
-            <p>{this.state.selectedBook.book.volumeInfo.authors.join(', ')}</p>
+            <p>{this.state.selectedBook.book.volumeInfo.title}<br></br>
+            {this.state.selectedBook.book.volumeInfo.authors.join(', ')}</p>
             <p>{this.state.selectedBook.book.volumeInfo.description}</p>
+            <p>Recommended because you mentioned {this.state.selectedBook.attribute.join(', ')}</p>
           </div>
         )}
       </div>
