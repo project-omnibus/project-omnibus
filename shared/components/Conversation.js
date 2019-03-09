@@ -31,7 +31,8 @@ class Conversation extends React.Component {
           userAttribute: [],
           folloupBy: []
         },
-        answer: ''
+        answer: '',
+        sessionId:'',
       },
       isDone: false, // trigger Conversation to end with suggestion
       response: '', //user's response
@@ -47,6 +48,10 @@ class Conversation extends React.Component {
       .catch(err => console.log(err));
     if (Object.keys(this.props.userMainProfile).length !== 0) {
       this.setState({ userProfile: this.props.userMainProfile });
+    } else {
+      let tempUserProfile = this.state.userProfile;
+      tempUserProfile.sessionId = this.props.sessionId;
+      this.setState({userProfile:tempUserProfile});
     }
     fetch('/conversation/api', {
       method: 'POST',
