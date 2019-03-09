@@ -23,7 +23,6 @@ class Home extends React.Component {
       notifButtons: [],
       recommendations: [],
       bookGridNumCols: 0,
-      bookClicked: {},
       query: '',
       response: '',
       userProfile: {},
@@ -53,7 +52,6 @@ class Home extends React.Component {
       setTimeout(() => this.setState({notifVisible: true}), 3000);
     }
 
-    console.log(window.screen.width);
     if(window.screen.width>414){
       if(window.screen.width>768){
         this.setState({bookGridNumCols: 5});
@@ -65,6 +63,7 @@ class Home extends React.Component {
     else{
       this.setState({bookGridNumCols: 2});
     }
+
     var id = await uuidv4()
     this.setState({sessionId:id})
 
@@ -141,10 +140,6 @@ class Home extends React.Component {
 
   };
 
-  handleBookClick(e){
-    this.setState({bookClicked: e.book});
-  }
-
   hydrateStateWithLocalStorage() {
     // for all items in state
     for (let key in this.state) {
@@ -184,10 +179,7 @@ class Home extends React.Component {
         <BookDisplayRow bookRow = {e} rowNum = {i}/>
       );
     })
-    //render five bookListItem class divs in a div
-    //then render an div of height 0 with possible volumeInfo
-    //handleBookclick will have to fill the appropriate div (maybe assign 'key' attribute)
-    console.log(bookArray);
+
     if(this.state.recommendations[0]==undefined||this.state.recommendations.length==0){
       return (
         <div>
