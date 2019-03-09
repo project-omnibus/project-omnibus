@@ -1,5 +1,5 @@
 import React from 'react'; // imports allows for JSX syntax
-import '../styles/Home.css';
+import '../styles/BookDisplayRow.css';
 import Item from './BookDisplayItem';
 
 class BookDisplayRow extends React.Component {
