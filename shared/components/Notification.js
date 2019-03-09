@@ -15,8 +15,8 @@ class Notification extends React.Component {
   }
 
   handleButtonClick(){
+    document.removeEventListener('click', this.handleOutsideClick, false);
     this.props.notifClose();
-    document.removeEventListener('click', this.handleNotifClose, false);
   }
 
   handleChatClick(){
