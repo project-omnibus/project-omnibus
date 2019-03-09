@@ -31,9 +31,17 @@ class BookDisplayRow extends React.Component {
       <div className = "bookRow" ref={node => { this.node = node; }}>
         <ul className = "bookList">
         {this.props.bookRow.map((e,i)=>{
-          return(<li onClick = {() =>{this.handleBookClick(e)}} className="bookListItem" key={`${this.props.rowNum},${i}`}>
-            <img className="bookCover" src={e.book.volumeInfo.imageLinks.thumbnail}/>
-          </li>)
+          return(
+            (e.book.volumeInfo.imageLinks!= undefined && e.book.volumeInfo.imageLinks.thumbnail!=undefined) ? (
+                    <li onClick={() =>{this.handleBookClick(e)}}
+                    className="bookListItem" key={`${this.props.rowNum},${i}`}>
+                      <img className="bookCover"
+                      src={e.book.volumeInfo.imageLinks.thumbnail}/>
+                    </li>
+                ):(<li className="bookListItem" key={`${this.props.rowNum},${i}`}>
+                  <img className="bookCover"
+                  src='https://books.google.com/googlebooks/images/no_cover_thumb.gif'/>
+                </li>))
         })}
         </ul>
         {this.state.bookClicked && (
