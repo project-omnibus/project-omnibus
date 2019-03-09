@@ -32,7 +32,7 @@ relative to the position of the reply box */
     margin: 0 0 0 17.5%;
     padding: 20px;
     width: 65%;
-    height: 60%;
+    height: 90vh;
     z-index: 1;
     border: 0px;
     border-radius: 0;
@@ -44,13 +44,13 @@ relative to the position of the reply box */
 /* Safari 4.0 - 8.0 */
 @-webkit-keyframes modalAnimation {
   from {height:5%;}
-  to {height:60%;}
+  to {height:90vh;}
 }
 
 /* Standard syntax */
 @keyframes modalAnimation {
   from {height:5%;}
-  to {height:60%;}
+  to {height:90vh%;}
 }
 
 
@@ -60,23 +60,6 @@ relative to the position of the reply box */
     width: 100%;
   }
 }
-@media screen and (max-width: 414px){
-  .modal-content{
-    height:90vh;
-  }
-  /* Safari 4.0 - 8.0 */
-  @-webkit-keyframes modalAnimation {
-    from {height:5%;}
-    to {height:90vh;}
-  }
-
-  /* Standard syntax */
-  @keyframes modalAnimation {
-    from {height:5%;}
-    to {height:90vh;}
-  }
-}
-
 
 .bookPlaceholder{
   width: 100%;
