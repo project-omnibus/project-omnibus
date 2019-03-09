@@ -56,7 +56,7 @@ class Notification extends React.Component {
     return(
 
         <div className='bubble' ref={node => { this.node = node; }}>
-          <div className='messageText'>{this.state.message}</div>
+          <div className='messageText'>{this.props.message}</div>
           <div className='messageButtons'>
             {buttonDisplay}
           </div>

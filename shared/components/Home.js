@@ -17,6 +17,7 @@ class Home extends React.Component {
       convVisible: false,
       bookRecList: [],
       notifVisible: false,
+      notifMessage: '',
       recommendations: [],
       query: '',
       response: '',
@@ -33,12 +34,12 @@ class Home extends React.Component {
       .then(res => this.setState({ response: res.status }))
       .catch(err => console.log(err));
     await this.hydrateStateWithLocalStorage();
-    console.log(localStorage.getItem('recommendations'));
     if (localStorage.getItem('recommendations')!=null){
       await this.setState({
         recommendations: JSON.parse(localStorage.getItem('recommendations')) });
     }
     else{
+      this.setState({notifMessage: "Hi there! Looks like it's your first time here. Let's talk about what books you're interested in. Click on me to begin chatting."});
       setTimeout(() => this.setState({notifVisible: true}), 3000);
     }
   }
@@ -59,12 +60,24 @@ class Home extends React.Component {
     }
 
     this.setState({convVisible: !this.state.convVisible });
+
   }
 
   handleOutsideClick(e) {
     // ignore clicks on the component itself
     if (this.node.contains(e.target)) {
      return;
+    }
+
+    //if recommendations is still empty or null
+    //display notification with message "Looks like you left mid-conversation. Click me to continue."
+    if(this.state.recommendations[0]==undefined||this.state.recommendations.length==0){
+      this.setState({notifMessage: "Looks like you left mid-conversation. Click me to continue for recommendations."});
+      setTimeout(() => this.setState({notifVisible: true}), 2000);
+    }
+    else{
+      this.setState({notifMessage: "Here are my recommendations based on our conversation. Click me anytime for another chat."});
+      setTimeout(() => this.setState({notifVisible: true}), 2000);
     }
 
     this.handleClick();
@@ -92,6 +105,8 @@ class Home extends React.Component {
       if (response.status !== 200) throw Error(body.error);
       this.setState({ recommendations: body });
       localStorage.setItem('recommendations',JSON.stringify(body));
+      this.setState({notifMessage: "Here are my recommendations based on our conversation. Click me anytime for another chat."});
+      setTimeout(() => this.setState({notifVisible: true}), 2000);
       this.handleClick();
     }
 
@@ -135,7 +150,8 @@ class Home extends React.Component {
             </div></div>
           )}
           {this.state.notifVisible && (
-              <Notification convActive={this.handleClick} notifClose = {this.handleNotifClose}/>
+              <Notification message={this.state.notifMessage}
+              convActive={this.handleClick} notifClose = {this.handleNotifClose}/>
           )}
           <div>
             <ul className = "bookList">
@@ -169,7 +185,8 @@ class Home extends React.Component {
             </div></div>
           )}
           {this.state.notifVisible && (
-              <Notification convActive={this.handleClick} notifClose = {this.handleNotifClose}/>
+              <Notification message={this.state.notifMessage}
+              convActive={this.handleClick} notifClose = {this.handleNotifClose}/>
           )}
           <div>
             <ul className = "bookList">
