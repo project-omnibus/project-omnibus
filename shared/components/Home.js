@@ -6,8 +6,9 @@ import Menu from './Menu';
 import Conversation from './Conversation';
 import ChatbotMessageDialogBubble from './ChatbotMessageDialogBubble';
 import UserMessageBox from './UserMessageBox';
-import Notification from './Notification'
-import '../styles/Home.css'
+import Notification from './Notification';
+import BookDisplayRow from './BookDisplayRow';
+import '../styles/Home.css';
 import uuidv4 from 'uuid/v4';
 
 class Home extends React.Component {
@@ -21,6 +22,7 @@ class Home extends React.Component {
       notifMessage: '',
       notifButtons: [],
       recommendations: [],
+      bookClicked: {},
       query: '',
       response: '',
       userProfile: {},
@@ -30,6 +32,7 @@ class Home extends React.Component {
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
     this.handleNotifClose =this.handleNotifClose.bind(this);
     this.handleRecs = this.handleRecs.bind(this);
+    this.handleBookClick = this.handleBookClick.bind(this);
   };
 
   async componentDidMount () {
@@ -104,7 +107,7 @@ class Home extends React.Component {
     let localUserProfile = localStorage.getItem('userProfile');
 
     if(localUserProfile!=""){
-      console.log(localUserProfile)
+      //console.log(localUserProfile)
 
       const response = await fetch('/v1/books', {
         method: 'POST',
@@ -125,6 +128,10 @@ class Home extends React.Component {
     }
 
   };
+
+  handleBookClick(e){
+    this.setState({bookClicked: e.book});
+  }
 
   hydrateStateWithLocalStorage() {
     // for all items in state
@@ -148,6 +155,27 @@ class Home extends React.Component {
   render () {
     console.log('rendering:home');
 
+
+    let row = 0;
+    let bookArray = [[]];
+
+    for (let i = 0; i < this.state.recommendations.length; i++) {
+      bookArray[row].push(this.state.recommendations[i])
+      if((i+1)%5 == 0){
+        bookArray.push([]);
+        row++;
+      }
+    }
+
+    let bookLayout = bookArray.map((e,i) => {
+      return (
+        <BookDisplayRow bookRow = {e} rowNum = {i}/>
+      );
+    })
+    //render five bookListItem class divs in a div
+    //then render an div of height 0 with possible volumeInfo
+    //handleBookclick will have to fill the appropriate div (maybe assign 'key' attribute)
+    console.log(bookArray);
     if(this.state.recommendations[0]==undefined||this.state.recommendations.length==0){
       return (
         <div>
@@ -206,12 +234,23 @@ class Home extends React.Component {
               buttons={this.state.notifButtons}
               convActive={this.handleClick} notifClose = {this.handleNotifClose}/>
           )}
+          {bookLayout}
           <div>
             <ul className = "bookList">
               {this.state.recommendations.map((item,key)=>
                 (item.book.volumeInfo.imageLinks!= undefined && item.book.volumeInfo.imageLinks.thumbnail!=undefined) ? (
-                    <li className="bookListItem" key={key}><img className="bookCover" src={item.book.volumeInfo.imageLinks.thumbnail}/></li>
-                ):(<li className="bookListItem" key={key}><img className="bookCover" src='https://books.google.com/googlebooks/images/no_cover_thumb.gif'/></li>)
+                    <li onClick={() => this.handleBookClick(item)}
+                    className="bookListItem" key={key}>
+                      <img className="bookCover"
+                      src={item.book.volumeInfo.imageLinks.thumbnail}/>
+                    </li>
+                ):(<li className="bookListItem" key={key}>
+                  <img className="bookCover"
+                  src='https://books.google.com/googlebooks/images/no_cover_thumb.gif'/>
+                </li>)
+              )}
+              {JSON.stringify(this.state.bookClicked)!='{}'&& (
+                <li>{this.state.bookClicked.volumeInfo.title}</li>
               )}
             </ul>
           </div>
