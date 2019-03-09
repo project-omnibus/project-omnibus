@@ -19,6 +19,12 @@
     width: 48%;
   }
 }
+@media screen and (max-width: 768px){
+  .bookListItem {
+    margin: 7px 0.665%;
+    width: 32%;
+  }
+}
 .bookPlaceholder{
   width: 100%;
   height: 100%;
