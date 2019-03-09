@@ -24,7 +24,7 @@ class Conversation extends React.Component {
         },
         currentQ: {
           qid: -1,
-          question: 'Hey there! Looking for something to read but not entirely sure where to look?',
+          question: '',
           userInput: false,
           relevancy: -1,
           specificity: -1,
@@ -48,6 +48,20 @@ class Conversation extends React.Component {
     if (Object.keys(this.props.userMainProfile).length !== 0) {
       this.setState({ userProfile: this.props.userMainProfile });
     }
+    fetch('/conversation/api', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(this.state.userProfile)
+    })
+    .then(res => res.json())
+    .then(data => {
+      var userProfile1 = data;
+      userProfile1.answer = "";
+      this.props.triggerParentHandler(userProfile1);
+      this.setState({ userProfile: userProfile1 });
+    });
   }
 
   async callApi () {
@@ -76,7 +90,7 @@ class Conversation extends React.Component {
         userProfile1.answer = "";
         this.props.triggerParentHandler(userProfile1);
         this.setState({ userProfile: userProfile1 });
-        if (this.state.userProfile.currentQ.question=="Hmmm...well, here are some books you make like.") {
+        if (this.state.userProfile.currentQ.question=="Hmmm...well, here are some books you may like.") {
           this.setState({ isDone: true });
         };
       });

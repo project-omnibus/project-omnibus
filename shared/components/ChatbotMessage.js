@@ -3,10 +3,10 @@ import '../styles/ChatbotMessage.css';
 
 const ChatbotMessage = props => {
 
-  if (props.message == "Hmmm...well, here are some books you make like.") {
+  if (props.message == "Hmmm...well, here are some books you may like.") {
     return (
       <div className='chatbotMessage'>
-        Hmmm...well, <span className='clickable' onClick={props.handleRecs}>here</span> are some books you make like.
+        Hmmm...well, <span className='clickable' onClick={props.handleRecs}>here</span> are some books you may like.
       </div>
     );
   } else {
