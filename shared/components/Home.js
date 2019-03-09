@@ -52,7 +52,6 @@ class Home extends React.Component {
       setTimeout(() => this.setState({notifVisible: true}), 3000);
     }
 
-    this.handleRecs();
     var id = await uuidv4()
     this.setState({sessionId:id})
 
@@ -196,7 +195,8 @@ class Home extends React.Component {
           {this.state.notifVisible && (
               <Notification message={this.state.notifMessage}
               buttons={this.state.notifButtons}
-              convActive={this.handleClick} notifClose = {this.handleNotifClose}/>
+              convActive={this.handleClick}
+              notifClose = {this.handleNotifClose}/>
           )}
           <div>
             <ul className = "bookList">
@@ -232,7 +232,8 @@ class Home extends React.Component {
           {this.state.notifVisible && (
               <Notification message={this.state.notifMessage}
               buttons={this.state.notifButtons}
-              convActive={this.handleClick} notifClose = {this.handleNotifClose}/>
+              convActive={this.handleClick}
+              notifClose = {this.handleNotifClose}/>
           )}
           {bookLayout}
         </div>
