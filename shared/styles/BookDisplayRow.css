@@ -29,3 +29,16 @@
   width: 100%;
   margin: 0;
 }
+
+.bookInfo{
+  margin: 0.5rem;
+}
+.bookTitle{
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin-bottom: 0px;
+}
+
+.bookAuthor{
+  font-style: italic;
+}
