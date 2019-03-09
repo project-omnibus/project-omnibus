@@ -53,6 +53,31 @@ relative to the position of the reply box */
   to {height:60%;}
 }
 
+
+@media screen and (max-width: 768px){
+  .modal-content{
+    margin:0;
+    width: 100%;
+  }
+}
+@media screen and (max-width: 414px){
+  .modal-content{
+    height:90vh;
+  }
+  /* Safari 4.0 - 8.0 */
+  @-webkit-keyframes modalAnimation {
+    from {height:5%;}
+    to {height:90vh;}
+  }
+
+  /* Standard syntax */
+  @keyframes modalAnimation {
+    from {height:5%;}
+    to {height:90vh;}
+  }
+}
+
+
 .bookPlaceholder{
   width: 100%;
   height: 100%;
