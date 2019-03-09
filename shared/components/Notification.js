@@ -47,9 +47,11 @@ class Notification extends React.Component {
 
         <div className='bubble' ref={node => { this.node = node; }}>
           <div className='messageText'>{this.props.message}</div>
-          <div className='messageButtons'>
-            {buttonDisplay}
-          </div>
+          {(this.props.buttons != undefined && this.props.buttons.length > 0) && (
+            <div className='messageButtons'>
+              {buttonDisplay}
+            </div>
+          )}
         </div>
     );
   }
