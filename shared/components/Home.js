@@ -235,25 +235,6 @@ class Home extends React.Component {
               convActive={this.handleClick} notifClose = {this.handleNotifClose}/>
           )}
           {bookLayout}
-          <div>
-            <ul className = "bookList">
-              {this.state.recommendations.map((item,key)=>
-                (item.book.volumeInfo.imageLinks!= undefined && item.book.volumeInfo.imageLinks.thumbnail!=undefined) ? (
-                    <li onClick={() => this.handleBookClick(item)}
-                    className="bookListItem" key={key}>
-                      <img className="bookCover"
-                      src={item.book.volumeInfo.imageLinks.thumbnail}/>
-                    </li>
-                ):(<li className="bookListItem" key={key}>
-                  <img className="bookCover"
-                  src='https://books.google.com/googlebooks/images/no_cover_thumb.gif'/>
-                </li>)
-              )}
-              {JSON.stringify(this.state.bookClicked)!='{}'&& (
-                <li>{this.state.bookClicked.volumeInfo.title}</li>
-              )}
-            </ul>
-          </div>
         </div>
       );
     }
