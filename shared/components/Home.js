@@ -22,6 +22,7 @@ class Home extends React.Component {
       notifMessage: '',
       notifButtons: [],
       recommendations: [],
+      bookGridNumCols: 0,
       bookClicked: {},
       query: '',
       response: '',
@@ -52,6 +53,18 @@ class Home extends React.Component {
       setTimeout(() => this.setState({notifVisible: true}), 3000);
     }
 
+    console.log(window.screen.width);
+    if(window.screen.width>414){
+      if(window.screen.width>768){
+        this.setState({bookGridNumCols: 5});
+      }
+      else{
+        this.setState({bookGridNumCols: 3});
+      }
+    }
+    else{
+      this.setState({bookGridNumCols: 2});
+    }
     var id = await uuidv4()
     this.setState({sessionId:id})
 
@@ -160,7 +173,7 @@ class Home extends React.Component {
 
     for (let i = 0; i < this.state.recommendations.length; i++) {
       bookArray[row].push(this.state.recommendations[i])
-      if((i+1)%5 == 0){
+      if((i+1)%this.state.bookGridNumCols == 0){
         bookArray.push([]);
         row++;
       }
