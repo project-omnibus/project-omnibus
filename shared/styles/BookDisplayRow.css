@@ -38,6 +38,7 @@
 
 .bookInfo{
   margin: 0.5rem;
+  max-width: 700px;
 }
 .bookTitle{
   font-weight: bold;
@@ -46,5 +47,5 @@
 }
 
 .bookAuthor{
-  font-style: italic;
+  font-size: 1.15rem;
 }
