@@ -165,8 +165,13 @@ class Home extends React.Component {
     let row = 0;
     let bookArray = [[]];
 
-    for (let i = 0; i < this.state.recommendations.length; i++) {
-      bookArray[row].push(this.state.recommendations[i])
+    for (let i = 0; i < 10; i++) {
+      if(this.state.recommendations[i]==undefined){
+        bookArray[row].push('');
+      }
+      else{
+        bookArray[row].push(this.state.recommendations[i])
+      }
       if((i+1)%this.state.bookGridNumCols == 0){
         bookArray.push([]);
         row++;
@@ -175,78 +180,35 @@ class Home extends React.Component {
 
     let bookLayout = bookArray.map((e,i) => {
       return (
-        <BookDisplayRow bookRow = {e} rowNum = {i}/>
+        <BookDisplayRow bookRow = {e} rowNum = {i} />
       );
     })
 
-    if(this.state.recommendations[0]==undefined||this.state.recommendations.length==0){
-      return (
-        <div>
-          <Nav convBrand={this.handleClick}
-          chatbotPos = {this.state.convVisible}
-          route={this.props.route} />
-          {this.state.convVisible && (
-            <div>
-            <div className="conversation-overlay" >
-
-            </div>
-            <div className="modal-content" ref={node => { this.node = node; }}>
-              <Conversation userMainProfile={this.props.userMainProfile}
-              triggerParentHandler={this.props.triggerParentHandler}
-              updateUserProfile={this.handleUpdateUserProfile}
-              sessionId={this.state.sessionId}
-              handleRecs={this.handleRecs}/>
-            </div></div>
-          )}
-          {this.state.notifVisible && (
-              <Notification message={this.state.notifMessage}
-              buttons={this.state.notifButtons}
-              convActive={this.handleClick}
-              notifClose = {this.handleNotifClose}/>
-          )}
+    return (
+      <div>
+        <Nav convBrand={this.handleClick}
+        chatbotPos = {this.state.convVisible}
+        route={this.props.route} />
+        {this.state.convVisible && (
           <div>
-            <ul className = "bookList">
-              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
-              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
-              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
-              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
-              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
-              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
-              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
-              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
-              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
-              <li className="bookListItem"><div className="bookPlaceholder"></div></li>
-            </ul>
-          </div>
-        </div>
-      );
-    } else if (this.state.recommendations.length >0){
-      return (
-        <div>
-          <Nav convBrand={this.handleClick}
-          chatbotPos = {this.state.convVisible}
-          route={this.props.route} />
-          {this.state.convVisible && (
-            <div>
-            <div className="conversation-overlay" >
+          <div className="conversation-overlay" >
 
-            </div>
-            <div className="modal-content" ref={node => { this.node = node; }}>
-              <Conversation userMainProfile={this.props.userMainProfile}
-              triggerParentHandler={this.props.triggerParentHandler}
-              handleRecs = {this.handleRecs}/>
-            </div></div>
-          )}
-          {this.state.notifVisible && (
-              <Notification message={this.state.notifMessage}
-              buttons={this.state.notifButtons}
-              convActive={this.handleClick}
-              notifClose = {this.handleNotifClose}/>
-          )}
-          {bookLayout}
-        </div>
-      );
-    }
+          </div>
+          <div className="modal-content" ref={node => { this.node = node; }}>
+            <Conversation userMainProfile={this.props.userMainProfile}
+            triggerParentHandler={this.props.triggerParentHandler}
+            handleRecs = {this.handleRecs}/>
+          </div></div>
+        )}
+        {this.state.notifVisible && (
+            <Notification message={this.state.notifMessage}
+            buttons={this.state.notifButtons}
+            convActive={this.handleClick}
+            notifClose = {this.handleNotifClose}/>
+        )}
+        {bookLayout}
+      </div>
+    );
 
   }
 }
