@@ -46,7 +46,7 @@ class Home extends React.Component {
         recommendations: JSON.parse(localStorage.getItem('recommendations')) });
     }
     else{
-      this.setState({notifMessage: "Hi there! Looks like it's your first time here. Let's talk about what books you're interested in. Click on me to begin chatting."});
+      this.setState({notifMessage: [<p>Hi there! Looks like it's your first time here. Let's talk about what books you're interested in.</p>,"Click on me to begin chatting."]});
       this.setState({notifButtons: []});
       setTimeout(() => this.setState({notifVisible: true}), 4500);
     }
@@ -96,12 +96,12 @@ class Home extends React.Component {
     //if recommendations is still empty or null
     //display notification with message "Looks like you left mid-conversation. Click me to continue."
     if(this.state.recommendations[0]==undefined||this.state.recommendations.length==0){
-      this.setState({notifMessage: "Looks like you left mid-conversation. Click me to continue for recommendations."});
+      this.setState({notifMessage: [<p>Looks like you left mid-conversation.</p>, "Click me to continue for recommendations."]});
       this.setState({notifButtons: []});
       setTimeout(() => this.setState({notifVisible: true}), 4500);
     }
     else{
-      this.setState({notifMessage: "Here are my recommendations based on our conversation. Click me anytime for another chat."});
+      this.setState({notifMessage: [<p>Here are my recommendations based on our conversation.</p>, "Click me anytime for another chat."]});
       this.setState({notifButtons: [{type: 'confirm', class: 'btn btnPrimary', text:'OK got it'},]});
       setTimeout(() => this.setState({notifVisible: true}), 4500);
     }
