@@ -103,9 +103,16 @@ class Conversation extends React.Component {
   };
 
   handleChange = e => {
-    let userProfileCopy = this.state.userProfile;
-    userProfileCopy.answer = e.target.value;
-    this.setState({ userProfile: userProfileCopy });
+    console.log(e.keyCode)
+    if(e.keyCode == 13){
+      this.handleSubmit(e);
+    }
+    else{
+      let userProfileCopy = this.state.userProfile;
+      userProfileCopy.answer = e.target.innerText;
+      this.setState({ userProfile: userProfileCopy });
+    }
+
   }
 
   handleRecs = e => {
@@ -114,12 +121,19 @@ class Conversation extends React.Component {
   }
 
   render () {
+    let inputText;
+    if(this.state.userProfile.answer==''){
+      inputText='Reply back'
+    }
+    else{
+      inputText=this.state.userProfile.answer;
+    }
     return (
       <div className="conversationWrapper">
         <ChatbotMessageDialogBubble message={this.state.userProfile.currentQ.question}
         handleRecs = {this.handleRecs}/>
         {!this.state.isDone && (
-        <UserMessageBox value={this.state.userProfile.answer}
+        <UserMessageBox value={inputText}
         onSubmit={this.handleSubmit}
         handleChange={this.handleChange} />)}
       </div>
