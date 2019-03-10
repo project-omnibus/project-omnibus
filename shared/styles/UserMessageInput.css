@@ -5,10 +5,16 @@
 
 .editText{
   overflow-wrap: break-word;
-  position: absolute;
   min-height: 2rem;
 }
 
+.editText:empty::before {
+    content: 'Reply back';
+    color: grey;
+}
+:empty:focus::before {
+    content: ' ';
+}
 .editText:focus {
     outline: 0px solid transparent;
 }

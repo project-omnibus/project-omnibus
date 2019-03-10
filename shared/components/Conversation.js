@@ -76,9 +76,9 @@ class Conversation extends React.Component {
     return body;
   }
 
-  handleSubmit (event) {
+  handleSubmit (e) {
     console.log('in conversation handlesubmit');
-    event.preventDefault(); // check for errors in event
+    //e.preventDefault(); // check for errors in event
     // var userProfileString = JSON.stringify(this.state.userProfile);
     // make POST request to the api URL
 
@@ -103,15 +103,9 @@ class Conversation extends React.Component {
   };
 
   handleChange = e => {
-    if(e.keyCode == 13){
-      this.handleSubmit(e);
-    }
-    else{
       let userProfileCopy = this.state.userProfile;
       userProfileCopy.answer = e.target.innerText;
       this.setState({ userProfile: userProfileCopy });
-    }
-
   }
 
   handleRecs = e => {
@@ -120,19 +114,12 @@ class Conversation extends React.Component {
   }
 
   render () {
-    let inputText;
-    if(this.state.userProfile.answer==''){
-      inputText='Reply back'
-    }
-    else{
-      inputText=this.state.userProfile.answer;
-    }
     return (
       <div className="conversationWrapper">
         <ChatbotMessageDialogBubble message={this.state.userProfile.currentQ.question}
         handleRecs = {this.handleRecs}/>
         {!this.state.isDone && (
-        <UserMessageBox value={inputText}
+        <UserMessageBox value={this.state.userProfile.answer}
         onSubmit={this.handleSubmit}
         handleChange={this.handleChange} />)}
       </div>

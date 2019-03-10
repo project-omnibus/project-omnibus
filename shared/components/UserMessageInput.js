@@ -1,22 +1,40 @@
 import React from 'react';
 import '../styles/UserMessageInput.css';
 
-const UserMessageInput = props => {
-  // access the main userProfile state somehow
-  return (
-      <div className='user-message'>
-        <span className='editText' contentEditable="true" onChange={props.handleChange}
-        onBlur={props.handleChange}
-        autoFocus="autofocus"
-        onKeyDown={(e) => {
-          if(e.keyCode == 13){
-            props.onSubmit(e);
-          }
-        }}>
-          {props.value}
-        </span>
-      </div>
-  );
+class UserMessageInput extends React.Component {
+  constructor (props) {
+    super(props);
+
+    this.onKeyDown = this.onKeyDown.bind(this);
+  };
+
+
+
+  onKeyDown = e =>{
+
+    if(e.keyCode == 13){
+      e.preventDefault();
+
+      this.props.onSubmit(e);
+      e.target.innerText='';
+    }
+  }
+  render(){
+
+    return (
+        <div className='user-message' >
+          <span contentEditable="true"
+          className='editText'
+          onClick = {this.onClick}
+          onChange={this.props.handleChange}
+          onKeyDown={this.onKeyDown}
+          autofocus>
+            {this.props.text}
+          </span>
+        </div>
+    );
+  }
+
 };
 
 export default UserMessageInput;
