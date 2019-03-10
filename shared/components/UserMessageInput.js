@@ -16,7 +16,7 @@ class UserMessageInput extends React.Component {
       e.preventDefault();
 
       this.props.onSubmit(e);
-      e.target.innerText='';
+      
     }
   }
   render(){

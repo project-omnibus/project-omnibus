@@ -12,7 +12,7 @@
     content: 'Reply back';
     color: grey;
 }
-:empty:focus::before {
+.editText:empty:active::before {
     content: ' ';
 }
 .editText:focus {

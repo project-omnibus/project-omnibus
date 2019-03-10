@@ -81,7 +81,10 @@ class Conversation extends React.Component {
     //e.preventDefault(); // check for errors in event
     // var userProfileString = JSON.stringify(this.state.userProfile);
     // make POST request to the api URL
-
+    let userProfileCopy = this.state.userProfile;
+    userProfileCopy.answer = e.target.innerText;
+    this.setState({ userProfile: userProfileCopy });
+    
     fetch('/conversation/api', {
       method: 'POST',
       headers: {
@@ -100,6 +103,7 @@ class Conversation extends React.Component {
         };
       });
     localStorage.setItem('userProfile',JSON.stringify(this.state.userProfile));
+    e.target.innerText='';
   };
 
   handleChange = e => {
