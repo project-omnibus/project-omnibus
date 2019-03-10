@@ -65,10 +65,14 @@
 @media screen and (max-width:414px) {
   .shiftLogo{
     animation-name: logoAnimMobile;
+    animation-duration: 1s;
+    animation-delay: 1s;
   }
   .shiftLogoReturn {
     width:35vw;
     animation-name: logoReturnMobile;
+    animation-duration: 1s;
+    animation-delay: 1s;
   }
 
 
