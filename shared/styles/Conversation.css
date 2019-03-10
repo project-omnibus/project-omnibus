@@ -6,11 +6,11 @@
   height: 100%;
   animation-name: conversAnim;
   animation-delay: 2s;
-  animation-duration: 4s;
+  animation-duration: 3s;
   animation-fill-mode: forwards;
   -webkit-animation-name: conversAnim; /* Safari 4.0 - 8.0 */
   -webkit-animation-duration: 2s; /* Safari 4.0 - 8.0 */
-  -webkit-animation-delay: 4s;
+  -webkit-animation-delay: 3s;
   -webkit-animation-fill-mode: forwards;
 }
 /* Safari 4.0 - 8.0 */
