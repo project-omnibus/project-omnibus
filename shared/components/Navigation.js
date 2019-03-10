@@ -65,35 +65,23 @@ class Nav extends React.Component {
       <nav className='navbar navbar-expand-lg navbar-light bg-light'>
         <div className={boxClass}></div>
         <button className='btn btn-link' onClick={this.props.convBrand}><Brand /></button>
-        <button className='btn btn-link' onClick={this.handleClick}><MenuButton menuClick = {this.handleClick}/></button>
-        {this.state.menuVisible && (
-          <div className="overlay" >
-            <div className="overlay-content" ref={node => { this.node = node; }}>
-              <h4 className="menuTitle">Menu</h4>
-              <ul className="menuList">
-                <li className="menuItem"><span onClick={this.handleChatClick}>Chat</span></li>
-                <li className="menuItem" onClick={this.handleClick} ><Link to="/">Recommendations</Link></li>
-                <li className="menuItem">Community</li>
-                <li className="menuItem">My Profile</li>
-              </ul>
-            </div>
-          </div>
-        )}
+
       </nav>
     );
-
-    // return(
-    //   <nav>
-    //     <div className="navigation">
-    //       <a href="/" className="brand-logo">Project Omnibus</a>
-    //       <ul id="nav-mobile" className="right">
-    //         <li className={selected === '' ? 'active' : ''}><Link to ='/'> HOME </Link></li>
-    //         <li className={selected === 'conversation' ? 'active' : ''}><Link to ='/conversation'>Conversation</Link></li>
-    //         <li className={selected === 'book search' ? 'active' : ''}><Link to='/booksearch'>Book Search</Link></li>
+    //<button className='btn btn-link' onClick={this.handleClick}><MenuButton menuClick = {this.handleClick}/></button>
+    // {this.state.menuVisible && (
+    //   <div className="overlay" >
+    //     <div className="overlay-content" ref={node => { this.node = node; }}>
+    //       <h4 className="menuTitle">Menu</h4>
+    //       <ul className="menuList">
+    //         <li className="menuItem"><span onClick={this.handleChatClick}>Chat</span></li>
+    //         <li className="menuItem" onClick={this.handleClick} ><Link to="/">Recommendations</Link></li>
+    //         <li className="menuItem">Community</li>
+    //         <li className="menuItem">My Profile</li>
     //       </ul>
     //     </div>
-    //   </nav>
-    // );
+    //   </div>
+    // )}
   }
 };
 
