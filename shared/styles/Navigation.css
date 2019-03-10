@@ -33,12 +33,15 @@
 .shiftLogo{
   animation-name: logoAnim;
   animation-duration: 3s;
+  animation-delay: 1s;
   animation-fill-mode: forwards;
 }
 
 .shiftLogoReturn {
+  width:45vw;
   animation-name: logoReturn;
   animation-duration: 3s;
+  animation-delay: 1s;
   animation-fill-mode: forwards;
 }
 

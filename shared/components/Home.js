@@ -48,7 +48,7 @@ class Home extends React.Component {
     else{
       this.setState({notifMessage: "Hi there! Looks like it's your first time here. Let's talk about what books you're interested in. Click on me to begin chatting."});
       this.setState({notifButtons: []});
-      setTimeout(() => this.setState({notifVisible: true}), 3000);
+      setTimeout(() => this.setState({notifVisible: true}), 4500);
     }
 
     if(window.screen.width>414){
@@ -98,12 +98,12 @@ class Home extends React.Component {
     if(this.state.recommendations[0]==undefined||this.state.recommendations.length==0){
       this.setState({notifMessage: "Looks like you left mid-conversation. Click me to continue for recommendations."});
       this.setState({notifButtons: []});
-      setTimeout(() => this.setState({notifVisible: true}), 2000);
+      setTimeout(() => this.setState({notifVisible: true}), 4500);
     }
     else{
       this.setState({notifMessage: "Here are my recommendations based on our conversation. Click me anytime for another chat."});
       this.setState({notifButtons: [{type: 'confirm', class: 'btn btnPrimary', text:'OK got it'},]});
-      setTimeout(() => this.setState({notifVisible: true}), 2000);
+      setTimeout(() => this.setState({notifVisible: true}), 4500);
     }
 
     this.handleClick();
@@ -133,7 +133,7 @@ class Home extends React.Component {
       localStorage.setItem('recommendations',JSON.stringify(body));
       this.setState({notifMessage: "Here are my recommendations based on our conversation. Click me anytime for another chat."});
       this.setState({notifButtons: [{type: 'confirm', class: 'btn btnPrimary', text:'OK got it'},]});
-      setTimeout(() => this.setState({notifVisible: true}), 2000);
+      setTimeout(() => this.setState({notifVisible: true}), 4500);
       this.handleClick();
     }
 

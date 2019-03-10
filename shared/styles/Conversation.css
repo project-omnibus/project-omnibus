@@ -1,27 +1,26 @@
 .conversationWrapper{
   z-index: 1;
   display: flex;
+  opacity: 0;
   flex-direction: column;
   height: 100%;
-  opacity: 0;
   animation-name: conversAnim;
   animation-delay: 2s;
-  animation-duration: 3s;
+  animation-duration: 4s;
   animation-fill-mode: forwards;
-
   -webkit-animation-name: conversAnim; /* Safari 4.0 - 8.0 */
-  -webkit-animation-duration: 3s; /* Safari 4.0 - 8.0 */
-  -webkit-animation-delay: 2s;
+  -webkit-animation-duration: 2s; /* Safari 4.0 - 8.0 */
+  -webkit-animation-delay: 4s;
   -webkit-animation-fill-mode: forwards;
 }
 /* Safari 4.0 - 8.0 */
 @-webkit-keyframes conversAnim {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from { opacity: 0;}
+  to   { opacity: 1;}
 }
 
 /* Standard syntax */
 @keyframes conversAnim {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from { opacity: 0;}
+  to   { opacity: 1;}
 }

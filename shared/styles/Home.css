@@ -32,25 +32,28 @@ relative to the position of the reply box */
     margin: 0 0 0 17.5%;
     padding: 20px;
     width: 65%;
-    height: 90vh;
+    height: 0vh;
     z-index: 1;
     border: 0px;
     border-radius: 0;
-    -webkit-animation-name: modalAnimation; /* Safari 4.0 - 8.0 */
-    -webkit-animation-duration: 2s; /* Safari 4.0 - 8.0 */
+
     animation-name: modalAnimation;
     animation-duration: 2s;
+    animation-fill-mode: forwards;
+    -webkit-animation-name: modalAnimation; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 2s; /* Safari 4.0 - 8.0 */
+    -webkit-animation-fill-mode: forwards;
 }
 /* Safari 4.0 - 8.0 */
 @-webkit-keyframes modalAnimation {
-  from {height:5%;}
+  from {height:0%;}
   to {height:90vh;}
 }
 
 /* Standard syntax */
 @keyframes modalAnimation {
-  from {height:5%;}
-  to {height:90vh%;}
+  from {height:0%;}
+  to {height:90vh;}
 }
 
 
