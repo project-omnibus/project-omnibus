@@ -5,4 +5,10 @@
 
 .editText{
   overflow-wrap: break-word;
+  position: absolute;
+  min-height: 2rem;
+}
+
+.editText:focus {
+    outline: 0px solid transparent;
 }
