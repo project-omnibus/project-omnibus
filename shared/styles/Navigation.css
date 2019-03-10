@@ -29,3 +29,32 @@
 .navbar{
   z-index:100;
 }
+
+.shiftLogo{
+  animation-name: logoAnim;
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
+}
+
+.shiftLogoReturn {
+  animation-name: logoReturn;
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes logoAnim {
+  from { width:0vw; }
+  to   { width:45vw; }
+}
+
+/* Standard syntax */
+@keyframes logoAnim {
+  from { width:0vw; }
+  to   { width:45vw; }
+}
+
+@keyframes logoReturn {
+  from { width:45vw; }
+  to   { width:0vw; }
+}

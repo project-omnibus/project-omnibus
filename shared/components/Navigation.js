@@ -29,9 +29,14 @@ class Nav extends React.Component {
     this.setState({menuVisible: !this.state.menuVisible });
   }
 
-  handleChatClick(){
-    this.handleClick();
+  handleChatClick(e){
+    //move brand logo to the center
+
+    //display the conversation component
+
     this.props.convBrand();
+    //close the menu if applicable
+    this.handleClick();
   }
 
   handleOutsideClick(e) {
@@ -49,9 +54,16 @@ class Nav extends React.Component {
     // if (typeof this.props.route.path === 'string') {
     //   selected = this.props.route.path.split('/').pop();
     // }
-
+    let boxClass;
+    if (this.props.chatbotPos){
+      boxClass = 'shiftLogo'
+    }
+    else{
+      boxClass = 'shiftLogoReturn'
+    }
     return (
-      <nav className='navbar navbar-expand-lg navbar-light bg-light justify-content-between'>
+      <nav className='navbar navbar-expand-lg navbar-light bg-light'>
+        <div className={boxClass}></div>
         <button className='btn btn-link' onClick={this.props.convBrand}><Brand /></button>
         <button className='btn btn-link' onClick={this.handleClick}><MenuButton menuClick = {this.handleClick}/></button>
         {this.state.menuVisible && (

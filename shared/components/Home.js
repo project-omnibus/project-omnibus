@@ -182,7 +182,9 @@ class Home extends React.Component {
     if(this.state.recommendations[0]==undefined||this.state.recommendations.length==0){
       return (
         <div>
-          <Nav convBrand={this.handleClick} route={this.props.route} />
+          <Nav convBrand={this.handleClick}
+          chatbotPos = {this.state.convVisible}
+          route={this.props.route} />
           {this.state.convVisible && (
             <div>
             <div className="conversation-overlay" >
@@ -221,7 +223,9 @@ class Home extends React.Component {
     } else if (this.state.recommendations.length >0){
       return (
         <div>
-          <Nav convBrand={this.handleClick} route={this.props.route} />
+          <Nav convBrand={this.handleClick}
+          chatbotPos = {this.state.convVisible}
+          route={this.props.route} />
           {this.state.convVisible && (
             <div>
             <div className="conversation-overlay" >
