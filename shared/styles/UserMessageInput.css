@@ -13,8 +13,8 @@
     content: 'Reply back';
     color: grey;
 }
-.editText:empty:active::before {
-    content: ' ';
+.editText:empty:active::before{
+  position: absolute;
 }
 .editText:focus {
     outline: 0px solid transparent;
