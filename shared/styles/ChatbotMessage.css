@@ -13,12 +13,12 @@
 }
 .clickable {
   cursor: pointer;
-  color: #fa746b;
+  color: #7bbdcb;
   text-decoration: none;
   background-color: transparent;
 }
 
 .clickable:hover {
   cursor: pointer;
-  color: #7bbdcb;
+  color: #fa746b;
 }

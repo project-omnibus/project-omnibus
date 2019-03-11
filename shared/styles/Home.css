@@ -8,10 +8,9 @@ relative to the position of the reply box */
   align-items: stretch;
 }
 
-/* html{
-  background: url("../../client/public/static/blogger.jpg");
-  background-size: 100%;
-} */
+body{
+  background-color: #fff4e2;
+}
 
 .conversation-overlay {
     display: block;
