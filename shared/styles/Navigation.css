@@ -29,6 +29,7 @@
 .navbar{
   z-index: 10;
   justify-content: flex-start;
+  background-color: #efefef;
 }
 
 .shiftLogo{

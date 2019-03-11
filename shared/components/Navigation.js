@@ -62,7 +62,7 @@ class Nav extends React.Component {
       boxClass = 'shiftLogoReturn'
     }
     return (
-      <nav className='navbar navbar-expand-lg navbar-light bg-light'>
+      <nav className='navbar navbar-expand-lg navbar-light'>
         <div className={boxClass}></div>
         <button className='btn btn-link' onClick={this.props.convBrand}><Brand /></button>
 

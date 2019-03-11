@@ -17,8 +17,8 @@ div.bookBlock{
 
 .bookPlaceholder{
   width: 100%;
-  height: 35vh;
-  background-color: rgb(242, 242, 242);
+  height: 50vh;
+  background-color: #f6f6f6;
   margin: 0;
 }
 .bookCover{

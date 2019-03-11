@@ -3,6 +3,7 @@
   font-size: 2.5rem;
   font-family: 'Lato', sans-serif;
   text-align: center;
+  color: #3d464f;
   height: 100%;
 }
 @media screen and (max-width: 414px){
@@ -12,13 +13,12 @@
 }
 .clickable {
   cursor: pointer;
-  color: #007bff;
+  color: #fa746b;
   text-decoration: none;
   background-color: transparent;
 }
 
 .clickable:hover {
   cursor: pointer;
-  color: #0056b3;
-  text-decoration: underline;
+  color: #7bbdcb;
 }

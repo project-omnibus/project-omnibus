@@ -11,13 +11,15 @@
 .bubble{
   position: absolute;
   border: 0px;
-  margin: 10px 10px;
+  margin: -10px 55px;
   border-radius: 15px;
+  border-top-left-radius: 0px;
   padding: 20px;
   width: 25vw;
-  background: rgba(230, 230, 230,1.0);
-  z-index: 1;
+  z-index: 11;
   font-family: 'Lato', sans-serif;
+  background-color: #dcdde1;
+
 }
 
 @media screen and (max-width:414px) {
@@ -27,15 +29,14 @@
 }
 .messageText {
   font-size: 1em;
+  color: #3d464f;
 }
 
-.btn{
 
-}
 .btnPrimary {
     color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #fa746b;
+    border-color: #fa746b;
 }
 
 .messageButtons{
