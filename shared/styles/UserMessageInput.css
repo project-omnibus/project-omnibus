@@ -15,6 +15,7 @@
 }
 .editText:empty:active::before{
   position: absolute;
+  content: ' ';
 }
 .editText:focus {
     outline: 0px solid transparent;
