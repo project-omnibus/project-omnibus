@@ -15,20 +15,6 @@ div.bookBlock{
   cursor: pointer;
 }
 
-@media screen and (max-width: 768px){
-  .bookListItem {
-    margin: 7px 0.665%;
-    width: 32%;
-  }
-}
-
-@media screen and (max-width: 414px){
-  .bookListItem {
-    margin: 7px 1%;
-    width: 48%;
-  }
-}
-
 .bookPlaceholder{
   width: 100%;
   height: 35vh;
@@ -64,4 +50,31 @@ div.bookInfoRow{
   margin: 7px 1%;
   padding: 0;
   width: 18%;
+}
+@media screen and (max-width: 768px){
+  .bookListItem {
+    margin: 7px 0.665%;
+    width: 32%;
+  }
+  .bookInfoBlock {
+    margin: 7px 0.665%;
+    width: 32%;
+  }
+  .bookInfo{
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 414px){
+  .bookListItem {
+    margin: 7px 1%;
+    width: 48%;
+  }
+  .bookInfoBlock {
+    width: 0vw;
+  }
+  .bookInfo{
+    width: 95%;
+  }
+
 }
