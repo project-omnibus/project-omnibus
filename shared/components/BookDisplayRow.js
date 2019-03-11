@@ -1,6 +1,5 @@
 import React from 'react'; // imports allows for JSX syntax
 import '../styles/BookDisplayRow.css';
-import Item from './BookDisplayItem';
 
 class BookDisplayRow extends React.Component {
   constructor (props) {
@@ -8,15 +7,22 @@ class BookDisplayRow extends React.Component {
     this.state ={
       bookClicked: false,
       selectedBook: {},
+      infoBlocks: 0,
     };
 
     this.handleBookClick = this.handleBookClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
   };
-  handleBookClick(e){
+  handleBookClick(e,i){
     document.addEventListener('click', this.handleOutsideClick, true);
     this.setState({bookClicked: true});
     this.setState({selectedBook: e});
+    if(i<this.props.bookRow.length-1){
+      this.setState({infoBlocks: i})
+    }
+    else{
+      this.setState({infoBlocks: i-1})
+    }
   }
   handleOutsideClick(e) {
     // ignore clicks on the component itself
@@ -39,7 +45,7 @@ class BookDisplayRow extends React.Component {
       else{
         return(
           (e.book.volumeInfo.imageLinks!= undefined && e.book.volumeInfo.imageLinks.thumbnail!=undefined) ? (
-                  <li onClick={() =>{this.handleBookClick(e)}}
+                  <li onClick={() =>{this.handleBookClick(e,i)}}
                   className="bookListItem" key={`${this.props.rowNum},${i}`}>
                     <img className="bookCover"
                     src={e.book.volumeInfo.imageLinks.thumbnail}/>
@@ -51,13 +57,21 @@ class BookDisplayRow extends React.Component {
         );
       }
     })
+    
+    let displayInfoBlock = [];
+    for (let i = 0; i < this.state.infoBlocks; i++) {
+      displayInfoBlock.push(<div className="bookInfoBlock" key={`block-${i}`}></div>);
+    }
 
     return (
-      <div className = "bookRow" ref={node => { this.node = node; }}>
-        <ul className = "bookList">
+      <div className="bookBlock" key='1' ref={node => { this.node = node; }}>
+        <ul className="bookList" key = 'A'>
         {bookDisplay}
         </ul>
+
         {this.state.bookClicked && (
+          <div className="bookInfoRow" key = 'B'>
+          {displayInfoBlock.length>0 && displayInfoBlock}
           <div className="bookInfo">
             <p className="bookTitle">{this.state.selectedBook.book.volumeInfo.title}</p>
             <p className="bookAuthor">{this.state.selectedBook.book.volumeInfo.authors!=undefined
@@ -65,7 +79,9 @@ class BookDisplayRow extends React.Component {
             <p>{this.state.selectedBook.book.volumeInfo.description}</p>
             <p>Recommended because you mentioned {this.state.selectedBook.attribute.join(', ')}</p>
           </div>
+          </div>
         )}
+
       </div>
     );
   }

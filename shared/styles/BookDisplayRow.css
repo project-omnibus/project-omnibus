@@ -1,4 +1,4 @@
-.bookRow{
+div.bookBlock{
   overflow: auto;
 }
 .bookList{
@@ -40,9 +40,14 @@
   margin: 0;
 }
 
+div.bookInfoRow{
+  display:flex;
+  justify-content: flex-start;
+}
 .bookInfo{
   margin: 0.5rem;
-  max-width: 700px;
+  width: 36%;
+  overflow-wrap: break-word;
 }
 .bookTitle{
   font-weight: bold;
@@ -52,4 +57,11 @@
 
 .bookAuthor{
   font-size: 1.15rem;
+}
+
+.bookInfoBlock {
+  display: inline-block;
+  margin: 7px 1%;
+  padding: 0;
+  width: 18%;
 }
