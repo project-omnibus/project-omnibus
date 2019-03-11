@@ -61,5 +61,16 @@ relative to the position of the reply box */
   .modal-content{
     margin:0;
     width: 100%;
+    animation-name: modalAnimationMobile;
+  }
+  @-webkit-keyframes modalAnimationMobile {
+    from {height:0%;}
+    to {height:35vh;}
+  }
+
+  /* Standard syntax */
+  @keyframes modalAnimationMobile {
+    from {height:0%;}
+    to {height:35vh;}
   }
 }
