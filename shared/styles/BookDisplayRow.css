@@ -29,6 +29,7 @@ div.bookBlock{
 div.bookInfoRow{
   display:flex;
   justify-content: flex-start;
+  font-family: 'PT Serif', serif;
 }
 .bookInfo{
   margin: 0.5rem;

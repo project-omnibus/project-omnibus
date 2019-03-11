@@ -17,6 +17,7 @@
   width: 25vw;
   background: rgba(230, 230, 230,1.0);
   z-index: 1;
+  font-family: 'Lato', sans-serif;
 }
 
 @media screen and (max-width:414px) {

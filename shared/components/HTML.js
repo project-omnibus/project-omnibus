@@ -6,6 +6,7 @@ const HTML = (props) => (
       <link rel='shortcut icon' href='/static/favicon.ico' />
       <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no' />
       <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css' integrity='sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO' crossOrigin='anonymous' />
+      <link href="https://fonts.googleapis.com/css?family=Lato|PT+Serif" rel="stylesheet" /> 
       <meta name='theme-color' content='#000000' />
       <link rel='stylesheet' href='./styles.css' />
       <title>Project Omnibus</title>

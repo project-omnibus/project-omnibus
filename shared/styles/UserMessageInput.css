@@ -6,6 +6,7 @@
 .editText{
   overflow-wrap: break-word;
   min-height: 2rem;
+  font-family: 'Lato', sans-serif;
 }
 
 .editText:empty::before {
